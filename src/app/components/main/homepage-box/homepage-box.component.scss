@@ -1,0 +1,57 @@
+@import '../../../styles/variables';
+#button-wrapper {
+  display:flex;
+  justify-content: space-evenly;
+  button:not(.dropdown-item) {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  button.dropdown-item {
+    &:hover {
+      background-color: lighten($copper, 40%);
+      background-color: lighten($copper, 45%);
+    }
+  }
+  .dropdown-item-text {
+    font-weight: 500;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 7px;
+    color: $gray-800;
+    background-color: lighten(desaturate($copper, 30%), 45%);
+    color: darken($copper, 20%);
+    color: $gray-900;
+    border-bottom: 1px solid $copper;
+
+    i {
+      color: $copper;
+      margin-right:9px;
+      margin-left:-9px;
+    }
+  }
+}
+.dropdown-menu {
+  padding-top:0;
+}
+h1 {
+  font-family: "alegreya";
+  font-size:32px;
+  font-weight: 700;
+  text-shadow: 1px 1px white;
+  color: #4d4d4d;
+  border: none;
+  margin: .25rem 0 1rem 0;
+  margin: 0 0 10px 0;
+
+  @media (orientation: portrait), (max-height: 500px) {
+    display:none;
+  }
+}
+
+@media (max-height: 500px) {
+  #button-wrapper {
+    .btn {
+      margin: 0 8px;
+    }
+  }
+}

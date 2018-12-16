@@ -1,0 +1,9 @@
+.photos-container {
+  display: flex; 
+  justify-content: space-evenly;
+
+  figure {
+    border:2px solid #ddd; 
+    padding:10px;
+  }
+}

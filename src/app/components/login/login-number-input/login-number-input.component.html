@@ -1,0 +1,64 @@
+
+  <h3 *ngIf="!loginService.doWeShowLoginList()">Log in</h3>
+  <h4 *ngIf="loginService.doWeShowLoginList()">Enter breeder number</h4>
+<!--
+<div class="sub-dialog-header">
+  <h4>
+    <span id="addBnText"></span>
+    <span id="editBnText">Edit breeder number</span>
+  </h4>
+</div>
+-->
+<div class="form-row">
+  <label for="association">Association</label>
+    <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
+      <i class="input-group-text icon-umbrella"></i>
+      <select 
+        class="custom-select" 
+        name="association"
+        [(ngModel)]="loginService.editingNumber.associationId"
+        (change)="onAssociationChange()"
+        [attr.disabled]="loginService.person ? 'disabled' : null"
+        #associationInput
+      >
+        <option 
+          *ngFor="let ass of loginService.getFreeAssociations(); let index = index" 
+          value="{{ ass.id }}"
+        >
+          {{ ass.name ? ass.name : '' }}
+        </option>
+      </select>
+    </div>
+</div>
+
+<div class="form-row">
+  <label for="breederNumber">Breeder number</label>
+  <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
+    <i class="input-group-text icon-user-card"></i>
+    <input 
+      type="text" 
+      class="form-control" 
+      name="breederNumber"
+      #breederNumberInput
+      [(ngModel)]="loginService.editingNumber.breederNumber"
+      (keyup.enter)="submitNumberClick()"
+      [attr.disabled]="loginService.person ? 'disabled' : null"
+    >
+  </div>
+</div>
+
+<div *ngIf="loginService.errorMessage && !loginService.person" class="error-message">
+  <i class="icon-warning"></i>{{ loginService.errorMessage }}
+</div>
+
+<footer 
+  #footer 
+  *ngIf="!loginService.person"
+>
+  <button
+    class="btn-primary"
+    (click)="submitNumberClick()"
+    *ngIf="!loginService.loading"
+  ><i class="icon-check"></i>OK</button>
+</footer>
+

@@ -1,0 +1,50 @@
+@import '../../../styles/variables';
+@import '../../../styles/login';
+
+:host {
+  padding: 5px 10px;
+}
+h3 {
+  font-weight: normal;
+  font-family: suranna;
+  font-size: 24px;
+  margin: 5px 10px;
+  color: $gray-700;
+}
+h4 {
+  margin: 5px 0 20px 0;
+}
+footer {
+  margin: 20px -10px -5px -10px;
+}
+// hack to remove dotted outline from focused select dropdowns
+// https://stackoverflow.com/questions/9119629/remove-dotted-border-outline-of-focused-dropdown-menu
+// this wasn't picked up when inserted in any global css file. todo: why?
+select:-moz-focusring { 
+  color: transparent;
+  text-shadow: 0 0 0 #000; 
+}
+
+// #breederInput {
+//   padding:0 10px;
+//   border-top: 1px solid #e5e5e5;
+//   margin-bottom:10px;
+// }
+// #breederInput .errorMessageWrapper {
+//   margin: 20px 10px;
+// }
+// #breederInput.hide-header .sub-dialog-header {
+//   display:none;
+// }
+// #breederInput.hide-header {
+//   border-top:none;
+// }
+// #breederInput .header-login {
+//   padding-left:10px;
+// }
+// #breederInput.hide-header .header-login {
+//   display:block;
+// }
+// #breederInput.hide-header.no-login .header-login {
+//   display:none;
+// }

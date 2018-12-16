@@ -1,0 +1,19 @@
+@import 'variables';
+
+h1, .h1 {
+  font-family: 'Suranna', serif;
+  font-size:3.2em;
+  font-weight:400;
+  border-bottom:2px solid $orange;
+
+  @media (orientation: portrait) {
+    padding-left: 1.25rem;
+  }
+}
+
+h3, .h3 {
+  font-family: 'Anton', sans-serif;
+  font-weight:400;
+  font-size:1.5em;
+  margin: 0;
+}

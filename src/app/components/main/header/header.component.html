@@ -1,0 +1,82 @@
+<header>
+  <app-link 
+    route="home" 
+    placement="bottom" 
+    ngbTooltip="Clicking on the logo will always bring you back to the homepage."
+    i18n-ngbTooltip
+  >
+    <img class="wide-logo" src="../assets/images/layout/logo/logo-wide.png" srcset="../assets/images/layout/logo/logo-wide-2x.png 2x" alt="Animal Office" height="86px" width="392px">
+    <img class="small-logo" src="../assets/images/layout/logo/logo-small.png" srcset="../assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
+  </app-link>
+  <menu class="ml-auto">
+    <li>
+      <app-link route="contact" linkClass="text-darker">
+          <i class="icon-mail"></i> 
+          <span i18n>Contact</span>
+        </app-link>
+    </li>
+    <li>
+      <app-link route="about" linkClass="text-darker">
+        <i class="icon-info"></i> 
+        <span i18n>About Animal Office</span>
+      </app-link>
+    </li>
+    <li>
+      <app-link route="demo" linkClass="text-darker">
+        <i class="icon-eye"></i>
+        <span i18n>Demo</span>
+      </app-link>
+    </li>
+    <li *ngIf="!settingsService.username">
+      <app-link route="login" linkClass="text-darker">
+        <i class="icon-login"></i> 
+        <span i18n>Sign up / sign in</span>
+      </app-link>
+    </li>
+    <li *ngIf="settingsService.username">
+      <div ngbDropdown placement="bottom-right" class="d-inline-block box-button">
+        <button 
+          class="btn-outline-copper" 
+          id="userMenu" 
+          ngbDropdownToggle
+        >
+          <i class="icon-user"></i>
+          Logged in as {{ settingsService.username}}</button>
+        <div ngbDropdownMenu aria-labelledby="userMenu">
+          <button class="dropdown-item"><i class="icon-user-card"></i>Your personal details</button>
+          <button class="dropdown-item"><i class="icon-logout"></i>Sign out</button>
+          <hr>
+          <button class="dropdown-item"><span class="flag-small flag-dutch"></span>Change language</button>
+        </div>
+      </div>
+    </li>
+    <li *ngIf="!settingsService.username" class="flag-container">
+      <div ngbDropdown placement="bottom-right" class="d-inline-block">
+        <div class="flag-menu" ngbDropdownToggle>
+          <span appNoDoubleClick class="flag-medium flag-dutch"></span>
+        </div>
+        <div ngbDropdownMenu aria-labelledby="flag-menu">
+          <div class="dropdown-item-text" i18n>
+            Change language
+          </div> 
+          <div class="dropdown-item">
+            <span class="flag-small flag-english"></span>
+            English
+          </div> 
+          <div class="dropdown-item">
+            <span class="flag-small flag-dutch"></span>
+            Nederlands
+          </div> 
+        </div>
+      </div>
+    </li>
+  </menu>
+  <i 
+    class="hamfuckingburger icon-menu" 
+    (click)="hamfuckingburgerhasbeenfuckingclicked()" 
+    (dblclick)="hamfuckingburgerhasbeenfuckingclicked()" 
+    placement="left" 
+    ngbTooltip="Clicking on this icon will open the navigation menu."
+    i18n-ngbTooltip
+  ></i>
+</header>

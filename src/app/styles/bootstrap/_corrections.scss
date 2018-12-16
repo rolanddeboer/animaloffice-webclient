@@ -1,0 +1,24 @@
+
+.dropdown-item-text {
+  white-space: nowrap;
+}
+.btn {
+  font-weight:500;
+}
+.card {
+  margin: 30px 0;
+
+  @media (orientation: landscape) {
+    &:hover .card-body, .card-header {
+      border-left:2px solid $primary;
+      margin-left:-2px;
+    }
+  }
+}
+.table thead th {
+  border-top:none;
+}
+
+.table th, .table td {
+  vertical-align: baseline;
+}

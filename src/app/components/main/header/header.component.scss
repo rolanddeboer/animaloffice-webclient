@@ -1,0 +1,121 @@
+@import '../../../styles/variables';
+:host {
+  // flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+header {
+  padding:15px 15px 15px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+menu {
+  display:flex; 
+  justify-content:flex-end;
+  align-items:center;
+  flex-wrap:wrap;
+
+  li {
+    margin:0 15px;
+    list-style-type: none;
+    i {
+      margin-right:2px;
+    }
+    .dropdown-menu {
+      hr {
+        border: 0; 
+        height: 1px; 
+        background: $copper;
+      }
+    }
+    button.dropdown-item {
+      color: $gray-700;
+      padding-left: 15px;
+      &:hover {
+        background-color: lighten($copper, 40%);
+        background-color: lighten($copper, 45%);
+      }
+      .flag-small {
+        margin-right:13px;
+      }
+      i {
+        margin-right:10px;
+        color: lighten($copper, 20%);
+        color: $copper;
+        color: $gray-700; 
+        &:before {
+          font-size: 17px;
+        }
+      }
+    }
+    button:not(.dropdown-item) {
+      font-weight: 400;
+      margin: 0 -5px;
+      color: $darker;
+      background-color: transparent;
+      box-shadow: none;
+      &:hover, &:focus, &:active {
+        box-shadow: none;
+        color: $darker;
+        background-color: transparent;
+      }
+    }
+  }
+}
+.flag-container {
+  .flag-menu, .dropdown-item {
+    cursor: pointer;
+  }
+  .dropdown-item {
+    &:hover {
+      background-color: lighten($copper, 40%);
+    }
+  }
+  .dropdown-item-text {
+    font-weight:400;
+    color: darken($copper, 20%);
+  }
+}
+.hamfuckingburger {
+  display: none;
+  &:before {
+    font-size:24px;
+    width:40px;
+    height: 37px;
+    padding-top:9px;
+    border: 2px solid rgb(255, 147, 76);
+    border-radius:5px;
+    cursor: pointer;
+  }
+}
+.small-logo {
+  display: none;
+  margin-left: 15px;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  color: $gray-900; 
+  opacity: 1;
+  &:before {
+    // margin-left:0;
+  }
+}
+@media (max-width: 550px), (orientation: landscape) and (max-height:500px) {
+  .small-logo {
+    display: block;
+  }
+  .wide-logo {
+    display: none;
+  }
+}
+@media (max-width: 750px) {
+  .hamfuckingburger {
+    display: block;
+  }
+  menu {
+    display: none;
+  }
+}

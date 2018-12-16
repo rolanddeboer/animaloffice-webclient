@@ -1,0 +1,37 @@
+@mixin flag($width, $height) {
+
+  display: inline-block;
+  vertical-align: bottom;
+  background-image: url("/assets/images/layout/flags.png");
+  background-color:transparent;
+
+  width: $width+px;
+  height: $height+px;
+  background-size: ($width * 6 + px) ($height + px);
+  
+  &.flag-english {
+    background-position-x: $width + px;
+  }
+  &.flag-spanish {
+    background-position-x: $width * 2 + px;
+  }
+  &.flag-dutch {
+    background-position-x: $width * 3 + px;
+  }
+  &.flag-italian {
+    background-position-x: $width * 4 + px;
+  }
+  &.flag-german {
+    background-position-x: $width * 5 + px;
+  }
+
+}
+
+.flag-medium {
+  @include flag(33, 22);
+}
+.flag-small {
+  @include flag(21, 14);
+  margin-bottom:5px;
+  margin-right:.5em;
+}

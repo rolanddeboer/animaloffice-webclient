@@ -1,0 +1,59 @@
+html {
+  font-size:15px;
+}
+a, b {
+  //https://stackoverflow.com/questions/35648667/outline-none-vs-outline-0
+  outline: 0;
+}
+b {
+  font-weight: inherit;
+  cursor: pointer;
+}
+body.spinning {
+  cursor: progress;
+}
+button {
+  @extend .btn;
+}
+section {
+  @extend .card;
+  header {
+    @extend .card-header;
+  }
+  main {
+    @extend .card-body;
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  footer {
+    @extend .card-footer;
+  }
+}
+
+@media (max-width: 750px) {
+  html {
+    font-size:14px;
+  }
+  h1 {
+    font-size:40px;
+  }
+}
+@media (max-width: 500px) {
+  html {
+    font-size:12.5px;
+  }
+  h1 {
+    font-size:25px;
+  }
+}
+.hidden {
+  display:none;
+}
+
+.page-content, article {
+  margin: 0 auto;
+  padding: 0 32px;
+  max-width:800px;
+  padding-bottom:20px;
+}

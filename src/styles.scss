@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'app/styles/variables';
+@import 'app/styles/bootstrap/bootstrap';
+@import 'app/styles/icons';
+@import 'app/styles/fonts';
+@import 'app/styles/typography';
+@import 'app/styles/general';
+@import 'app/styles/flags';
+@import 'app/styles/spinner';
+

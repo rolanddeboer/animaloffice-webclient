@@ -1,0 +1,18 @@
+{
+  "associations": 
+  [
+    {
+      "id":1,
+      "name":"KLN"
+    },
+    {
+      "id":2,
+      "name":"NBS"
+    },
+    {
+      "id":3,
+      "name":"buitenland"
+    }
+  ],
+  "username": "H.R. de Boer"
+}

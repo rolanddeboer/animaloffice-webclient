@@ -1,0 +1,41 @@
+@import '../../../styles/variables';
+
+:host {
+  // flex: 1 0 auto;
+}
+
+footer {
+  margin:20px 0 0 0;
+  padding:20px 0 30px 0;
+  text-align:center;
+  border-top: 3px solid $orange;
+  background-color: $gray-800;
+
+  &.light {
+    background-color:white;
+    border-top:1px solid #e7e7e7;
+    border-top:1px solid $gray-400;
+    opacity: .75;
+  }
+
+  ul {
+    display:flex; 
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style-type: none;
+      margin: 0 30px;
+
+      @media (max-width: 600px) {
+        margin: 0 20px;
+      }
+      @media (max-width: 400px) {
+        margin: 0 10px;
+      }
+    }
+  }
+}

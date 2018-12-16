@@ -1,0 +1,30 @@
+.back {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  &:before {
+    font-size: 25px;
+  }
+}
+
+.logo {
+  display: block;
+  margin: 30px auto;
+}
+
+.flag-container {
+  position:absolute;
+  top: 20px;
+  right: 26px;
+  .flag-menu, .dropdown-item {
+    cursor: pointer;
+  }
+}
+
+.dropdown-title {
+  font-weight:500;
+  color:#757f88;
+  // font-family: suranna;
+  // font-weight:400;
+  // font-size: 20px;
+}

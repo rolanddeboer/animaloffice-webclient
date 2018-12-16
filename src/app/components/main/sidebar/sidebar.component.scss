@@ -1,0 +1,44 @@
+@import '../../../styles/variables';
+
+:host {
+  position: fixed;
+  background-color: rgb(243, 243, 243);
+  left: 0;
+  right: 20px;
+  max-width:300px;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  z-index: 100;
+  box-shadow: -2px 0px 4px 4px rgba(255, 255, 255, 0.75);
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 18px;
+}
+.active {
+  z-index:inherit;
+}
+.hamfuckingbackburger:before {
+  font-size:22px;
+  cursor: pointer;
+  color: $gray-700;
+  // background-color:white;
+  // border: 2px solid rgb(255, 179, 128);
+  // border: 2px solid rgb(255, 140, 63);
+  // border-radius:5px;
+  // padding-top:.1em;
+  // box-shadow: 0px 0px 12px 2px rgba(255, 255, 255, 0.75);
+}
+.flag-small {
+  margin-right:13px;
+}
+i {
+  margin-right:7px;
+}
+.dropdown-toggle {
+  cursor: pointer;
+}

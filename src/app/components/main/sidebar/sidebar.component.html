@@ -1,0 +1,90 @@
+<header>
+  <app-link 
+    route="home" 
+    (click)="linkClicked()" 
+  >
+    <img class="logo" src="../assets/images/layout/logo/logo-small.png" srcset="../assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
+  </app-link>
+  <i 
+    class="hamfuckingbackburger icon-left-bent" 
+    (click)="hamfuckingbackburgerhasbeenfuckingclicked()">
+</i>
+</header>
+
+<div class="list-group">
+  <div ngbDropdown placement="bottom-left" class="list-group-item-action list-group-item d-inline-block box-button">
+    <div id="reg1" ngbDropdownToggle>
+      <i class="icon-list-numbered"></i>
+      <span i18n>Sign up for show</span>
+    </div>
+    <div ngbDropdownMenu aria-labelledby="reg1">
+      <button class="dropdown-item" (click)="linkClicked()">Demo show</button>
+      <button class="dropdown-item" (click)="linkClicked()">Sierduivenshow Noord-Nederland 2018</button>
+      <button class="dropdown-item" (click)="linkClicked()">Noordshow 2018</button>
+    </div>
+  </div>
+  <div ngbDropdown placement="bottom-left" class="list-group-item-action list-group-item d-inline-block box-button">
+    <div id="reg2" ngbDropdownToggle>
+      <i class="icon-chart-bar"></i>
+      <span i18n>Statistics</span>
+    </div>
+    <div ngbDropdownMenu aria-labelledby="reg2">
+      <button class="dropdown-item" (click)="linkClicked()">Demo show</button>
+      <button class="dropdown-item" (click)="linkClicked()">Sierduivenshow Noord-Nederland 2018</button>
+      <button class="dropdown-item" (click)="linkClicked()">Noordshow 2018</button>
+    </div>
+  </div>
+  
+  <app-link 
+    route="home" 
+    (click)="linkClicked()" 
+    linkClass="list-group-item list-group-item-action" 
+    >
+    <i class="icon-home"></i>
+    <span i18n>Homepage</span>
+  </app-link>
+  <app-link 
+    route="login" 
+    (click)="linkClicked()" 
+    linkClass="list-group-item list-group-item-action" 
+    >
+    <i class="icon-login"></i>
+    <span i18n>Sign up / sign in</span>
+  </app-link>
+  <app-link 
+    route="demo" 
+    (click)="linkClicked()" 
+    linkClass="list-group-item list-group-item-action" 
+  >
+    <i class="icon-eye"></i>
+    <span i18n>Demo</span>
+  </app-link>
+  <app-link 
+    route="about" 
+    (click)="linkClicked()" 
+    linkClass="list-group-item list-group-item-action" 
+  >
+    <i class="icon-info"></i>
+    <span i18n>About Animal Office</span>
+  </app-link>
+  <app-link 
+    route="contact" 
+    (click)="linkClicked()" 
+    linkClass="list-group-item list-group-item-action" 
+  >
+    <i class="icon-mail"></i>
+    <span i18n>Contact</span>
+  </app-link>
+  <div ngbDropdown placement="top-left" class="list-group-item-action list-group-item d-inline-block box-button">
+      <div id="reg3" ngbDropdownToggle>
+        <span class="flag-small flag-dutch"></span>
+        <span i18n>Change language</span>
+      </div>
+      <div ngbDropdownMenu aria-labelledby="reg3">
+        <button class="dropdown-item" (click)="linkClicked()">
+          <span class="flag-small flag-english"></span>
+          English
+        </button>
+      </div>
+    </div>
+</div>

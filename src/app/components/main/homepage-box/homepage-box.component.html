@@ -1,0 +1,39 @@
+<ng-template #tipContent><strong>Start here.</strong><br>If you came to sign up for a show, simply select your show by clicking here.</ng-template>
+
+<h1 i18n>Welcome at Animal Office</h1>
+<div id="button-wrapper">
+  <div ngbDropdown placement="top-left" class="d-inline-block box-button">
+    <button 
+      class="btn-secondary" 
+      id="{{'registrationBox-' + position}}" 
+      ngbDropdownToggle 
+      placement="bottom" 
+      [ngbTooltip]="tipContent"
+      i18n
+    >Sign up for show</button>
+    <div *ngIf="position==='front'" ngbDropdownMenu aria-labelledby="registrationBox-front">
+      <div class="dropdown-item-text" i18n>
+        <i class="icon-edit-page"></i>Choose show to sign up
+      </div> 
+      <button class="dropdown-item">Demo show</button>
+      <button class="dropdown-item">Sierduivenshow Noord-Nederland 2018</button>
+      <button class="dropdown-item">Noordshow 2018</button>
+    </div>
+  </div>
+  <div ngbDropdown placement="top-left" class="d-inline-block box-button">
+    <button 
+      class="btn-primary" 
+      id="{{'statisticsBox-' + position}}" 
+      ngbDropdownToggle 
+      i18n
+    >Statistics</button>
+    <div *ngIf="position==='front'" ngbDropdownMenu aria-labelledby="statisticsBox-front">
+        <div class="dropdown-item-text" i18n>
+          <i class="icon-chart-bar"></i>Statistics for show
+        </div> 
+      <button class="dropdown-item">Demo show</button>
+      <button class="dropdown-item">Sierduivenshow Noord-Nederland 2018</button>
+      <button class="dropdown-item">Noordshow 2018</button>
+    </div>
+  </div>
+</div>

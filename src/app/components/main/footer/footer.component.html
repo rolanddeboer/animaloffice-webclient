@@ -1,0 +1,22 @@
+<footer [class]="theme">
+  <ul>
+    <li>
+      <app-link 
+        route="privacy" 
+        linkClass="{{ theme==='light' ? 'text-copper' : 'text-darker' }}"
+        i18n
+      >
+        Privacy policy
+      </app-link>
+    </li>
+    <li>
+      <app-link 
+        route="terms" 
+        linkClass="{{ theme==='light' ? 'text-copper' : 'text-darker' }}"
+        i18n
+      >
+        Terms and conditions
+      </app-link>
+    </li>
+  </ul>
+</footer>

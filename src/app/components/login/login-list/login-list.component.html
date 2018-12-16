@@ -1,0 +1,49 @@
+
+Do you have a breeder number with several associations? Please fill in all of them. 
+
+<h4>Your breeder number(s)</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Association</th>
+      <th>Breeder number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr 
+      *ngFor="let breederNumber of loginService.breederNumbers; let index = index"
+      [class.hidden]="breederNumber.editMode"
+    >
+      <td>
+        <a class="bnDelete" href="javascript:void(0)" (click)="loginService.deleteNumber(index)"><i class="icon-large icon-trash" 
+          ngbTooltip="Delete"
+          placement="top-left" ></i></a><a class="bnEdit" href="javascript:void(0)" (click)="loginService.editNumber(index)"><i class="icon-large icon-edit"
+            ngbTooltip="Edit"
+            placement="top-left" ></i></a>
+      </td>
+      <td>{{ breederNumber.associationName }}</td>
+      <td>{{ breederNumber.breederNumber }}</td>
+    </tr>
+  </tbody>
+</table>
+  <!--
+    <div class="errorMessageWrapper">
+      <i class="fa fa-warning fa-margin-right"></i><span class="errorMessage"></span>
+    </div>
+  -->
+
+<footer *ngIf="!loginService.editingNumber">
+  <button 
+    class="btn-primary" 
+    (click)="loginService.addNumber()"
+    *ngIf="loginService.getFreeAssociations().length"
+  >
+    <i class="icon-plus"></i>Add breeder number
+  </button>
+  <button class="btn-success">
+    <i class="icon-check"></i>Proceed
+  </button>
+</footer>
+

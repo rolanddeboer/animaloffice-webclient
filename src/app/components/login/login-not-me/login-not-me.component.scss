@@ -1,0 +1,28 @@
+@import '../../../styles/variables';
+@import '../../../styles/login';
+
+:host {
+  border-top: 2px solid $success;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 5px 10px;
+}
+.warning-message {
+  padding:10px 5px 10px 10px;
+  background-color: desaturate(lighten($info, 55%), 20%);
+  color: darken(desaturate($info, 20%), 10%);
+  border: 1px solid desaturate(lighten($info, 40%), 20%);
+  i {
+    margin-right: 6px;
+  }
+}
+.error-message, .warning-message {
+  margin: 15px 10px 20px 10px;
+  font-size: 16px;
+}
+
+footer {
+  margin: 20px -10px -5px -10px;
+  button {
+    margin-left: 10px;
+  }
+}

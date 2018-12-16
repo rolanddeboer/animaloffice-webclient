@@ -1,0 +1,8 @@
+<app-login-header></app-login-header>
+
+<section>
+  <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>
+  <app-login-number-input *ngIf="loginService.editingNumber"></app-login-number-input>
+  <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
+  <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
+</section>
