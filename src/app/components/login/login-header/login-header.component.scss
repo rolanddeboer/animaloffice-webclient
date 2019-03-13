@@ -1,7 +1,7 @@
 .back {
   position: absolute;
-  top: 20px;
-  left: 24px;
+  top: 30px;
+  left: 29px;
   &:before {
     font-size: 25px;
   }
@@ -12,10 +12,10 @@
   margin: 30px auto;
 }
 
-.flag-container {
+app-language-chooser {
   position:absolute;
-  top: 20px;
-  right: 26px;
+  top: 30px;
+  right: 31px;
   .flag-menu, .dropdown-item {
     cursor: pointer;
   }

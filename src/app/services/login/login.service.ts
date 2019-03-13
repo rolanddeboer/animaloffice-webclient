@@ -1,27 +1,34 @@
 import { Injectable, ElementRef } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs'
-import { catchError, retry } from 'rxjs/operators';
 import { SpinnerService } from '../spinner/spinner.service';
 import { RoutingToolsService } from '../config/routing-tools.service';
 import { SettingsService } from '../config/settings.service';
+import { BreederNumberHandlerService } from './breeder-number-handler.service';
+import { BreederFederation } from 'src/app/classes/initData';
+import { DatabaseService } from '../database/database.service';
 
 class BreederNumberType {
   breederNumber: string;
   associationId: number;
   associationName?: string;
   editMode?: boolean;
+  persisted: boolean;
 
   constructor() {
     this.breederNumber = '';
     this.associationId = 0;
+    this.persisted = false;
   }
 }
-class AssociationType {
-  id: number;
-  name: string;
+
+interface FederationInfo {
+  federation: BreederFederation;
+  free: boolean;
+}
+
+class AssociationType extends BreederFederation {
   free?: boolean;
 }
+
 class PersonType {
   name: string;
   username: string;
@@ -41,6 +48,8 @@ class PersonType {
 })
 export class LoginService {
   public breederNumbers: BreederNumberType[] = [];
+  public persistingBreederNumbers: BreederNumberType[] = [];
+  public currentlyPersistingId: number;
   public editingNumber: BreederNumberType;
   public associations: AssociationType[] = [];
   public person: PersonType;
@@ -50,22 +59,18 @@ export class LoginService {
   public notMe = false;
   public breederNumberInputRef: ElementRef;
   public associationInputRef: ElementRef;
-  private postcodes: string[] = [];
   private person_id: string;
   private person_code: string;
+  public persistingAll = false;
+  private spinnerCounter = 0;
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    }),
-    withCredentials: true
-  };
 
   constructor(
-    private http: HttpClient,
     private spinner: SpinnerService,
     private routingTools: RoutingToolsService,
-    private settingsService: SettingsService
+    private db: DatabaseService,
+    // private settingsService: SettingsService,
+    private bnHandler: BreederNumberHandlerService
   ) { 
     this.start(); 
     // this.retrieveAssociations()
@@ -75,17 +80,30 @@ export class LoginService {
     // ;
   }
   start() {
-    this.setAssociations(this.settingsService.defaultData.associations);
-    console.log(this.settingsService.defaultData.associations);
-    if (!this.breederNumbers.length) {
-      this.addNumber();
+    if ( this.db.has("BreederAssociation") ) {
+      this.associations = this.db.get("BreederAssociation")
+      // this.setAssociations(this.db.get("BreederAssociation"));
+      if (!this.breederNumbers.length) {
+        this.addNumber();
+      }
+    } else {
+      setTimeout( () => this.start(), 50 );
     }
   }
   reset() {
     this.updateActiveBreederNumber(true);
     this.person = null;
   }
-  getFreeAssociations() {
+
+  // setAssociations(associations: AssociationType[]): void 
+  // {
+  //   if (Array.isArray(associations)) {
+  //     this.associations = associations;
+  //   }
+  // }
+
+  getFreeAssociations() 
+  {
     const associations: AssociationType[] = [];
     for (let ass of this.associations) {
       let free = true;
@@ -100,15 +118,18 @@ export class LoginService {
     }
     return associations;
   }
-  deleteNumber(id: number): void {
-    // roll back any current changes
-    this.updateActiveBreederNumber(true);
-    this.breederNumbers.splice(id, 1);
-    if (!this.breederNumbers.length) {
-      this.addNumber();
-    }
+
+  addNumber() 
+  {
+    const newBn = new BreederNumberType;
+    newBn.associationId = this.getFreeAssociations()[0].id;
+    this.breederNumbers.push(newBn);
+    // edit the last breeder number, which is the one we just added
+    this.editNumber(this.breederNumbers.length - 1);
   }
-  editNumber(id: number): void {
+
+  editNumber( id: number ): void 
+  {
     // roll back any current changes
     this.updateActiveBreederNumber(true);
     // shallow clone the object so that changes to the form will not have immediate effect on the breeder number that is still in the list. We only want the changes to go into effect when the server has confirmed the breeder number.
@@ -119,75 +140,135 @@ export class LoginService {
       this.breederNumberInputRef.nativeElement.focus();
     }
   }
-  notMeEditAgain() {
+  
+  deleteNumber(id: number): void 
+  {
+    // roll back any current changes
+    this.updateActiveBreederNumber(true);
+    this.breederNumbers.splice(id, 1);
+    if (!this.breederNumbers.length) {
+      this.addNumber();
+    }
+  }
+
+  notMeEditAgain() 
+  {
     this.person = null;
     this.notMe = false;
     setTimeout(() => this.breederNumberInputRef.nativeElement.focus(), 100);
   }
-  addNumber() {
-    const newBn = new BreederNumberType;
-    newBn.associationId = this.getFreeAssociations()[0].id;
-    this.breederNumbers.push(newBn);
-    // edit the last breeder number, which is the one we just added
-    this.editNumber(this.breederNumbers.length - 1);
+
+  confirmName( spinnerName = "" ) 
+  {
+    if ( this.person.postcode ) {
+      this.bnHandler.postcodes.push(this.person.postcode);
+    }
+    if ( this.person.password ) {
+      this.bnHandler.password = this.person.password;
+    }
+    this.submit( );
   }
-  confirmName(spinnerContainer: ElementRef) {
-    if (this.person.postcode) {
-      this.postcodes.push(this.person.postcode);
+
+  saveAll( )
+  {
+    this.persistingAll = true;
+    // this.persistingBreederNumbers = [];
+    // for ( let breederNumber of this.breederNumbers ) {
+    //   if ( !breederNumber.persisted ) {
+    //     this.persistingBreederNumbers.push( breederNumber );
+    //   }
+    // }
+    this.persistNext();
+  }
+
+  persistNext(): void
+  {
+    // mark the first breeder number as persisted
+    // if ( this.persistingBreederNumbers.length ) {
+    //   const breederNumber = this.persistingBreederNumbers.shift();
+    //   breederNumber.persisted = true;
+    // }
+
+    // // persist the next one
+    // if ( this.persistingBreederNumbers.length ) {
+    //   this.editingNumber = { ...this.persistingBreederNumbers[ 0 ] };
+      
+    // } else {
+    //   this.persistingAll = false;
+    //   alert( "Welcome!" );
+    // }
+
+    let foundOne = false;
+    for ( let id = 0; id < this.breederNumbers.length; id ++ ) {
+      if ( !this.persistingAll ) break;
+      if ( !this.breederNumbers[id].persisted ) {
+        foundOne = true;
+        this.breederNumbers[id].persisted = true;
+        this.editNumber( id );
+        this.submit();
+        break;
+      }
+    }
+    if ( !foundOne ) {
+      this.persistingAll = false;
+      alert( "Welcome!" );
     }
   }
-  submit(spinnerContainer: ElementRef) {
+
+  submit( spinnerName = "" ) 
+  {
     if (this.validateForm()) {
-      const data = this.compileData();
-      data['sudo'] = 0;
-      data['force'] = 0;
-      console.log(JSON.stringify(data));
-      this.startSpinner(spinnerContainer);
-      this.submitBreederNumber(data)
-      .subscribe(
-        (data: any) => {
-          this.formSubmitted(data);
-        })
+      // const data = this.compileData();
+      // console.log(JSON.stringify(data));
+      this.startSpinner();
+      const that = this;
+      this.bnHandler.persist = this.persistingAll;
+      this.bnHandler
+        .submit( this.editingNumber )
+        .subscribe( {
+          next(data) { 
+            // console.log(data);
+            that.stopSpinner();
+            if ( data.person ) {
+              that.person = data.person;
+            }
+            if ( data.loggedIn ) {
+              that.reset();
+              that.routingTools.navigateToRoute('home');
+            }
+            if ( data.addNumber ) {
+              if ( that.persistingAll ) {
+                that.editingNumber.persisted = true;
+              }
+              that.editingNumber = data.breederNumber;
+              that.updateActiveBreederNumber();
+            }
+            if ( that.persistingAll ) {
+              that.persistNext();
+            }
+          },
+          error(error) { 
+            if ( that.persistingAll ) {
+              that.persistingAll = false;
+            }
+            that.errorMessage = error;
+            that.stopSpinner();
+            that.breederNumberInputRef.nativeElement.focus();
+          }
+        } )
       ;
     }
   }
-  formSubmitted(data: any): void {
-    this.stopSpinner();
-    if (!('status' in data) || typeof data.status !== 'string') {
-      this.errorMessage = "Something went wrong. Please try again in 5 minutes.";
-      return;
-    }
-    if (data.status === 'error') {
-      this.errorMessage = data.message;
-      return;
-    }
-    this.errorMessage = '';
-    this.person_id = data.person_id;
-    if ('person_code' in data) {
-      this.person_code = data.person_code;
-    }
-    if (data.name) {
-      this.person = new PersonType(data.name, data.username);
-    } else if (data.userLogin) {
-      this.settingsService.setUsername(data.userLogin);
-      console.log(this.settingsService.username);
-      this.reset();
-      this.routingTools.navigateToRoute('home');
-    } else {
-      this.editingNumber.associationId = data.association_id;
-      this.editingNumber.associationName = this.getAssociationNameById(this.editingNumber.associationId); 
-      this.editingNumber.breederNumber = data.breederNumber;
-      this.updateActiveBreederNumber();
-    }
-    console.log(data);
-  }
-  updateActiveBreederNumber(revert = false) {
+
+  updateActiveBreederNumber(revert = false) 
+  {
     // set revert to true if the purpose is to ignore the current changes
     // using some instead of map so that we can break out after the first match.
     this.breederNumbers.some(
       (bn: BreederNumberType, index:number) => {
         if (bn.editMode) {
           this.editingNumber.editMode = false;
+          this.editingNumber.associationName = this.getAssociationNameById(this.editingNumber.associationId);
           if (!revert) {
             this.breederNumbers[index] = { ...this.editingNumber };
           } else if (!bn.breederNumber) {
@@ -200,15 +281,27 @@ export class LoginService {
     );
   }
 
-  startSpinner(spinnerContainer) {
+  startSpinner( spinnerName = "" ) 
+  {
+    this.spinnerCounter ++;
+    // console.log( "starting spinner nr. ", this.spinnerCounter );
     this.loading = true;
-    this.spinner.start(spinnerContainer);
+    // this.spinner.showGroup("login");
   }
-  stopSpinner() {
-    this.loading = false;
-    this.spinner.stop();
+
+  stopSpinner() 
+  {
+    this.spinnerCounter --;
+    // console.log( "stopping spinner nr. ", this.spinnerCounter );
+    if ( this.spinnerCounter == 0 ) {
+      // console.log( "this was the last spinner." );
+      this.loading = false;
+      // this.spinner.hideGroup("login");
+    }
   }
-  validateForm() {
+
+  validateForm() 
+  {
     if (!this.editingNumber.breederNumber.trim()) {
       this.errorMessage = "Please fill in the breeder number in the field above.";
       this.breederNumberInputRef.nativeElement.focus();
@@ -219,50 +312,23 @@ export class LoginService {
       this.associationInputRef.nativeElement.focus();
       return false;
     }
-    this.errorMessage = '';
+    this.errorMessage = "";
     return true;
   }
-  compileData() {
-    return {
-      association_id: this.editingNumber.associationId * 1,
-      number: this.editingNumber.breederNumber.trim(),
-      postcodes: this.postcodes,
-      password: this.person ? this.person.password : '',
-      person_id: 0,
-      isAdmin: 0,
-      isOther: 0,
-      isAnonymous: 1,
-      show_slug: '',
-      forLogin: 1,
-    }
-  }
 
-  addBreederNumber(breederNumber: BreederNumberType): void {
-    breederNumber.associationName = this.getAssociationNameById(breederNumber.associationId);
-    this.breederNumbers.push(breederNumber);
-  }
-  submitBreederNumber (submitData): Observable<any> {
-    const url = 'http://localhost:8000/api/login/submit/breeder-number';
-    return this.http.post<any>(url, submitData, this.httpOptions)
-    .pipe(
-      catchError(error => this.handleError(error))
-    );
-  }
+  // addBreederNumber(breederNumber: BreederNumberType): void {
+  //   breederNumber.associationName = this.getAssociationNameById(breederNumber.associationId);
+  //   this.breederNumbers.push(breederNumber);
+  // }
 
-  setAssociations(associations: AssociationType[]): void {
-    if (Array.isArray(associations)) {
-      this.associations = associations;
-    }
-  }
-
-  retrieveAssociations() {
-    const url = 'http://localhost:8000/api/regions/1/get-associations';
-    return this.http.get<any>(url)
-    .pipe(
-      retry(3),
-      catchError(this.handleError)
-    );
-  }
+  // retrieveAssociations() {
+  //   const url = this.settingsService.servername + '/api/regions/1/get-associations';
+  //   return this.http.get<any>(url)
+  //   .pipe(
+  //     retry(3),
+  //     catchError(this.handleError)
+  //   );
+  // }
   getAssociationById(id: number): AssociationType {
     id = id * 1;
     const association = this.associations.find((element: AssociationType) => { 
@@ -275,31 +341,11 @@ export class LoginService {
     return association ? association.name : '';
   }
 
-  private handleError(error: HttpErrorResponse) {
-    this.stopSpinner();
-    this.errorMessage = 'Something went wrong. Try reloading the page.';
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(error.message);
-      if (typeof error.error === 'object' && 'message' in error.error) {
-        console.error('Server responded:', error.error['message']);
-      } else {
-        console.error('Server gave no extra details.');
-      }
-    }
-    // return an observable with a user-facing error message
-    return throwError(
-      'Something went wrong.');
-  };
-
   doWeShowLoginList() {
     if (!this.breederNumbers) return false;
     if (this.person) return false;
     if (this.breederNumbers.length > 1) return true;
     return !(this.editingNumber);
   }
-
 
 }

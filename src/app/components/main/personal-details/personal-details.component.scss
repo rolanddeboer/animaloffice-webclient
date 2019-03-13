@@ -1,0 +1,61 @@
+@import './src/app/styles/variables';
+
+label {
+  text-align: right;
+}
+.alert {
+  margin-left: 6px;
+  border-top: none;
+  margin-bottom: 0;
+  border-color: $red;
+  border-width: 1px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  background-color: lighten( $brightred, 40% );
+  color: $red;
+}
+.show-header {
+  .show-logo {
+    height: 100px;
+    width: auto;
+  }
+  float: right;
+  // &:after {
+  //   content: "";
+  //   display:table;
+  //   clear: both;
+  // }
+}
+section {
+  clear: both;
+}
+app-spinner {
+  display:block;
+  padding:10px;
+}
+.field-length.error {
+  color: $brightred;
+}
+
+.special-section {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.special-section-error {
+  border-left: 10px solid $red;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: lighten( $brightred, 40% );
+  color: $red;
+}
+
+.breeder-number {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-default {
+  font-weight: 400;
+}

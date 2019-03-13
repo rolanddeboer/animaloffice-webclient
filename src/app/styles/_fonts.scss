@@ -1,55 +1,87 @@
+// @font-face {
+//   font-family: 'Alegreya';
+//   src: url('src/app/fonts/alegreya/alegreya-bold-webfont.woff2') format('woff2'),
+//        url('src/app/fonts/alegreya/alegreya-bold-webfont.woff') format('woff');
+//   font-weight: 700;
+//   font-style: normal;
+//   font-display: block;
+// }
 @font-face {
-  font-family: 'alegreya';
-  src: url('assets/fonts/alegreya/alegreya-bold-webfont.woff2') format('woff2'),
-       url('assets/fonts/alegreya/alegreya-bold-webfont.woff') format('woff');
-  font-weight: 700;
+  font-family: 'Prociono';
+  src: url('src/app/fonts/prociono/prociono-regular-webfont.woff2') format('woff2'),
+       url('src/app/fonts/prociono/prociono-regular-webfont.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
   font-display: block;
 }
+// @font-face {
+//   font-family: 'Prata';
+//   src: url('src/app/fonts/prata/prata-regular-edited-webfont.woff2') format('woff2'),
+//        url('src/app/fonts/prata/prata-regular-edited-webfont.woff') format('woff');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: block;
+// }
 @font-face {
-  font-family: 'anton';
-  src: url('assets/fonts/anton/anton-regular-webfont.woff2') format('woff2'),
-       url('assets/fonts/anton/anton-regular-webfont.woff') format('woff');
+  font-family: 'Merriweather';
+  src: url('src/app/fonts/merriweather/merriweather-regular-webfont.woff2') format('woff2'),
+       url('src/app/fonts/merriweather/merriweather-regular-webfont.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: block;
 }
 @font-face {
-  font-family: 'suranna';
-  src: url('assets/fonts/suranna/suranna-regular-webfont.woff2') format('woff2'),
-       url('assets/fonts/suranna/suranna-regular-webfont.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: 'roboto';
-  src: url('assets/fonts/roboto/roboto-regular-webfont.woff2') format('woff2'),
-       url('assets/fonts/roboto/roboto-regular-webfont.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-@font-face {
-  font-family: 'roboto';
-  src: url('assets/fonts/roboto/roboto-italic-webfont.woff2') format('woff2'),
-       url('assets/fonts/roboto/roboto-italic-webfont.woff') format('woff');
+  font-family: 'Merriweather';
+  src: url('src/app/fonts/merriweather/merriweather-italic-webfont.woff2') format('woff2'),
+       url('src/app/fonts/merriweather/merriweather-italic-webfont.woff') format('woff');
   font-weight: 400;
   font-style: italic;
   font-display: block;
 }
 @font-face {
-  font-family: 'roboto';
-  src: url('assets/fonts/roboto/roboto-medium-webfont.woff2') format('woff2'),
-       url('assets/fonts/roboto/roboto-medium-webfont.woff') format('woff');
+  font-family: 'Merriweather';
+  src: url('src/app/fonts/merriweather/merriweather-bold-webfont.woff2') format('woff2'),
+       url('src/app/fonts/merriweather/merriweather-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+// @font-face {
+//   font-family: 'suranna';
+//   src: url('src/app/fonts/suranna/suranna-regular-webfont.woff2') format('woff2'),
+//        url('src/app/fonts/suranna/suranna-regular-webfont.woff') format('woff');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: block;
+// }
+@font-face {
+  font-family: 'Roboto';
+  src: url('src/app/fonts/roboto/roboto-regular-webfont.woff2') format('woff2'),
+       url('src/app/fonts/roboto/roboto-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('src/app/fonts/roboto/roboto-italic-webfont.woff2') format('woff2'),
+       url('src/app/fonts/roboto/roboto-italic-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('src/app/fonts/roboto/roboto-medium-webfont.woff2') format('woff2'),
+       url('src/app/fonts/roboto/roboto-medium-webfont.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: block;
 }
 @font-face {
-  font-family: 'roboto';
-  src: url('assets/fonts/roboto/roboto-bold-webfont.woff2') format('woff2'),
-       url('assets/fonts/roboto/roboto-bold-webfont.woff') format('woff');
+  font-family: 'Roboto';
+  src: url('src/app/fonts/roboto/roboto-bold-webfont.woff2') format('woff2'),
+       url('src/app/fonts/roboto/roboto-bold-webfont.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: block;

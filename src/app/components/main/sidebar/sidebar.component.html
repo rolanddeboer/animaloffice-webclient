@@ -1,90 +1,168 @@
-<header>
-  <app-link 
-    route="home" 
-    (click)="linkClicked()" 
-  >
-    <img class="logo" src="../assets/images/layout/logo/logo-small.png" srcset="../assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
-  </app-link>
-  <i 
-    class="hamfuckingbackburger icon-left-bent" 
-    (click)="hamfuckingbackburgerhasbeenfuckingclicked()">
-</i>
-</header>
 
-<div class="list-group">
-  <div ngbDropdown placement="bottom-left" class="list-group-item-action list-group-item d-inline-block box-button">
-    <div id="reg1" ngbDropdownToggle>
-      <i class="icon-list-numbered"></i>
-      <span i18n>Sign up for show</span>
-    </div>
-    <div ngbDropdownMenu aria-labelledby="reg1">
-      <button class="dropdown-item" (click)="linkClicked()">Demo show</button>
-      <button class="dropdown-item" (click)="linkClicked()">Sierduivenshow Noord-Nederland 2018</button>
-      <button class="dropdown-item" (click)="linkClicked()">Noordshow 2018</button>
-    </div>
-  </div>
-  <div ngbDropdown placement="bottom-left" class="list-group-item-action list-group-item d-inline-block box-button">
-    <div id="reg2" ngbDropdownToggle>
-      <i class="icon-chart-bar"></i>
-      <span i18n>Statistics</span>
-    </div>
-    <div ngbDropdownMenu aria-labelledby="reg2">
-      <button class="dropdown-item" (click)="linkClicked()">Demo show</button>
-      <button class="dropdown-item" (click)="linkClicked()">Sierduivenshow Noord-Nederland 2018</button>
-      <button class="dropdown-item" (click)="linkClicked()">Noordshow 2018</button>
-    </div>
-  </div>
+<div 
+  class="blinder" 
+  (mousedown)="blinderClick()" 
+  (touchstart)="swipe($event, 'start')" 
+  (touchend)="swipe($event, 'end')"
+>
+</div>
   
-  <app-link 
-    route="home" 
-    (click)="linkClicked()" 
-    linkClass="list-group-item list-group-item-action" 
+<div 
+  class="sidebar" 
+  (click)="sidebarClick()" 
+  (touchstart)="swipe($event, 'start')" 
+  (touchend)="swipe($event, 'end')"
+  (touchmove)="touchmove($event)"
+  [ngStyle]="{'left': sidebarDelta + 'px', 'right': rightMargin - sidebarDelta + 'px'}"
+  #sidebar
+>
+
+  <header>
+    <app-link 
+      route="home" 
+        
     >
-    <i class="icon-home"></i>
-    <span i18n>Homepage</span>
-  </app-link>
-  <app-link 
-    route="login" 
-    (click)="linkClicked()" 
-    linkClass="list-group-item list-group-item-action" 
+      <img class="logo" src="./assets/images/layout/logo/logo-medium-new.png" srcset="./assets/images/layout/logo/logo-medium-2x-new.png 2x" alt="Animal Office" height="52px" width="62px">
+      
+    </app-link>
+    <i 
+      class="back-button icon-left-bent" 
+      (click)="closeSidebar()">
+  </i>
+  </header>
+  
+  <div *ngIf="settingsService.username" class="logged-in-as">Logged in as {{ settingsService.username}}</div>
+  
+  
+  <div class="list-group" [class.dropdown]="dropdownActive">
+    <div class="overlay" *ngIf="dropdownActive"></div>
+    <app-link 
+      *ngIf="settingsService.username" 
+      route="home"  
+      (click)="closeSidebar(); settingsService.logout()"
+      linkClass="list-group-item list-group-item-action" 
+      >
+      <i class="icon-logout"></i>
+      <span i18n>Sign out</span>
+    </app-link>
+  
+    <app-link 
+      *ngIf="settingsService.username" 
+      route="home" 
+      linkClass="list-group-item list-group-item-action" 
+      >
+      <i class="icon-user-card"></i>
+      <span i18n>Your personal details</span>
+    </app-link>
+  
+    <div 
+      ngbDropdown 
+      placement="bottom-left" 
+      class="d-inline-block box-button" 
+      (click)="setDropdownActive()"
     >
-    <i class="icon-login"></i>
-    <span i18n>Sign up / sign in</span>
-  </app-link>
-  <app-link 
-    route="demo" 
-    (click)="linkClicked()" 
-    linkClass="list-group-item list-group-item-action" 
-  >
-    <i class="icon-eye"></i>
-    <span i18n>Demo</span>
-  </app-link>
-  <app-link 
-    route="about" 
-    (click)="linkClicked()" 
-    linkClass="list-group-item list-group-item-action" 
-  >
-    <i class="icon-info"></i>
-    <span i18n>About Animal Office</span>
-  </app-link>
-  <app-link 
-    route="contact" 
-    (click)="linkClicked()" 
-    linkClass="list-group-item list-group-item-action" 
-  >
-    <i class="icon-mail"></i>
-    <span i18n>Contact</span>
-  </app-link>
-  <div ngbDropdown placement="top-left" class="list-group-item-action list-group-item d-inline-block box-button">
-      <div id="reg3" ngbDropdownToggle>
-        <span class="flag-small flag-dutch"></span>
+      <div 
+        id="reg1" 
+        class="list-group-item-action list-group-item" 
+        ngbDropdownToggle
+      >
+        <i class="icon-list-numbered"></i>
+        <span i18n>Sign up for show</span>
+      </div>
+      <div 
+        ngbDropdownMenu 
+        aria-labelledby="reg1" 
+        (click)="dropdownClicked()"
+      >
+        <div class="dropdown-item-text dropdown-header">
+          <i class="icon-edit-page"></i><span i18n>Choose show to sign up</span>
+        </div> 
+        <button class="dropdown-item" >Demo show</button>
+        <button class="dropdown-item" >Sierduivenshow Noord-Nederland 2018</button>
+        <button class="dropdown-item" >Noordshow 2018</button>
+      </div>
+    </div>
+  
+    <div ngbDropdown placement="bottom-left" class="d-inline-block box-button" (click)="setDropdownActive()">
+      <div id="reg2" class="list-group-item-action list-group-item" ngbDropdownToggle>
+        <i class="icon-chart-bar"></i>
+        <span i18n>Statistics</span>
+      </div>
+      <div ngbDropdownMenu aria-labelledby="reg2" (click)="dropdownClicked()">
+        <div class="dropdown-item-text dropdown-header">
+          <i class="icon-chart-bar"></i><span i18n>Statistics for show</span>
+        </div> 
+        <button class="dropdown-item" >Demo show</button>
+        <button class="dropdown-item" >Sierduivenshow Noord-Nederland 2018</button>
+        <button class="dropdown-item" >Noordshow 2018</button>
+      </div>
+    </div>
+    <div (click)="closeSidebar()">
+      <app-link 
+      route="home" 
+      linkClass="list-group-item list-group-item-action" 
+      >
+      <i class="icon-home"></i>
+      <span i18n>Homepage</span>
+    </app-link>
+  
+    <app-link
+      *ngIf="!settingsService.username"  
+      route="login" 
+      linkClass="list-group-item list-group-item-action" 
+      >
+      <i class="icon-login"></i>
+      <span i18n>Sign up / sign in</span>
+    </app-link>
+  
+    <app-link 
+      route="demo" 
+      linkClass="list-group-item list-group-item-action" 
+    >
+      <i class="icon-eye"></i>
+      <span i18n>Demo</span>
+    </app-link>
+    <app-link 
+      route="about" 
+      linkClass="list-group-item list-group-item-action" 
+    >
+      <i class="icon-info"></i>
+      <span i18n>About Animal Office</span>
+    </app-link>
+  
+    <app-link 
+      route="contact" 
+      linkClass="list-group-item list-group-item-action" 
+    >
+      <i class="icon-mail"></i>
+      <span i18n>Contact</span>
+    </app-link>
+      
+    </div>
+    
+  
+    <div ngbDropdown placement="top-left" class="d-inline-block box-button" (click)="setDropdownActive()">
+      <div id="reg3" class="list-group-item-action list-group-item" ngbDropdownToggle>
+        <span 
+          class="flag-small"
+          [class.flag-dutch]="routingTools.languagePrefix==='nl'"
+          [class.flag-english]="routingTools.languagePrefix==='en'"
+        ></span>
         <span i18n>Change language</span>
       </div>
-      <div ngbDropdownMenu aria-labelledby="reg3">
-        <button class="dropdown-item" (click)="linkClicked()">
+      <div ngbDropdownMenu aria-labelledby="reg3" (click)="dropdownClicked()">
+        <div class="dropdown-item-text dropdown-header" i18n>Set language</div> 
+        <button class="dropdown-item" (click)="routingTools.changeLanguage('en')">
           <span class="flag-small flag-english"></span>
           English
         </button>
+        <button class="dropdown-item" (click)="routingTools.changeLanguage('nl')">
+          <span class="flag-small flag-dutch"></span>
+          Nederlands
+        </button>
       </div>
     </div>
+  
+  </div>
+    
 </div>

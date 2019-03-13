@@ -1,6 +1,9 @@
+<!--
+  <h3 *ngIf="!loginService.doWeShowLoginList()" i18n>Log in</h3>
+-->
 
-  <h3 *ngIf="!loginService.doWeShowLoginList()">Log in</h3>
-  <h4 *ngIf="loginService.doWeShowLoginList()">Enter breeder number</h4>
+  <h4 *ngIf="loginService.doWeShowLoginList()" i18n>Enter breeder number</h4>
+  
 <!--
 <div class="sub-dialog-header">
   <h4>
@@ -10,7 +13,7 @@
 </div>
 -->
 <div class="form-row">
-  <label for="association">Association</label>
+  <label for="association" i18n>Association</label>
     <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
       <i class="input-group-text icon-umbrella"></i>
       <select 
@@ -32,7 +35,7 @@
 </div>
 
 <div class="form-row">
-  <label for="breederNumber">Breeder number</label>
+  <label for="breederNumber" i18n>Breeder number</label>
   <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
     <i class="input-group-text icon-user-card"></i>
     <input 
@@ -41,7 +44,7 @@
       name="breederNumber"
       #breederNumberInput
       [(ngModel)]="loginService.editingNumber.breederNumber"
-      (keyup.enter)="submitNumberClick()"
+      (keyup.enter)="submit()"
       [attr.disabled]="loginService.person ? 'disabled' : null"
     >
   </div>
@@ -52,13 +55,16 @@
 </div>
 
 <footer 
-  #footer 
-  *ngIf="!loginService.person"
+  *ngIf="!loginService.person && !loginService.loading"
 >
+
   <button
     class="btn-primary"
-    (click)="submitNumberClick()"
-    *ngIf="!loginService.loading"
-  ><i class="icon-check"></i>OK</button>
+    (click)="submit()"
+  >
+    <i class="icon-check"></i>
+    <span i18n>Next</span>
+  </button>
+
 </footer>
 

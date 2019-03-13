@@ -1,20 +1,19 @@
+<span *ngIf="!loginService.editingNumber || loginService.persistingAll" class="intro-message" i18n>Do you have a breeder number with several associations? Please fill in all of them.</span>
 
-Do you have a breeder number with several associations? Please fill in all of them. 
-
-<h4>Your breeder number(s)</h4>
+<h4 *ngIf="!loginService.editingNumber || loginService.persistingAll" i18n>Your breeder number(s)</h4>
 
 <table class="table">
   <thead>
     <tr>
       <th></th>
-      <th>Association</th>
-      <th>Breeder number</th>
+      <th i18n>Association</th>
+      <th i18n>Breeder number</th>
     </tr>
   </thead>
   <tbody>
     <tr 
       *ngFor="let breederNumber of loginService.breederNumbers; let index = index"
-      [class.hidden]="breederNumber.editMode"
+      [class.hidden]="!loginService.persistingAll && breederNumber.editMode"
     >
       <td>
         <a class="bnDelete" href="javascript:void(0)" (click)="loginService.deleteNumber(index)"><i class="icon-large icon-trash" 
@@ -34,16 +33,22 @@ Do you have a breeder number with several associations? Please fill in all of th
     </div>
   -->
 
-<footer *ngIf="!loginService.editingNumber">
+<footer *ngIf="!loginService.editingNumber && !loginService.loading && !loginService.persistingAll">
   <button 
     class="btn-primary" 
     (click)="loginService.addNumber()"
-    *ngIf="loginService.getFreeAssociations().length"
+    *ngIf="loginService.getFreeAssociations().length "
   >
-    <i class="icon-plus"></i>Add breeder number
+    <i class="icon-plus"></i>
+    <span i18n>Add breeder number</span>
   </button>
-  <button class="btn-success">
-    <i class="icon-check"></i>Proceed
+  <button 
+    class="btn-success-bright"
+    (click)="submit()"
+    *ngIf="!loginService.loading"
+  >
+    <i class="icon-check"></i>
+    <span i18n>Proceed</span>
   </button>
 </footer>
 

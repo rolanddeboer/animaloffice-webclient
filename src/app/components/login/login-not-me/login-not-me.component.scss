@@ -8,21 +8,50 @@
 }
 .warning-message {
   padding:10px 5px 10px 10px;
-  background-color: desaturate(lighten($info, 55%), 20%);
-  color: darken(desaturate($info, 20%), 10%);
-  border: 1px solid desaturate(lighten($info, 40%), 20%);
+  background-color: desaturate(lighten($cyan, 55%), 20%);
+  color: darken(desaturate($cyan, 20%), 10%);
+  border: 1px solid desaturate(lighten($cyan, 40%), 20%);
+  border: 1px solid $primary;
+  color: $darkblue;
+  background-color: desaturate(lighten($primary, 45%), 20%);
+  background-color: lighten($medium, 20%);
+  border: 1px solid $gray-800;
+  border: 1px solid $copper;
+  color: $gray-800;
+  font-weight: 500;
   i {
+    color: $copper;
     margin-right: 6px;
   }
 }
 .error-message, .warning-message {
   margin: 15px 10px 20px 10px;
-  font-size: 16px;
 }
 
 footer {
   margin: 20px -10px -5px -10px;
+  display: flex;
+  justify-items: right;
+  flex-wrap: wrap;
   button {
     margin-left: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  :host {
+    padding: 0;
+    border: 0;
+  }
+  .warning-message {
+    margin: 0 10px;
+  }
+  button {
+    margin-bottom: 20px !important;
+  }
+  footer {
+    padding: 20px 20px 0px 20px;
+    margin: 0;
+    border: 0;
   }
 }

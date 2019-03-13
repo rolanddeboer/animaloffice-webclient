@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SettingsService } from 'src/app/services/config/settings.service';
+import { RoutingToolsService } from 'src/app/services/config/routing-tools.service';
 import { routes } from '../../../misc/route-list-base';
 
 @Component({
@@ -13,17 +13,15 @@ export class LinkComponent implements OnInit {
   languagePrefix: string;
 
   constructor(
-    private settingsService: SettingsService
+    private routingTools: RoutingToolsService
   ) { 
-    this.languagePrefix = this.settingsService.getLanguagePrefix();
   }
 
   ngOnInit() {
   }
 
   getRoute() {
-    
-    return '/' + this.languagePrefix + '/' + routes[this.route][this.languagePrefix];
+    return this.routingTools.getRouterLink(this.route)
   }
 
 }

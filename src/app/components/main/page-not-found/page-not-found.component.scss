@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+p{
+  font-family: Merriweather;
+  font-size: 50px;
+  &:last-child {
+    font-family: inherit;
+    font-size:16px;
+  }
+  @media (max-width: 410px) {
+    font-size: 46px;
+  }
+  @media (max-width: 380px) {
+    font-size: 42px;
+  }
+  @media (max-width: 320px) {
+    font-size: 38px;
+  }
+}

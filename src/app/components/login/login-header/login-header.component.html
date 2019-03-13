@@ -1,24 +1,6 @@
-<img class="logo" src="../assets/images/layout/logo/logo-medium.png" srcset="../assets/images/layout/logo/logo-medium-2x.png 2x" alt="Animal Office" height="86px" width="107px">
+<img class="logo" src="./assets/images/layout/logo/logo-medium-new.png" srcset="./assets/images/layout/logo/logo-medium-2x-new.png 2x" alt="Animal Office" height="87px" width="107px">
 
-
-<div ngbDropdown placement="bottom-right" class="d-inline-block flag-container" >
-  <div class="flag-menu" ngbDropdownToggle>
-    <span appNoDoubleClick class="flag-medium flag-dutch"></span>
-  </div>
-  <div ngbDropdownMenu aria-labelledby="flag-menu">
-    <div class="dropdown-item-text dropdown-title" i18n>
-      Change language
-    </div> 
-    <div class="dropdown-item">
-      <span class="flag-small flag-english"></span>
-      English
-    </div> 
-    <div class="dropdown-item">
-      <span class="flag-small flag-dutch"></span>
-      Nederlands
-    </div> 
-  </div>
-</div>
+<app-language-chooser></app-language-chooser>
 
 <b class="text-darker" (click)="navigateHome()">
   <i 

@@ -1,12 +1,11 @@
 export const routes = {
+  home: {
+    en: 'home',
+    nl: 'hoofdpagina'
+  },
   login: {
     en: 'login',
-    nl: 'inloggen',
-    fullScreen: true
-  },
-  contact: {
-    en: 'contact',
-    nl: 'contact'
+    nl: 'inloggen'
   },
   about: {
     en: 'about-animal-office',
@@ -24,8 +23,20 @@ export const routes = {
     en: 'terms-and-conditions',
     nl: 'algemene-voorwaarden'
   },
-  home: {
-    en: 'home',
-    nl: 'hoofdpagina'
-  }
+  contact: {
+    en: 'contact',
+    nl: 'contact'
+  },
+  sidebar: {
+    en: 'sidebar',
+    nl: 'sidebar'
+  },
+  person: {
+    en: 'personal-details',
+    nl: 'persoonsgegevens'
+  },
+  shows: {
+    en: 'shows',
+    nl: 'shows'
+  },
 }

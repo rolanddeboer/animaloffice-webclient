@@ -17,4 +17,8 @@ export class FooterComponent implements OnInit {
     // console.log(this.router.url);
   }
 
+  scrollUp() {
+    window.scrollTo(0, 0);
+  }
+
 }

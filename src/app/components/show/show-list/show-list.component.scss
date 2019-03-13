@@ -1,0 +1,142 @@
+@import '../../../styles/variables';
+
+$COMING_UP_LATER: "future";
+$COMING_UP_SOON: "coming-up";
+$ENTRY_OPEN: "entry-open";
+$ENTRY_CLOSED: "entry-closed";
+$STARTED: "started";
+$FINISHED: "finished";
+$HISTORY: "history";
+
+button {
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 8px 14px 7px 14px;
+}
+.btn-outline-primary {
+  font-weight: 500;
+}
+img {
+  height: auto;
+  flex: 0 0 auto;
+}
+
+h2 {
+  display: block;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.show-item header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.buttons {
+  button {
+    margin: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.button-more-shows {
+  margin: 10px 0 20px 0;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.info-text {
+  color: $gray-600;
+}
+
+section main {
+  padding-bottom: 0;
+}
+
+.one-show {
+  background-color: lighten($medium, 20%);
+  padding: 10px 10px 5px 15px;
+  border-radius: 5px;
+  border: 1px solid lighten($medium, 10%);
+  margin-bottom: 10px;
+
+  h3 {
+    display: inline;
+    font-weight: 400;
+    &::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      margin: 0 7px 2px 0;
+      display: inline-block;
+    }
+  }
+  &:last-child {
+    margin-bottom: 20px;
+  }
+}
+
+.status-text {
+  margin-left: 10px;
+  color: $gray-600;
+  border: 1px solid $gray-400;
+  padding: 2px 5px 0 5px;
+  border-radius: 3px;
+  display: block;
+  float: right;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-#{$ENTRY_OPEN} { // entry open
+  .status-text {
+    border-color: darken( $brightgreen, 10% );
+    color: darken( $brightgreen, 10% );
+    
+  }
+  h3::before {
+    background-color: $brightgreen;
+  }
+}
+.status-#{$ENTRY_CLOSED}, .status-#{$STARTED} {
+  .status-text { // entry closed or show started
+    border-color: darken( $orange, 10% );
+    color: darken( $orange, 10% );
+  }
+  h3::before {
+    background-color: $orange;
+  }
+}
+.status-#{$FINISHED} {
+  .status-text { // show finished
+    border-color: lighten( $darkblue, 10% );
+    color: lighten( $darkblue, 10% );
+  }
+  h3::before {
+    background-color: lighten( $darkblue, 10% );
+  }
+}
+.status-#{$COMING_UP_SOON} {
+  .status-text { // coming up this year
+    border-color: darken( $yellow, 20% );
+    color: darken( $yellow, 20% );
+  }
+  h3::before {
+    background-color: $yellow;
+  }
+}
+.status-#{$HISTORY} {
+  .status-text { // older past show
+    border-color: darken( $brightblue, 10% );
+    color: darken( $brightblue, 10% );
+  }
+  h3::before {
+    background-color: $brightblue;
+  }
+}

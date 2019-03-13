@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ao-client",
+            "outputPath": "../dist-webclient/general/",
             "baseHref": "/",
             "deployUrl": "/",
             "index": "src/index.html",
@@ -25,7 +25,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -35,12 +34,12 @@
           },
           "configurations": {
             "nl": {     
-              "outputPath": "dist/ao-client-nl/",
+              "outputPath": "dist/nl/",
               "i18nFile": "src/locale/messages.nl.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "nl-NL",
               "baseHref": "/",
-              "deployUrl": "/",
+              "deployUrl": "/nl/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -48,12 +47,12 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing":  "bundles",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
@@ -65,10 +64,10 @@
               ]
             },
             "en": {
-              "outputPath": "dist/ao-client-en/",
+              "outputPath": "dist/en/",
               "i18nLocale": "en",
               "baseHref": "/",
-              "deployUrl": "/",
+              "deployUrl": "/en/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -76,12 +75,12 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "bundles",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
@@ -98,6 +97,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "ao-client:build",
+            "proxyConfig": "src/proxy.conf.json",
             "servePath": "/"
           },
           "configurations": {

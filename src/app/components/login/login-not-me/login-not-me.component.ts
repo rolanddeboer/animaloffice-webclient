@@ -10,7 +10,7 @@ export class LoginNotMeComponent implements OnInit {
   notMeButNumberCorrect = false;
 
   constructor(
-    private loginService: LoginService
+    public loginService: LoginService
   ) { }
 
   ngOnInit() {

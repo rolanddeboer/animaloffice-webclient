@@ -1,0 +1,28 @@
+#!/bin/bash
+
+rm -rf dist/*
+
+ng build --configuration=nl --prod
+ng build --configuration=en --prod
+
+# mv dist/nl/index.html dist/nl/index.php
+# mv dist/en/index.html dist/en/index.php
+
+# mv dist/en/icons/* dist/
+# rm dist/en/icons -rf
+# rm dist/nl/icons -rf
+
+
+mv dist/en/assets dist/assets
+rm -rf dist/nl/assets
+ln -s ../assets dist/nl/assets
+ln -s ../assets dist/en/assets
+
+mv dist/assets/favicons/favicon.ico dist/
+
+rsync -haze ssh dist/* khecha:~/webclient-sync-stage --delete
+#ssh khecha /var/www/animaloffice.net/v2/update-client.sh
+
+ssh khecha /var/www/animaloffice.net/v2/cl-build.sh
+
+mpg321 finished.mp3 -q

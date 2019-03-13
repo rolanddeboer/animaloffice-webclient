@@ -12,15 +12,16 @@
       i18n
     >Sign up for show</button>
     <div *ngIf="position==='front'" ngbDropdownMenu aria-labelledby="registrationBox-front">
-      <div class="dropdown-item-text" i18n>
-        <i class="icon-edit-page"></i>Choose show to sign up
+      <div class="dropdown-item-text dropdown-header">
+        <i class="icon-edit-page"></i>
+        <span i18n>Choose show to sign up</span>
       </div> 
       <button class="dropdown-item">Demo show</button>
       <button class="dropdown-item">Sierduivenshow Noord-Nederland 2018</button>
       <button class="dropdown-item">Noordshow 2018</button>
     </div>
   </div>
-  <div ngbDropdown placement="top-left" class="d-inline-block box-button">
+  <div ngbDropdown [placement]="settingsService.smallScreen ? 'top-right' : 'top-left'" class="d-inline-block box-button">
     <button 
       class="btn-primary" 
       id="{{'statisticsBox-' + position}}" 
@@ -28,9 +29,10 @@
       i18n
     >Statistics</button>
     <div *ngIf="position==='front'" ngbDropdownMenu aria-labelledby="statisticsBox-front">
-        <div class="dropdown-item-text" i18n>
-          <i class="icon-chart-bar"></i>Statistics for show
-        </div> 
+      <div class="dropdown-item-text dropdown-header">
+        <i class="icon-chart-bar"></i>
+        <span i18n>Statistics for show</span>
+      </div> 
       <button class="dropdown-item">Demo show</button>
       <button class="dropdown-item">Sierduivenshow Noord-Nederland 2018</button>
       <button class="dropdown-item">Noordshow 2018</button>

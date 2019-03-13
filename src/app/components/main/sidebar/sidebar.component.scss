@@ -1,17 +1,27 @@
 @import '../../../styles/variables';
-
-:host {
+.blinder {
+  background-color: $gray-500;
+  opacity: .7;
+  z-index:99;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.sidebar {
   position: fixed;
   background-color: rgb(243, 243, 243);
   left: 0;
-  right: 20px;
-  max-width:300px;
+  right: 50px;
+  max-width:320px;
   top: 0;
   bottom: 0;
   overflow: auto;
   z-index: 100;
   box-shadow: -2px 0px 4px 4px rgba(255, 255, 255, 0.75);
   box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.5);
+  font-size: 15px;
 }
 header {
   display: flex;
@@ -22,7 +32,7 @@ header {
 .active {
   z-index:inherit;
 }
-.hamfuckingbackburger:before {
+.back-button:before {
   font-size:22px;
   cursor: pointer;
   color: $gray-700;
@@ -33,12 +43,62 @@ header {
   // padding-top:.1em;
   // box-shadow: 0px 0px 12px 2px rgba(255, 255, 255, 0.75);
 }
-.flag-small {
-  margin-right:13px;
-}
-i {
-  margin-right:7px;
-}
 .dropdown-toggle {
   cursor: pointer;
+}
+.logged-in-as {
+  color: $copper;
+  margin: 0 0 10px 20px;
+}
+.list-group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  position: relative;
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #f7f7f7;
+    opacity: .85;
+    z-index:1;
+  }
+}
+.dropdown-header {
+  margin-bottom:0;
+  font-size:15px;
+  i {
+    margin-right: 9px;
+  }
+}
+:host ::ng-deep .list-group{
+  i {
+    margin-right: 15px;
+  }
+  .flag-small {
+    margin-left:3px;
+    margin-right: 18px;
+  }
+}
+// :host ::ng-deep .list-group.dropdown .list-group-item:not(:focus) {
+  // background-color: #f8f8f8;;
+  // color: $gray-400;
+  // .flag-small {
+  //   opacity: .3;
+  // }
+// }
+:host ::ng-deep .list-group-item {
+  border-bottom: 0;
+}
+.list-group-item:hover, .list-group-item:focus {
+  z-index: inherit;
+}
+.dropdown-item {
+  padding: 0.75rem 1.25rem;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.dropdown-menu {
+  padding: 0;
+  border-bottom:0;
+  width: 100%;
+  top:0 !important;
 }

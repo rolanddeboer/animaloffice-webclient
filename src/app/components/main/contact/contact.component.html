@@ -1,0 +1,109 @@
+<article>
+  <h1 i18n>Contact</h1>
+  <section>
+    <main>
+      <form #contactForm="ngForm" 
+      (ngSubmit)="submit()">
+          <div class="form-group row">
+            <label for="input_name" class="col-sm-4 col-form-label" i18n>Your name</label>
+            <div class="col-sm-8">
+              <input 
+                class="form-control" 
+                type="text" 
+                id="input_name" 
+                [(ngModel)]="fields.name"
+                name="name"
+                [appAutofocus]
+              >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="input_email" class="col-sm-4 col-form-label" i18n>Your email address</label>
+            <div class="col-sm-8">
+              <input 
+                type="email" 
+                class="form-control" 
+                id="input_email" 
+                required
+                [(ngModel)]="fields.email"
+                (blur)="changeEmail()"
+                name="email"
+                #emailInput="ngModel"
+              >
+              <div 
+                [hidden]="emailInput.valid || emailInput.untouched"
+                class="alert alert-danger"
+                i18n
+              >This is a required field</div>
+              <div 
+                *ngIf="emailError"
+                class="alert alert-danger"
+                i18n
+              >Please enter a valid email address</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="input_subject" class="col-sm-4 col-form-label" i18n>Subject</label>
+            <div class="col-sm-8">
+              <input 
+                class="form-control" 
+                type="text" 
+                id="input_subject"
+                [(ngModel)]="fields.subject"
+                name="subject"
+              >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="input_message" class="col-sm-4 col-form-label" i18n>Message</label>
+            <div class="col-sm-8">
+              <textarea 
+                class="form-control" 
+                id="input_message" 
+                rows="6" 
+                required
+                [(ngModel)]="fields.message"
+                name="message"
+                #messageInput="ngModel"
+              ></textarea>
+              <div 
+                [hidden]="messageInput.valid || messageInput.untouched"
+                class="alert alert-danger"
+                i18n
+              >This is a required field</div>
+            </div>
+          </div>
+          <div class="form-footer">
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
+            <button 
+              *ngIf="!submitting"
+              type="submit" 
+              class="btn-primary-bright" 
+              i18n
+            >Send</button></div>
+            <app-spinner name="contact"></app-spinner>
+        </form>
+    </main>
+  </section>
+</article>
+
+<ng-template #contactModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title" i18n>Message sent</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <i class="icon-mail icon-margin-right text-copper"></i>
+    <span i18n>Your message has been sent. You should have received a copy of it in your mailbox. If not, you might have misspelled your email address and we might not be able to respond to you.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn-primary" (click)="modal.close('Save click')">
+      <i class="icon-check"></i>
+      <span i18n>OK</span>
+    </button>
+  </div>
+</ng-template>

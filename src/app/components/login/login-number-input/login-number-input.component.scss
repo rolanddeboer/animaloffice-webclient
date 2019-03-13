@@ -4,12 +4,23 @@
 :host {
   padding: 5px 10px;
 }
+:host.has-list:focus-within {
+  // border: 1px solid $copper;
+  // margin-top: -1px;
+}
 h3 {
   font-weight: normal;
   font-family: suranna;
   font-size: 24px;
   margin: 5px 10px;
   color: $gray-700;
+//  text-shadow: 1px 1px 0px lighten($copper, 20%);
+}
+@media (max-width: 500px) {
+  h3 {
+    font-family: alegreya;
+    font-size: 30px;
+  }
 }
 h4 {
   margin: 5px 0 20px 0;

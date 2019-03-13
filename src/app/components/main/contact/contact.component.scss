@@ -1,0 +1,55 @@
+@import '../../../styles/variables';
+.col-form-label {
+  text-align: right;
+  color: $gray-700;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 5px;
+}
+button {
+  float: right;
+  font-size: 16px;
+}
+.form-control {
+  border: 1px solid lighten($copper, 20%);
+  border: 1px solid $medium;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+@media (max-width: 500px) {
+  .col-form-label {
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+.form-control.ng-touched {
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+
+}
+.form-control.ng-touched.ng-invalid {
+  border-left: 7px solid $red;
+}
+.form-control.ng-touched.ng-valid {
+  border-left: 7px solid $brightgreen;
+}
+.form-footer {
+  ::ng-deep .spinner {
+    padding-top: 10px;
+    float: right;
+  }
+  .alert {
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+}
+.alert {
+  margin-left: 7px;
+  border-top: none;
+  margin-bottom: 0;
+}
+.form-control:focus {
+  border: 1px solid $primary;
+  box-shadow: 0 0 7px 0px rgba(35, 105, 190, 0.5);
+}

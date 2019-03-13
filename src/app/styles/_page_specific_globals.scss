@@ -1,0 +1,31 @@
+body.page-home, body.page-login, body.page-contact {
+  .button-up {
+    display: none;
+  }
+  #body-footer {
+    padding-right: 0;
+  }
+}
+
+
+body.page-home .extra-buttons {
+  display: none;
+}
+body:not(.page-home){
+  @media (max-width: 500px) {
+    .wide-logo {
+      height:53px;
+      width:auto;
+    }
+    .backer {
+      top:0;
+    }
+    .hamburger {
+      margin-top:5px;
+    }
+  }
+}
+body.page-sidebar .sidebar {
+  right: 0;
+  max-width:100%;
+}

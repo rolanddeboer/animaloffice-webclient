@@ -1,6 +1,15 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { RoutingToolsService } from 'src/app/services/config/routing-tools.service';
 import { SettingsService } from 'src/app/services/config/settings.service';
+import { ShowService } from 'src/app/services/show/show.service';
+
+class ShowType
+{
+  name: string;
+  edition: string;
+  logoFile: string;
+  isPortrait: boolean;
+}
 
 @Component({
   selector: 'app-header',
@@ -9,23 +18,38 @@ import { SettingsService } from 'src/app/services/config/settings.service';
 })
 export class HeaderComponent implements OnInit {
   hoverFlag = false;
-
-  @Output() itsburgertime = new EventEmitter<void>();
+  show: ShowType;
+  showSubscription;
 
   constructor(
-    private routingTools: RoutingToolsService,
-    private settingsService: SettingsService
+    public routingTools: RoutingToolsService,
+    public settingsService: SettingsService,
+    public showService: ShowService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    const that = this;
+    this.showSubscription = this.showService.getShow().subscribe({
+      next (data: any): void {
+        that.show = data;
+      }
+    })
   }
 
-  getRoute(routeName: string) {
+  getRoute(routeName: string) 
+  {
     return this.routingTools.getRouterLink(routeName);
   }
 
-  hamfuckingburgerhasbeenfuckingclicked() {
-    this.itsburgertime.emit();
+  burgerClicked() 
+  {
+    this.settingsService.burgerState = !this.settingsService.burgerState;
+  }
+
+  ngOnDestroy()
+  {
+    this.showSubscription.unsubscribe();
   }
 
 }

@@ -2,12 +2,10 @@
   
   <app-header 
     *ngIf="!isFullScreen()"
-    (itsburgertime)="hamfuckingburgerhasapperantlyfuckingbeenclicked($event)"
   ></app-header>
   
   <app-sidebar 
-    *ngIf="burgerState" 
-    (itsburgertime)="hamfuckingburgerhasapperantlyfuckingbeenclicked($event)"
+    *ngIf="settingsService.burgerState" 
   ></app-sidebar>
   
   <main [@routerTransition]="getState(o)">
@@ -19,4 +17,21 @@
     [theme]="getFooterTheme()"
   ></app-footer>
 
-  <app-spinner></app-spinner>
+  <ng-template #logoutModal let-modal>
+    <div class="modal-header">
+      <h3 class="modal-title" i18n>Signed out</h3>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <i class="icon-logout text-copper"></i>
+      <span i18n>You are no longer signed in to the Animal Office website. Your registration will be remembered and you can sign back in at any time.</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" ngbAutofocus class="btn-primary" (click)="modal.close('Save click')">
+        <i class="icon-check"></i>
+        <span i18n>OK</span>
+      </button>
+    </div>
+  </ng-template>

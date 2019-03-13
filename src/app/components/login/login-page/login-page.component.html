@@ -1,8 +1,17 @@
-<app-login-header></app-login-header>
+<article *ngIf = "loginService.db.get('BreederAssociation').length">
+  <h2>Sign up / sign in</h2>
+  <section>
+    <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>
+    <app-login-number-input 
+      *ngIf="loginService.editingNumber && !loginService.persistingAll"
+      [ngClass]="loginService.doWeShowLoginList() ? 'has-list' : ''"
+    ></app-login-number-input>
+    <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
+    <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
 
-<section>
-  <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>
-  <app-login-number-input *ngIf="loginService.editingNumber"></app-login-number-input>
-  <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
-  <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
-</section>
+    <footer *ngIf="loginService.loading">
+      <app-spinner name="loginList" group="login" [show]="loginService.loading"></app-spinner>
+    </footer>
+  </section>
+</article>
+

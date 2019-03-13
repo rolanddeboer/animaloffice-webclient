@@ -1,0 +1,16 @@
+@import '../../../styles/variables';
+.flag-menu, .dropdown-item {
+  cursor: pointer;
+}
+.dropdown-item {
+  &:hover {
+    background-color: lighten($copper, 40%);
+  }
+}
+.dropdown-item-text {
+  font-weight:400;
+  color: darken($copper, 20%);
+}
+.dropdown-item, .dropdown-header {
+  font-size: 16px;
+}

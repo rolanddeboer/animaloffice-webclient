@@ -1,0 +1,89 @@
+<article>
+
+  <h1>Tentoonstellingen</h1>
+
+  <ng-container *ngFor = "let showOverall of db.get('ShowOverall')">
+    <section class="show-item" *ngIf="displayShowOverall( showOverall )">
+
+      <header>
+        <img 
+          [style.width] = "showOverall.logo.getProportionalWidthInPx ( 150 )"
+          [src] = "settings.getUriStart ( showOverall.logo.fileLocation )"
+        >
+        <h2>{{ showOverall.name }}</h2>
+      </header>
+
+      <main>
+        <ng-container *ngFor = "let show of showOverall.shows" >
+          <div
+            *ngIf = "isStatusVisible( 
+              showOverall.id, 
+              show.showStatus.slug 
+            )"
+            [class] = "'one-show status-' + show.showStatus.slug"
+          >
+            <h3>{{ show.name }}</h3>
+            <span class="status-text">{{ show.showStatus.name }}</span>
+            <div 
+              *ngIf = "show.showStatus.slug == 'entry-open'"
+              class = "info-text"
+            >
+              Inschrijven is mogelijk tot {{ formatDate( show.subscribeTo ) }}
+            </div>
+            <div 
+              *ngIf = "show.showStatus.slug == 'entry-closed'"
+              class = "info-text"
+            >
+              Inschrijven gesloten. Show loopt van {{ formatDate( show.startsAt ) }} tot {{ formatDate( show.endsAt ) }}
+            </div>
+            <div 
+              *ngIf = "show.showStatus.slug == 'started'"
+              class = "info-text"
+            >
+              Show is bezig van {{ formatDate( show.startsAt ) }} tot {{ formatDate( show.endsAt ) }}
+            </div>
+            <div 
+              *ngIf = "show.showStatus.slug == 'coming-up'"
+              class = "info-text"
+            >
+              Inschrijven is mogelijk vanaf {{ formatDate( show.subscribeFrom ) }}
+            </div>
+            <div class="buttons">
+              <button 
+                *ngIf = "displaySignUpButton( show.id )"
+                class="btn-secondary"
+              >
+                Inschrijven
+              </button>
+              <button 
+                *ngIf = "displayStatisticsButton( show.id )"
+                class="btn-primary"
+              >
+                Statistieken
+              </button>
+            </div>
+          </div>
+        </ng-container>
+  
+        <button 
+          *ngIf = "displayDisplayMoreButton( showOverall.id )"
+          class="btn-outline-primary button-more-shows"
+          (click)="showOlderShows( showOverall.id )"
+        >
+          Oudere shows weergeven <!-- Display more shows -->
+        </button>
+  
+      </main> 
+
+    </section>
+
+  </ng-container>
+  <button 
+    class = "btn-primary"
+    (click) = "displayInactiveShows = true"
+    *ngIf = "!displayInactiveShows"
+  >
+    Inactieve shows weergeven
+  </button>
+
+</article>

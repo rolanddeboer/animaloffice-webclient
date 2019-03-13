@@ -1,0 +1,20 @@
+<article>
+
+  <h1>Tentoonstellingen</h1>
+
+  <ng-container *ngFor = "let showOverall of db.get('ShowOverall')">
+    <app-list-shows 
+      *ngIf="displayShowOverall( showOverall )"  
+      [showOverall] = showOverall
+    ></app-list-shows>
+  </ng-container>
+
+  <button 
+    class = "btn-primary"
+    (click) = "displayInactiveShows = true"
+    *ngIf = "!displayInactiveShows"
+  >
+    Inactieve shows weergeven
+  </button>
+
+</article>

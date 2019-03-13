@@ -10,7 +10,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 export class LoginHeaderComponent implements OnInit {
 
   constructor(
-    private routingTools: RoutingToolsService,
+    public routingTools: RoutingToolsService,
     private loginService: LoginService
   ) { }
 

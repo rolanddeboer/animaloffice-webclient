@@ -1,0 +1,58 @@
+@import '../../../styles/variables';
+
+button {
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: 400;
+}
+.with-button {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  button {
+    border: none;
+    border-left: 7px solid lighten($secondary, 15%);
+    border-right: 7px solid lighten($secondary, 15%);
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-radius: 7px;
+  }
+}
+.aanmeldscherm {
+  border-left: 10px solid $secondary;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.pdf {
+  border-left: 10px solid $yellow;
+  button {
+    border-color: lighten($yellow, 10%);
+  }
+}
+.inschrijven {
+  border-left: 10px solid $medium;
+  button {
+    border-color: lighten($medium, 5%);
+  }
+}
+.administratie {
+  border-left: 10px solid $primary;
+  button {
+    border-color: lighten($primary, 20%);
+  }
+}
+.statistieken {
+  border-left: 10px solid $darkblue;
+  button {
+    border-color: lighten($darkblue, 10%);
+  }
+}
+
+@media (max-width: 500px) {
+  .with-button {
+    margin-bottom: 20px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

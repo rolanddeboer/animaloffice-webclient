@@ -1,5 +1,5 @@
 <div class="form-row">
-  <label for="numberHolderName">Name</label>
+  <label for="numberHolderName" i18n>Name</label>
   <div class="input-group" disabled="disabled">
     <div class="input-group-prepend">
       <i class="input-group-text icon-user-1"></i>
@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="form-row" *ngIf="!loginService.person.username">
-  <label for="postcode">Postcode</label>
+  <label for="postcode" i18n>Postcode</label>
   <div class="input-group">
     <div class="input-group-prepend">
       <i class="input-group-text icon-address"></i>
@@ -30,7 +30,7 @@
   </div>
 </div>
 <div class="form-row" *ngIf="loginService.person.username">
-  <label for="password">Password</label>
+  <label for="password" i18n>Password</label>
   <div class="input-group">
     <div class="input-group-prepend">
       <i class="input-group-text icon-key"></i>
@@ -47,7 +47,7 @@
 </div>
 
 <div class="form-row" *ngIf="!loginService.notMe">
-  <b>Forgot password?</b>
+  <b i18n>Forgot password?</b>
 </div>
 <div 
   *ngIf = "loginService.errorMessage" 
@@ -56,25 +56,27 @@
   <i class="icon-warning"></i>{{ loginService.errorMessage }}
 </div>
 
-<footer #footer *ngIf="!loginService.notMe">
+<footer *ngIf="!loginService.notMe && !loginService.loading">
   <button 
     class = "btn-default" 
     (click) = "loginService.notMe = true"
-    *ngIf = "!loginService.loading"
   >
-    <i class="icon-block"></i>This is not me
+    <i class="icon-block"></i>
+    <span i18n>This is not me</span>
   </button>
   <button 
     class="btn-default" 
     *ngIf="pigsCanFly" 
   >
-    <i class="icon-edit"></i>Edit breeder number
+    <i class="icon-edit"></i>
+    <span i18n>Edit breeder number</span>
   </button>
   <button 
     class="btn-primary" 
     (click)="confirm()"
-    *ngIf="!loginService.loading"
   >
-    <i class="icon-check"></i>Confirm
+    <i class="icon-check"></i>
+    <span i18n>Next</span>
   </button>
+
 </footer>

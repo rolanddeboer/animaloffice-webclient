@@ -1,0 +1,390 @@
+<article>
+  <h1>Personal details</h1>
+  <form #personForm="ngForm" (ngSubmit)="onSubmit()">
+    <section>
+      <header>
+        <h3>Name and address</h3>
+      </header>
+      <main>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="isPerson">
+              Person or combination
+          </label>
+          <div class="col-sm-7">
+            <bSwitch 
+              switch-off-text="Combinatie"
+              switch-on-text="Persoon"
+              switch-label-width="30"
+              [(ngModel)]="person.isPerson"
+              id="isPerson"
+              name="isPerson"
+            >
+            </bSwitch>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="person.isPerson">
+          <label class="col-sm-5 col-form-label" for="firstName">
+            First name or initials
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control invalid" 
+              [(ngModel)]="person.firstName"
+              id="firstName"
+              name="firstName"
+              [class.invalid]="validationErrors['firstName']"
+            >
+            <div 
+              [hidden]="!validationErrors['firstName']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors["firstName"] }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row" *ngIf="person.isPerson">
+          <label class="col-sm-5 col-form-label" for="surnamePrefix">
+            Surname prefix
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.surnamePrefix"
+              id="surnamePrefix"
+              name="surnamePrefix"
+              [class.invalid]="validationErrors['surnamePrefix']"
+            >
+            <div 
+              [hidden]="!validationErrors['surnamePrefix']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['surnamePrefix'] }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="surname">
+            {{  person.isPerson ? "Surname" : "Name" }}
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.surname"  
+              id="surname"
+              name="surname"
+              [class.invalid]="validationErrors['surname']"
+            >
+            <div 
+              [hidden]="!validationErrors['surname']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['surname'] }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="address1">
+            Address
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.address1"
+              id="address1"
+              name="address1"
+              [class.invalid]="validationErrors['address1'] || person && person.address1 && person.address1.length > 23"
+            >
+            <div 
+              [hidden]="!validationErrors['address1']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['address1'] }}
+            </div>
+            <div
+              class="field-length"
+              *ngIf="person && person.address1 && person.address1.length > 19"
+              [class.error]="person && person.address1.length > 23"
+            >
+              Length: {{ person.address1.length }} (max. 23)
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="postcode">
+            Postcode
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.postcode"
+              id="postcode"
+              name="postcode"
+              [class.invalid]="validationErrors['postcode']"
+            >
+            <div 
+              [hidden]="!validationErrors['postcode']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['postcode'] }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="city">
+            City
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.city"
+              id="city"
+              name="city"
+              [class.invalid]="validationErrors['city']"
+            >
+            <div 
+              [hidden]="!validationErrors['city']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['city'] }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="country">
+            Country
+          </label>
+          <div class="col-sm-7">
+            <select 
+              class="form-control" 
+              [(ngModel)]="person.country_id"
+              id="country"
+              name="country"
+              [class.invalid]="validationErrors['country']"
+            >
+              <option *ngFor = "let country of countries" [value]="country[0]">{{ country[1] }}</option>
+            </select>
+            <div 
+              [hidden]="!validationErrors['country']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['country'] }}
+            </div>
+          </div>
+        </div>
+      
+      </main>
+    </section>
+    <section>
+      <header>
+        <h3>
+          Contact details
+        </h3>
+      </header>
+      <main>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="phone1">
+            Phone number(s)
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.phone1"
+              id="phone1"
+              name="phone1"
+              [class.invalid]="validationErrors['phone1']"
+            >
+            <div 
+              [hidden]="!validationErrors['phone1']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['phone1'] }}
+            </div>
+          </div>
+        </div>
+      
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="phone2">
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.phone2"
+              id="phone2"
+              name="phone2"
+              [class.invalid]="validationErrors['phone2']"
+            >
+            <div 
+              [hidden]="!validationErrors['phone2']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['phone2'] }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="email">
+            Email
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.email"
+              id="email"
+              name="email"
+              [class.invalid]="validationErrors['email']"
+            >
+            <div 
+              [hidden]="!validationErrors['email']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['email'] }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="iban">
+            IBAN
+          </label>
+          <div class="col-sm-7">
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="person.iban"
+              id="iban"
+              name="iban"
+              [class.invalid]="validationErrors['iban']"
+            >
+            <div 
+              [hidden]="!validationErrors['iban']"
+              class="alert alert-danger"
+            >
+              {{ validationErrors['iban'] }}
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </section>
+
+    <section>
+      <header>
+        <h3>
+          Further details
+        </h3>
+      </header>
+      <main>
+
+
+        <div class="row" *ngFor="let breederNumber of person.breederNumbers">
+          <label class="col-sm-5">
+            Breeder number {{ breederNumber.associationName }}
+          </label>
+          <div class="col-sm-7 breeder-number">
+            {{ breederNumber.breederNumber }}
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-sm-5">
+            Breeder number NBS
+          </label>
+          <div class="col-sm-7 breeder-number">
+            1258
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label">
+          </label>
+          <div class="col-sm-7">
+            <button type="button" class="btn btn-default">
+              Change breeder number(s)
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label" for="password">
+            Password
+          </label>
+          <div class="col-sm-7">
+            <button type="button" class="btn btn-default" id="password">
+              Click to change password
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="person.isPerson">
+          <label class="col-md-5 col-sm-4 col-form-label" for="isYouth">
+              Youth exhibitor
+          </label>
+          <div class="col-md-7 col-sm-8">
+            <bSwitch 
+              switch-off-text="No"
+              switch-on-text="Yes"
+              switch-label-width="30"
+              [(ngModel)]="person.isYouth"
+              id="isYouth"
+              name="isYouth"
+            >
+            </bSwitch>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="person.isPerson && person.isYouth">
+          <label class="col-md-5 col-sm-4 col-form-label">
+            Date of birth
+          </label>
+          <div class="col-sm-2">
+            <select class="form-control" [(ngModel)]="person.birthday_day" name="birthday_day">
+              <option *ngFor = "let day of days" [value]="day">{{ day }}</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <select class="form-control" [(ngModel)]="person.birthday_month" name="birthday_month">
+              <option *ngFor = "let month of months; let id = index" [value]="id">{{ month }}</option>
+            </select>
+          </div>
+          <div class="col-md-2 col-sm-3">
+            <select class="form-control" [(ngModel)]="person.birthday_year" name="birthday_year">
+              <option *ngFor = "let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+        </div>
+
+      </main>
+    </section>
+    
+    <section class="no-hover special-section special-section-error" *ngIf="hasErrors()">
+      <main>
+        <p>
+          Not every field is quite right. Please take a look at the fields above which are marked in red.
+        </p>
+      </main>
+    </section>
+
+    <app-spinner *ngIf="loading"></app-spinner>
+    <button type="submit" class="btn btn-primary-bright btn-lg" *ngIf="!loading">Submit</button>
+  </form>
+</article>
+

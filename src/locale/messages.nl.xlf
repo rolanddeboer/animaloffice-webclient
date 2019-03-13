@@ -1,33 +1,30 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="ng2.template">
+  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="nl-NL">
     <body>
-      <trans-unit id="ngb.alert.close" datatype="html">
-        <source>Close</source> <target state="translated">Close</target><context-group purpose="location">
+      <trans-unit id="ngb.alert.close" datatype="html" approved="no">
+        <source>Close</source> <target state="needs-translation">Sluiten</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/alert/alert.d.ts</context>
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.carousel.previous" datatype="html">
+      <trans-unit id="ngb.carousel.previous" datatype="html" approved="no">
         <source>Previous</source>
-        <target state="translated">Previous</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Vorige</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/carousel/carousel.d.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.carousel.next" datatype="html">
+      <trans-unit id="ngb.carousel.next" datatype="html" approved="no">
         <source>Next</source>
-        <target state="translated">Next</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Volgende</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/carousel/carousel.d.ts</context>
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.datepicker.previous-month" datatype="html">
+      <trans-unit id="ngb.datepicker.previous-month" datatype="html" approved="no">
         <source>Previous month</source>
-        <target state="translated">Previous month</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Vorige maand</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
           <context context-type="linenumber">4</context>
         </context-group>
@@ -36,10 +33,9 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.datepicker.next-month" datatype="html">
+      <trans-unit id="ngb.datepicker.next-month" datatype="html" approved="no">
         <source>Next month</source>
-        <target state="translated">Next month</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Volgende maand</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
           <context context-type="linenumber">26</context>
         </context-group>
@@ -48,10 +44,9 @@
           <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.datepicker.select-month" datatype="html">
+      <trans-unit id="ngb.datepicker.select-month" datatype="html" approved="no">
         <source>Select month</source>
-        <target state="translated">Select month</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Maand kiezen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context>
           <context context-type="linenumber">6</context>
         </context-group>
@@ -60,10 +55,9 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.datepicker.select-year" datatype="html">
+      <trans-unit id="ngb.datepicker.select-year" datatype="html" approved="no">
         <source>Select year</source>
-        <target state="translated">Select year</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Jaar kiezen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context>
           <context context-type="linenumber">15</context>
         </context-group>
@@ -72,249 +66,589 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.first" datatype="html">
+      <trans-unit id="ngb.pagination.first" datatype="html" approved="no">
         <source>««</source>
-        <target state="translated">««</target>
-        <context-group purpose="location">
+        <target state="needs-translation">««</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.first-aria" datatype="html">
+      <trans-unit id="ngb.pagination.first-aria" datatype="html" approved="no">
         <source>First</source>
-        <target state="translated">First</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Eerste</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.previous" datatype="html">
+      <trans-unit id="ngb.pagination.previous" datatype="html" approved="no">
         <source>«</source>
-        <target state="translated">«</target>
-        <context-group purpose="location">
+        <target state="needs-translation">«</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.previous-aria" datatype="html">
+      <trans-unit id="ngb.pagination.previous-aria" datatype="html" approved="no">
         <source>Previous</source>
-        <target state="translated">Previous</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Vorige</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.next" datatype="html">
+      <trans-unit id="ngb.pagination.next" datatype="html" approved="no">
         <source>»</source>
-        <target state="translated">»</target>
-        <context-group purpose="location">
+        <target state="needs-translation">»</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.next-aria" datatype="html">
+      <trans-unit id="ngb.pagination.next-aria" datatype="html" approved="no">
         <source>Next</source>
-        <target state="translated">Next</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Volgende</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.last" datatype="html">
+      <trans-unit id="ngb.pagination.last" datatype="html" approved="no">
         <source>»»</source>
-        <target state="translated">»»</target>
-        <context-group purpose="location">
+        <target state="needs-translation">»»</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.pagination.last-aria" datatype="html">
+      <trans-unit id="ngb.pagination.last-aria" datatype="html" approved="no">
         <source>Last</source>
-        <target state="translated">Last</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Laatste</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context>
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.progressbar.value" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</source> <target state="translated">%</target> <context-group purpose="location">
+      <trans-unit id="ngb.progressbar.value" datatype="html" approved="no">
+        <source><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</source>
+        <target state="needs-translation"><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/progressbar/progressbar.d.ts</context>
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
-        <source>Increment hours</source> <target state="translated">Increment hours</target> <context-group purpose="location">
+      <trans-unit id="ngb.timepicker.increment-hours" datatype="html" approved="no">
+        <source>Increment hours</source>
+        <target state="needs-translation">Uren vermeerderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.HH" datatype="html">
+      <trans-unit id="ngb.timepicker.HH" datatype="html" approved="no">
         <source>HH</source>
-        <target state="translated">HH</target>
-        <context-group purpose="location">
+        <target state="needs-translation">UU</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.hours" datatype="html">
+      <trans-unit id="ngb.timepicker.hours" datatype="html" approved="no">
         <source>Hours</source>
-        <target state="translated">Hours</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Uren</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
-        <source>Decrement hours</source> <target state="translated">Decrement hours</target> <context-group purpose="location">
+      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html" approved="no">
+        <source>Decrement hours</source>
+        <target state="needs-translation">Uren verminderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
+      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html" approved="no">
         <source>Increment minutes</source>
-        <target state="translated">Increment minutes</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Minuten vermeerderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.MM" datatype="html">
+      <trans-unit id="ngb.timepicker.MM" datatype="html" approved="no">
         <source>MM</source>
-        <target state="translated">MM</target>
-        <context-group purpose="location">
+        <target state="needs-translation">MM</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.minutes" datatype="html">
+      <trans-unit id="ngb.timepicker.minutes" datatype="html" approved="no">
         <source>Minutes</source>
-        <target state="translated">Minutes</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Minuten</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
+      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html" approved="no">
         <source>Decrement minutes</source>
-        <target state="translated">Decrement minutes</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Minuten verminderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
+      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html" approved="no">
         <source>Increment seconds</source>
-        <target state="translated">Increment seconds</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Seconden vermeerderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.SS" datatype="html">
+      <trans-unit id="ngb.timepicker.SS" datatype="html" approved="no">
         <source>SS</source>
-        <target state="translated">SS</target>
-        <context-group purpose="location">
+        <target state="needs-translation">SS</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.seconds" datatype="html">
+      <trans-unit id="ngb.timepicker.seconds" datatype="html" approved="no">
         <source>Seconds</source>
-        <target state="translated">Seconds</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Seconden</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
+      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html" approved="no">
         <source>Decrement seconds</source>
-        <target state="translated">Decrement seconds</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Seconden verminderen</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.PM" datatype="html">
+      <trans-unit id="ngb.timepicker.PM" datatype="html" approved="no">
         <source>PM</source>
-        <target state="translated">PM</target>
-        <context-group purpose="location">
+        <target state="needs-translation">PM</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ngb.timepicker.AM" datatype="html">
+      <trans-unit id="ngb.timepicker.AM" datatype="html" approved="no">
         <source>AM</source>
-        <target state="translated">AM</target>
-        <context-group purpose="location">
+        <target state="needs-translation">AM</target><context-group purpose="location">
           <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
           <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="592fe59fe95f88eec838797c5ae15334c921a042" datatype="html">
+        <source>Signed out</source>
+        <target state="translated">Uitgelogd</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="083c68cc81c11d6d33ab6153065e0424f627f034" datatype="html">
+        <source>You are no longer signed in to the Animal Office website. Your registration will be remembered and you can sign back in at any time.</source>
+        <target state="translated">Je bent niet meer ingelogd op de Animal Office website. Je registratie blijft wel gewoon bewaard, en je kan altijd opnieuw inloggen.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7e6c975ebea8b5f8b120905ca7acf9f8edf59d8e" datatype="html" approved="no">
+        <source>OK</source>
+        <target state="needs-translation">OK</target><context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-number-input/login-number-input.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dc5564450e4ac8536f98095ff17a35f7d12b5923" datatype="html" approved="no">
+        <source>Clicking on the logo will always bring you back to the homepage.</source>
+        <target state="needs-translation">Op het logo klikken brengt je altijd terug naar de hoofdpagina.</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/header/header.component.html</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html" approved="no">
         <source>Contact</source>
         <target state="needs-translation">Contact</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/main/header/header.component.html</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ff916af8405096d9ffa6dbbb23c377972d977f37" datatype="html" approved="no">
         <source>About Animal Office</source>
         <target state="needs-translation">Over Animal Office</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/main/header/header.component.html</context>
-          <context context-type="linenumber">7</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">126</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fa61784c8b0f6ba77fb20f37faa4a6670fac75d1" datatype="html" approved="no">
         <source>Demo</source>
         <target state="needs-translation">Demo</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/main/header/header.component.html</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/pages/about-page/about-page.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e57c2073bed45cad4ab7efa572a0497fff0be8b6" datatype="html" approved="no">
         <source>Sign up / sign in</source>
         <target state="needs-translation">Inschrijven / inloggen</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/main/header/header.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="d0969b2f97e4de7eec3d16c223b42d9fa4af4c5d" datatype="html" approved="yes">
-        <source>Privacy policy</source> <target state="translated">Privacy beleid</target><context-group purpose="location">
-          <context context-type="sourcefile">app/components/main/footer/footer.component.html</context>
-          <context context-type="linenumber">3</context>
+      <trans-unit id="59f691245cadf8306d9cbefbe2034a20af23777c" datatype="html" approved="no">
+        <source>Logged in as</source>
+        <target state="needs-translation">Ingelogd als</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/header/header.component.html</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f9b310ac6e0921cca5f786ad8a5b82ca27565c36" datatype="html" approved="yes">
-        <source>Terms and conditions</source> <target state="translated">Algemene voorwaarden</target><context-group purpose="location">
-          <context context-type="sourcefile">app/components/main/footer/footer.component.html</context>
-          <context context-type="linenumber">4</context>
+      <trans-unit id="752aa0ec0324766e302b0c6e8c2a7c4b63c36630" datatype="html" approved="no">
+        <source>Your personal details</source>
+        <target state="needs-translation">Je persoonlijke gegevens</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/header/header.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f968ad9573f6235e77e0b6610b23415945fc5037" datatype="html" approved="yes">
-        <source>Welcome at Animal Office</source> <target state="translated">Welkom op Animal Office</target><context-group purpose="location">
-          <context context-type="sourcefile">app/components/main/homepage-content-box/homepage-content-box.component.html</context>
-          <context context-type="linenumber">1</context>
+      <trans-unit id="5d22c795daf43877a5f708dca2bccd549eb0471d" datatype="html" approved="no">
+        <source>Sign out</source>
+        <target state="needs-translation">Uitloggen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/header/header.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="71deab3b2768228d52ce02058a81e5dadd37f913" datatype="html" approved="yes">
-        <source>Sign up for show</source> <target state="translated">Inschrijven voor show</target><context-group purpose="location">
-          <context context-type="sourcefile">app/components/main/homepage-content-box/homepage-content-box.component.html</context>
-          <context context-type="linenumber">4</context>
+      <trans-unit id="60a3620e64219321c8b50da502a404e9cef901ef" datatype="html" approved="no">
+        <source>Change language</source>
+        <target state="needs-translation">Taal wijzigen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/header/header.component.html</context>
+          <context context-type="linenumber">62</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="61e0f26d843eec0b33ff475e111b0c2f7a80b835" datatype="html" approved="yes">
-        <source>Statistics</source> <target state="translated">Statistieken</target><context-group purpose="location">
-          <context context-type="sourcefile">app/components/main/homepage-content-box/homepage-content-box.component.html</context>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/language-chooser/language-chooser.component.html</context>
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-
-      <trans-unit id="62654c5ff7638237bc607458158dc7e26ef7d687" datatype="html">
+      <trans-unit id="62654c5ff7638237bc607458158dc7e26ef7d687" datatype="html" approved="no">
         <source>Clicking on this icon will open the navigation menu.</source>
-         <target state="translated">Wie dit niet kan lezen is gek.</target>
-        <context-group purpose="location">
+        <target state="needs-translation">Door op dit icoon te klikken open je het navigatie menu</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/main/header/header.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d0969b2f97e4de7eec3d16c223b42d9fa4af4c5d" datatype="html" approved="no">
+        <source>Privacy policy</source>
+        <target state="needs-translation">Privacybeleid</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/footer/footer.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f9b310ac6e0921cca5f786ad8a5b82ca27565c36" datatype="html" approved="no">
+        <source>Terms and conditions</source>
+        <target state="needs-translation">Algemene voorwaarden</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/footer/footer.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f968ad9573f6235e77e0b6610b23415945fc5037" datatype="html" approved="no">
+        <source>Welcome at Animal Office</source>
+        <target state="needs-translation">Welkom op Animal Office</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/homepage-box/homepage-box.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71deab3b2768228d52ce02058a81e5dadd37f913" datatype="html" approved="no">
+        <source>Sign up for show</source>
+        <target state="needs-translation">Inschrijven voor show</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/homepage-box/homepage-box.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="850b4e8dc1d917c645476f07269344a3ef60a5ce" datatype="html" approved="no">
+        <source>Choose show to sign up</source>
+        <target state="needs-translation">Kies show om in te schrijven</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/homepage-box/homepage-box.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61e0f26d843eec0b33ff475e111b0c2f7a80b835" datatype="html" approved="no">
+        <source>Statistics</source>
+        <target state="needs-translation">Statistieken</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/homepage-box/homepage-box.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6eb84c40b1f6b36455ab880c145071e43b887a77" datatype="html" approved="no">
+        <source>Statistics for show</source>
+        <target state="needs-translation">Statistieken voor show</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/homepage-box/homepage-box.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1cb86e649ad2e5cfc86efb2d28c06b1d959f8aa6" datatype="html" approved="no">
+        <source>Homepage</source>
+        <target state="needs-translation">Hoofdpagina</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="19265393fbf2b67b1a83c96660e0148a3cee31bb" datatype="html" approved="no">
+        <source>Set language</source>
+        <target state="needs-translation">Taal instellen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">150</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a174f57be7077a4637be3ba2ebe5253cef24b29d" datatype="html" approved="no">
+        <source>Do you have a breeder number with several associations? Please fill in all of them.</source>
+        <target state="needs-translation">Heb je een fokkersnummer bij beide bonden? Vul ze allebei even in.</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="868502e41819fcfb37186ea51b9279ae3a82d10e" datatype="html" approved="no">
+        <source>Your breeder number(s)</source>
+        <target state="needs-translation">Je fokkersnummer(s)</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="669fe48aac27b8b7f14a76718395364aecc54596" datatype="html" approved="no">
+        <source>Association</source>
+        <target state="needs-translation">Bond</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-number-input/login-number-input.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="73be25a7c26645017ec5186e9ff37c7b14b79dc2" datatype="html" approved="no">
+        <source>Breeder number</source>
+        <target state="needs-translation">Fokkersnummer</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-number-input/login-number-input.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5cfe7b8b669b1dfafe134ee711cab7fbf91b365b" datatype="html" approved="no">
+        <source>Add breeder number</source>
+        <target state="needs-translation">Fokkersnummer toevoegen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="41bcea7b08bbd7328312f727ae01b7f074da6233" datatype="html" approved="no">
+        <source>Proceed</source>
+        <target state="needs-translation">Verder</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html" approved="no">
+        <source>Log in</source>
+        <target state="needs-translation">Inloggen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-number-input/login-number-input.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="65accc8734c4584137d49ebef3dcd67b45aab94f" datatype="html" approved="no">
+        <source>Enter breeder number</source>
+        <target state="needs-translation">Fokkersnummer invoeren</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-number-input/login-number-input.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b2aa8c9b15d5ed51993422a2491ee3251e34061b" datatype="html" approved="no">
+        <source>Back to homepage</source>
+        <target state="needs-translation">Terug naar hoofdpagina</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-header/login-header.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html" approved="no">
+        <source>Name</source>
+        <target state="needs-translation">Naam</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="47b3774a0cd5cde96c16a2c6f913b48ae9ce796c" datatype="html" approved="no">
+        <source>Postcode</source>
+        <target state="needs-translation">Postcode</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html" approved="no">
+        <source>Password</source>
+        <target state="needs-translation">Wachtwoord</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html" approved="no">
+        <source>Forgot password?</source>
+        <target state="needs-translation">Wachtwoord vergeten?</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3a0aec4aed08d9f6b70c84e2061193c5abdc5082" datatype="html" approved="no">
+        <source>This is not me</source>
+        <target state="needs-translation">Dit ben ik niet</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f86aaaad9dea0645d36e4771ed27a5ca320b0a3e" datatype="html" approved="no">
+        <source>Edit breeder number</source>
+        <target state="needs-translation">Fokkersnummer aanpassen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="68e710782ccb5398b3acb8844caf0b199da2c3da" datatype="html" approved="no">
+        <source>Confirm</source>
+        <target state="needs-translation">Bevestigen</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-name-checker/login-name-checker.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3f9d87434ebd7b14ff4c1aae58a3bddd82a84039" datatype="html" approved="no">
+        <source>Please check again if you have entered the number and association correctly above.</source>
+        <target state="needs-translation">Controleer even opnieuw of je het fokkersnummer en de bond hierboven correct hebt ingevuld</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="345d5fedcbac98b1a93f4c253650ce9d7ba649ea" datatype="html" approved="no">
+        <source>If someone else is using your breeder number, better contact Animal Office.</source>
+        <target state="needs-translation">Als iemand anders staat ingeschreven met jouw fokkersnummer kun je het beste even contact opnemen met Animal Office.</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="14f74158a87174c46d7143298263721229b5cd9b" datatype="html" approved="no">
+        <source>Click here.</source>
+        <target state="needs-translation">Hier klikken</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c734af9aa31df2e70360705b90cd0ef8fcd49ba6" datatype="html" approved="no">
+        <source>Number is correct</source>
+        <target state="needs-translation">Nummer klopt</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d27b38099827456b536d43c218ed23d46dd39d69" datatype="html" approved="no">
+        <source>Page not found!</source>
+        <target state="needs-translation">Pagina niet gevonden!</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/page-not-found/page-not-found.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fe94429333cd736ca8a666d4a4945c7b6beb9a54" datatype="html" approved="no">
+        <source>Sorry.</source>
+        <target state="needs-translation">Sorry.</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/page-not-found/page-not-found.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f4ee4ef1c42ecd1877f4d40cb371c0c8cabe81c" datatype="html" approved="no">
+        <source>click to go to homepage</source>
+        <target state="needs-translation">klik om naar de hoofdpagina te gaan</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/page-not-found/page-not-found.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="533b2b9a76ee1335cb44c01f0bfd50d43e9400b0" datatype="html" approved="no">
+        <source>Your name</source>
+        <target state="needs-translation">Je naam</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7ea7f4d66c1f2646fd50701799835c4389f0d5e5" datatype="html" approved="no">
+        <source>Your email address</source>
+        <target state="needs-translation">Je email adres</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4b0ca852bafa5037c4e64c7b18f9cd1e14b799de" datatype="html" approved="no">
+        <source>Subject</source>
+        <target state="needs-translation">Onderwerp</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ccac601bf473fa28c9ac46794f1cd40542f74347" datatype="html" approved="no">
+        <source>Message</source>
+        <target state="needs-translation">Bericht</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2c5ff8fa9c9aaec93f97e37c9a0edcd797194573" datatype="html" approved="no">
+        <source>Send</source>
+        <target state="needs-translation">Verzenden</target><context-group purpose="location">
+          <context context-type="sourcefile">app/components/main/contact/contact.component.html</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
     </body>

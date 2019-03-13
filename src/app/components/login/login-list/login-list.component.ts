@@ -9,13 +9,17 @@ import { LoginService } from 'src/app/services/login/login.service';
 export class LoginListComponent implements OnInit {
 
   constructor(
-    private loginService: LoginService
+    public loginService: LoginService
   ) { }
 
   ngOnInit() {
   }
 
   proceedClick() {
+  }
+
+  submit() {
+    this.loginService.saveAll()
   }
 
 }

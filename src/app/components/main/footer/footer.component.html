@@ -1,22 +1,30 @@
-<footer [class]="theme">
+<footer id="body-footer" [class]="theme">
   <ul>
     <li>
       <app-link 
         route="privacy" 
         linkClass="{{ theme==='light' ? 'text-copper' : 'text-darker' }}"
         i18n
-      >
-        Privacy policy
-      </app-link>
+      >Privacy policy</app-link>
     </li>
     <li>
       <app-link 
         route="terms" 
         linkClass="{{ theme==='light' ? 'text-copper' : 'text-darker' }}"
         i18n
-      >
-        Terms and conditions
-      </app-link>
+      >Terms and conditions</app-link>
     </li>
   </ul>
+  <b 
+    (click)="scrollUp()"
+  >
+  <button class="btn-outline-black button-up"
+    ngbTooltip="Go to top of page"
+    i18n-ngbTooltip
+  >
+    <i 
+      class="icon-up"
+    ></i>
+  </button>
+  </b>
 </footer>

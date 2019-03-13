@@ -1,13 +1,22 @@
 <header>
-  <app-link 
-    route="home" 
-    placement="bottom" 
-    ngbTooltip="Clicking on the logo will always bring you back to the homepage."
-    i18n-ngbTooltip
-  >
-    <img class="wide-logo" src="../assets/images/layout/logo/logo-wide.png" srcset="../assets/images/layout/logo/logo-wide-2x.png 2x" alt="Animal Office" height="86px" width="392px">
-    <img class="small-logo" src="../assets/images/layout/logo/logo-small.png" srcset="../assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
-  </app-link>
+  <div class="backer"></div>
+  <div class="logo-wrapper-wrapper">
+      <app-link 
+        class="logo-wrapper"
+        route="home" 
+        placement="bottom" 
+      >
+      <!--
+        ngbTooltip="Clicking on the logo will always bring you back to the homepage."
+        i18n-ngbTooltip
+      -->
+        <img class="wide-logo" src="/assets/images/layout/logo/logo-medium-new.png" srcset="/assets/images/layout/logo/logo-medium-2x-new.png 2x" alt="Animal Office" height="87px" width="106">
+        <!--
+        <img class="small-logo" src="/assets/images/layout/logo/logo-small.png" srcset="/assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
+        -->
+      </app-link>
+
+  </div>
   <menu class="ml-auto">
     <li>
       <app-link route="contact" linkClass="text-darker">
@@ -37,46 +46,70 @@
       <div ngbDropdown placement="bottom-right" class="d-inline-block box-button">
         <button 
           class="btn-outline-copper" 
-          id="userMenu" 
+          id="user-menu" 
           ngbDropdownToggle
         >
           <i class="icon-user"></i>
-          Logged in as {{ settingsService.username}}</button>
-        <div ngbDropdownMenu aria-labelledby="userMenu">
-          <button class="dropdown-item"><i class="icon-user-card"></i>Your personal details</button>
-          <button class="dropdown-item"><i class="icon-logout"></i>Sign out</button>
+          <span i18n>Logged in as</span> {{ settingsService.username}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="user-menu">
+          <button class="dropdown-item" (click)="routingTools.navigateToRoute('person')">
+            <i class="icon-user-card"></i>
+            <span i18n>Your personal details</span>
+          </button>
+          <button class="dropdown-item" (click)="settingsService.logout()">
+            <i class="icon-logout"></i>
+            <span i18n>Sign out</span>
+          </button>
           <hr>
-          <button class="dropdown-item"><span class="flag-small flag-dutch"></span>Change language</button>
+          <button class="dropdown-item" (click)="routingTools.swapLanguage()">
+            <span
+              class="flag-small" 
+              [class.flag-dutch]="routingTools.languagePrefix==='nl'"
+              [class.flag-english]="routingTools.languagePrefix==='en'"
+            ></span>
+            <span i18n>Change language</span>
+          </button>
         </div>
       </div>
     </li>
     <li *ngIf="!settingsService.username" class="flag-container">
-      <div ngbDropdown placement="bottom-right" class="d-inline-block">
-        <div class="flag-menu" ngbDropdownToggle>
-          <span appNoDoubleClick class="flag-medium flag-dutch"></span>
-        </div>
-        <div ngbDropdownMenu aria-labelledby="flag-menu">
-          <div class="dropdown-item-text" i18n>
-            Change language
-          </div> 
-          <div class="dropdown-item">
-            <span class="flag-small flag-english"></span>
-            English
-          </div> 
-          <div class="dropdown-item">
-            <span class="flag-small flag-dutch"></span>
-            Nederlands
-          </div> 
-        </div>
-      </div>
+      <app-language-chooser></app-language-chooser>
     </li>
+
   </menu>
-  <i 
-    class="hamfuckingburger icon-menu" 
-    (click)="hamfuckingburgerhasbeenfuckingclicked()" 
-    (dblclick)="hamfuckingburgerhasbeenfuckingclicked()" 
-    placement="left" 
-    ngbTooltip="Clicking on this icon will open the navigation menu."
-    i18n-ngbTooltip
-  ></i>
+
+
+  <div class="hamburger">
+    <i 
+      class="hamburger-icon icon-menu" 
+      (click)="burgerClicked()" 
+      (dblclick)="burgerClicked()" 
+      placement="left" 
+      ngbTooltip="Clicking on this icon will open the navigation menu."
+      i18n-ngbTooltip
+    ></i>
+  </div>
+  <br>
+  <div class="show-name" *ngIf="show">
+    <h3>{{ show.name }} {{ show.edition }}</h3>
+  </div>
+    
+  <div 
+    class="show-header" 
+    *ngIf="show"
+    [class.portrait]="show.isPortrait"
+  >
+      <img 
+        class="show-logo" 
+        src="http://localhost:8000/images/shows/{{show.logoFile}}"
+        *ngIf="show.logoFile"
+      >
+      <!-- <h3>{{ show.name }} {{ show.edition }}</h3> -->
+  </div>
+  <div class="extra-buttons">
+      
+    <!-- <button class="btn-default special special-secondary">Sign up for show</button>
+    <button class="btn-default special special-primary">Statistics</button> -->
+  </div>
 </header>

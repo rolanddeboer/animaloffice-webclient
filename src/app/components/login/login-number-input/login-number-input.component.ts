@@ -10,10 +10,9 @@ import { LoginService } from 'src/app/services/login/login.service';
 export class LoginNumberInputComponent implements OnInit, AfterContentInit {
   @ViewChild('breederNumberInput') breederNumberInput: ElementRef;
   @ViewChild('associationInput') associationInput: ElementRef;
-  @ViewChild('footer') footer: ElementRef;
 
   constructor(
-    private loginService: LoginService
+    public loginService: LoginService
   ) { }
 
   ngOnInit() {
@@ -25,11 +24,11 @@ export class LoginNumberInputComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(){
     this.breederNumberInput.nativeElement.focus();
   }
-  submitNumberClick() {
-    this.loginService.submit(this.footer);
-  }
   onAssociationChange() {
     this.breederNumberInput.nativeElement.focus();
+  }
+  submit() {
+    this.loginService.submit();
   }
 
 }

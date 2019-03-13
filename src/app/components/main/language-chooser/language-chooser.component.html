@@ -1,0 +1,22 @@
+
+<div ngbDropdown placement="bottom-right" class="d-inline-block">
+  <div class="flag-menu" ngbDropdownToggle>
+    <span 
+      appNoDoubleClick 
+      class="flag-medium"
+      [class.flag-dutch]="routingTools.languagePrefix==='nl'"
+      [class.flag-english]="routingTools.languagePrefix==='en'"
+    ></span>
+  </div>
+  <div ngbDropdownMenu aria-labelledby="flag-menu">
+    <div class="dropdown-item-text dropdown-header" i18n>Change language</div> 
+    <div class="dropdown-item" (click)="routingTools.changeLanguage('en')">
+      <span class="flag-small flag-english"></span>
+      English
+    </div> 
+    <div class="dropdown-item" (click)="routingTools.changeLanguage('nl')">
+      <span class="flag-small flag-dutch"></span>
+      Nederlands
+    </div> 
+  </div>
+</div>

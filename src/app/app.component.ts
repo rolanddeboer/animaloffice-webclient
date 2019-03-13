@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { routerTransition } from './misc/router-animations';
 import { RoutingToolsService } from './services/config/routing-tools.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsService } from './services/config/settings.service';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +11,17 @@ import { RoutingToolsService } from './services/config/routing-tools.service';
   animations: [ routerTransition ]
 })
 export class AppComponent {  
-  burgerState = false;
+  @ViewChild('logoutModal') logoutModal: ElementRef;
 
   constructor(
-    private routingTools: RoutingToolsService
-  ) {}
+    private routingTools: RoutingToolsService,
+    private modalService: NgbModal,
+    public settingsService: SettingsService
+  ) {
+    this.settingsService.logoutOccured.subscribe(() => {
+      this.modalService.open(this.logoutModal, {centered: true});
+    });
+  }
 
   isFullScreen(): boolean {
     return this.routingTools.isFullScreen();
@@ -27,11 +35,4 @@ export class AppComponent {
       return outlet.activatedRouteData.state;
   }
 
-  hamfuckingburgerhasapperantlyfuckingbeenclicked(forceClose: boolean = false) {
-    if (forceClose) {
-      this.burgerState = false;
-    } else {
-      this.burgerState = !this.burgerState;
-    }
-  }
 }

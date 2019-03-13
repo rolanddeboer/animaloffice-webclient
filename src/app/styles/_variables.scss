@@ -36,19 +36,31 @@ $grays: map-merge(
   $grays
 );
 
-$blue:    rgb(35, 105, 190);
-// original: $blue:    rgb(79, 142, 220);
-$indigo:  #6610f2;
-$purple:  #6f42c1;
-$pink:    #e83e8c;
-$red:     #dc3545;
-$orange:  rgb(245, 100, 0);
-$yellow:  #ffc107;
-$green:   #28a745;
-$green: #6ca632;
-$teal:    #20c997;
+// $blue:    rgb(35, 105, 190);
+$blue: #4B7196; // https://www.colourlovers.com/color/4B7196/federal
+$brightblue:    rgb(79, 142, 220);
+// $indigo:  #6610f2;
+// $purple:  #6f42c1;
+// $pink:    #e83e8c;
+$brightred:     #dc3545;
+$red: #97080E; // https://www.colourlovers.com/color/97080E/Ruby_Glass
+// $orange:  rgb(245, 100, 0);
+$darkorange: #DA4B0F; // https://www.colourlovers.com/color/DA4B0F/deep_orange
+$brightorange: rgb(245, 100, 0);
+$orange: $brightorange;
+// $yellow:  #ffc107;
+$yellow: #F2C45A;
+// $green:   #28a745;
+// $green: #6ca632;
+// $green: rgb(56, 111, 63);
+$green: #386F54;
+$green: rgb(66, 128, 74);
+$brightgreen: #6ca632;
+// $teal:    #20c997;
 $cyan:    #17a2b8;
+$darkblue: #0D1F4D;
 $copper: rgb(184, 118, 75);
+$medium: rgb(212, 190, 163);
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $colors: map-merge(
@@ -72,9 +84,9 @@ $colors: map-merge(
 $primary:       $blue !default;
 $secondary:     $orange !default;
 $success:       $green !default;
-$info:          $cyan !default;
+$info:          $darkblue !default;
 $warning:       $yellow !default;
-$danger:        $red !default;
+$danger:        $brightred !default;
 $darker:        $gray-600;
 $lighter:       $gray-400;
 $default:       $gray-200;
@@ -93,8 +105,14 @@ $theme-colors: map-merge(
     "danger":     $danger,
     "copper":     $copper,
     "default":    $gray,
+    // "default":    rgb(243, 239, 234),
     "darker":     $darker,
-    "lighter":    $lighter
+    "lighter":    $lighter,
+    "darkblue":   $darkblue,
+    "medium":     $medium,
+    "white":      white,
+    "primary-bright":    rgb(35, 105, 190),
+    "success-bright":    $brightgreen,
   ),
   $theme-colors
 );
@@ -137,3 +155,10 @@ $table-cell-padding: .5rem;
 
 
 // $enable-shadows: true;
+
+
+
+$link-color:                saturate($blue, 20%) ;
+$link-decoration:           none ;
+$link-hover-color:          darken($link-color, 15%) ;
+$link-hover-decoration:     underline ;
