@@ -5,16 +5,19 @@ import { Entity, EntityParams, RelationParams } from '../../classes/entity';
   providedIn: 'root'
 })
 export class DatabaseService {
-  public entities = {};
+  private entities = {};
 
   constructor() { }
 
-  add( name: string, data: Object[], params: EntityParams = {} ): void
+  // Sets a new or existing entity to the values provided.
+  set( name: string, data: Object[], params: EntityParams = {} ): void
   {
+    // Invalid names are not something we can accept and adapt to silently. This is serious.
     if ( !/^[-_a-zA-Z0-9]+$/.test( name ) ) {
       throw "name '" + name + "' not allowed as entity name.";
     }
-    this.entities[name] = new Entity( name, data, params );
+    
+    this.getOrCreate( name ).setData( data, params );
 
     const relations = ( "relations" in params ) ? params.relations : [];
     const autoRelate = ( "autoRelate" in params ) ? params.autoRelate : true; 
@@ -25,13 +28,39 @@ export class DatabaseService {
     }
   }
 
-  delete( name: string ): void
+  // public delete (entityName: string ): void
+  // {
+  //   if ( entityName in this.entities ) {
+  //     this.entities[entityName] = new Entity( entityName );
+  //   }
+
+  // }
+
+  private getOrCreate( entityName: string ): Entity
   {
-    delete this.entities[name];
+    if ( !( entityName in this.entities ) ) {
+      this.entities[entityName] = new Entity( entityName );
+    }
+
+    return this.entities[entityName];
+  }
+
+  when( entityName: string ): Promise<void>
+  {
+    return this.getOrCreate( entityName ).isInitialized;
+  }
+
+  getWhen( entityName: string ): Promise<any[]>
+  {
+    return this.getOrCreate( entityName ).isInitialized
+    .then(
+      () => Promise.resolve( this.get( entityName ))
+    );
   }
 
   find( entityName: string, value: any, key: string = "id" ): any
   {
+    if ( !value || !( entityName in this.entities ) ) return null;
     return this.entities[ entityName ].find( value, key );
   }
 
@@ -41,14 +70,57 @@ export class DatabaseService {
     return this.entities[ entityName ].get( sortKey, reverse );
   }
 
+  getWhere ( entityName: string, key: string, value: any ): any[]
+  {
+    if ( !( entityName in this.entities ) ) return [];
+    return this.entities[ entityName ].getWhere( key, value );
+  }
+
+  // Checks whether an entity exists and actually has data.
   has( entityName: string ): boolean
   {
     return this.get( entityName ).length > 0;
   }
 
+  private getAllEntities(): Entity[]
+  {
+    const entities = [];
+    for (let entity in this.entities) {
+      if (this.entities.hasOwnProperty(entity)) {
+        entities.push( this.entities[entity] );
+      }
+    }
+    return entities;
+  }
+
+  dump(): void
+  {
+    console.log("ENTITIES IN DATABASE:");
+    for (let entity of this.getAllEntities()) {
+      console.log( entity );
+    }
+  }
+
+  public empty( entityName: string ): void
+  {
+    if ( !( entityName in this.entities ) ) return;
+    this.removeRelations( entityName );
+    this.entities[ entityName ].reset();
+  }
+
+  private removeRelations( entityName: string ): void
+  {
+    for ( let relatedEntityName of this.entities[ entityName ].owningRelations ) {
+      this.entities[ relatedEntityName ].removeInverseRelation( entityName );
+    }
+    for ( let relatedEntityName of this.entities[ entityName ].inverseRelations ) {
+      this.entities[ relatedEntityName ].removeOwningRelation( entityName );
+    }
+  }
+  
 
 // make a one-to-many relation so that every element holds a javascript object reference to the related elements, on both the "one" and the "many" sides (creating an infinite recursion tree).
-  makeRelations( entityName: string, relationParamsArray: RelationParams[] ): void
+  private makeRelations( entityName: string, relationParamsArray: RelationParams[] ): void
   {
     // loop through every relation
     for ( let relationParam of relationParamsArray ) {
@@ -57,19 +129,25 @@ export class DatabaseService {
       const relationIdField = relationField + "_id";
       const relationCollectionField = entityName[0].toLowerCase() + entityName.slice(1) + "s";
 
-      // relatedEntity is the "many" part of the relation. It is the entity that does not have the relation key (show_id)
-      const relatedEntity = this.entities[ relationParam.entityName ];
-      // prepare for a new relation, meaning creating an empty array "shows" for every element.
-      relatedEntity.newRelation( entityName, relationCollectionField );
-
-      // get all data for the "one" part of the relation, which is the entity that holds the relation key (show_id)
+      // get all data for the owning side
       const data = this.entities[ entityName ].get(
         relationParam.sortKey, relationParam.sortReverse 
       );
-      // and loop through it
+
+      // check whether a relation actually exists. If there is a relation, we assume that every item has a related item.
+      if ( !data.length || !(relationIdField in data[0]) ) continue;
+
+      // relatedEntity is the "many" part of the relation. It is the entity that does not have the relation key (show_id)
+      if ( !( relationParam.entityName in this.entities ) ) continue;
+      const relatedEntity = this.entities[ relationParam.entityName ];
+      // prepare for a new relation, meaning creating an empty array "shows" for every element.
+      relatedEntity.newOwningRelation( entityName, relationCollectionField );
+      this.entities[ entityName ].newInverseRelation( relationParam.entityName );
+
+      // loop through the data for the "one" part of the relation, the owning side, which is the entity that holds the relation key (show_id)
       for ( let item of data ) {
         // get the related "one" element "show" that "show_id" refers to
-        const relatedItem = relatedEntity.find( item[relationIdField] )
+        const relatedItem = relatedEntity.find( item[relationIdField] );
         // push the "many" element to the "shows" array of the found "one" element
         relatedItem[relationCollectionField].push( item );
         // assign the "one" element to the "show" property of the "many" element
@@ -78,11 +156,11 @@ export class DatabaseService {
     }
   }
 
-  autoRelate( entityName: string, relations: RelationParams[] = [] ): void
+  private autoRelate( entityName: string, relations: RelationParams[] = [] ): void
   {
     const entity = this.entities[ entityName ];
-    if ( !entity.data.length ) return;
-    for ( let key of Object.keys( entity.data[0] ) ) {
+    if ( !entity.get().length ) return;
+    for ( let key of Object.keys( entity.get()[0] ) ) {
       if ( key.slice(-3) === "_id" ) {
         const relatedEntityName = key[0].toUpperCase() + key.slice(1, -3);
         let existing = false;
@@ -93,6 +171,12 @@ export class DatabaseService {
       }
     }
     this.makeRelations( entityName, relations );
+
+    // Try to make a relation to this entity from every already existing entity. The first thing that makeRelations() will do is check whether there is a relation.
+    for ( let entity of this.getAllEntities()) {
+      this.makeRelations( entity.name, [{ entityName: entityName }] );
+    }
+
   }
 
 }

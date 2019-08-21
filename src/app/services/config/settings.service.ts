@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { InitDataService } from './init-data.service';
 import { DatabaseService } from '../database/database.service';
+import { Person, BreederNumber } from 'src/app/classes/person';
 
 
 @Injectable({
@@ -16,8 +17,10 @@ export class SettingsService {
   public logoutOccured = new EventEmitter<void>();
   public burgerState = false;
   public smallScreen: boolean;
+  public activeShow: Show;
+  public person: Person;
+  // public initData: InitData;
   public username;
-  public initData: InitData;
   public associations;
   public servername;
   public locale;
@@ -68,21 +71,21 @@ export class SettingsService {
 
   setInitData( initData: InitData ): void
   {
-    // this.initData = new InitData (rawInitData);
-    console.log(initData);
     const showOveralls = [];
     for ( let showOverall of initData.showOveralls) {
       showOveralls.push( new ShowOverall( showOverall ) );
     }
-    this.db.add( "ShowOverall", showOveralls, { indexKeys: [ "slug"] } );
+    this.db.set( "ShowOverall", showOveralls, { indexKeys: [ "slug"] } );
+
     const shows = [];
     for ( let show of initData.shows) {
       shows.push( new Show( show ) );
     }
-    this.db.add( "ShowStatus", initData.showStatuses, { sortKeys: ["position"] } );
-    this.db.add( "Show", shows );
-    this.db.add( "BreederFederation", initData.breederFederations );
-    this.db.add( "Region", initData.regions, { autoRelate: false } );
+
+    this.db.set( "ShowStatus", initData.showStatuses, { sortKeys: ["position"] } );
+    this.db.set( "Show", shows ); 
+    this.db.set( "BreederFederation", initData.breederFederations );
+    this.db.set( "Region", initData.regions, { autoRelate: false } );
 
     // this.db.add( "Show", shows, { 
     //   // relations: [

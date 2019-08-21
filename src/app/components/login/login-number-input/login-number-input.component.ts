@@ -18,11 +18,11 @@ export class LoginNumberInputComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.loginService.breederNumberInputRef = this.breederNumberInput;
     this.loginService.associationInputRef = this.associationInput;
-    setTimeout(() => this.breederNumberInput.nativeElement.focus(), 100);
+    // setTimeout(() => this.breederNumberInput.nativeElement.focus(), 100);
   }
 
   ngAfterContentInit(){
-    this.breederNumberInput.nativeElement.focus();
+    // this.breederNumberInput.nativeElement.focus();
   }
   onAssociationChange() {
     this.breederNumberInput.nativeElement.focus();

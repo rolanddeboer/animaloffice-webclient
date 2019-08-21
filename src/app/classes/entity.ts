@@ -12,15 +12,34 @@ export interface RelationParams {
 }
 
 export class Entity {
-  indices = {};
-  sorts = {};
+  private data: any[];
+  private indices: Object;
+  private sorts: Object;
+  public owningRelations: string[];
+  public inverseRelations: string[];
+  private isInitializedResolve: Function;
+  public isInitialized: Promise<void>;
 
-  constructor( 
-    public name: string, 
-    public data: Object[], 
-    params: EntityParams
-  ) 
+  constructor( public name: string ) 
   { 
+    this.reset();
+  }
+
+  public reset(): void
+  {
+    this.data = [];
+    this.indices = {};
+    this.sorts = {};
+    this.owningRelations = [];
+    this.inverseRelations = [];
+    this.isInitialized = new Promise( resolve => {
+      this.isInitializedResolve = resolve;
+    })
+  }
+
+  setData( data: any[], params: EntityParams ): void
+  {
+    this.data = data;
     const indexKeys = ( "indexKeys" in params ) ? params.indexKeys : [];
     indexKeys.push( "id" );
     this.makeIndices( indexKeys );
@@ -28,15 +47,17 @@ export class Entity {
     if ( "sortKeys" in params ) {
       this.makeSorts( params.sortKeys );
     }
+
+    this.isInitializedResolve();
   }
 
-  makeIndices( indexKeys: string[] ): void
+  private makeIndices( indexKeys: string[] ): void
   {
     if ( !indexKeys.length ) {
       return;
     }
 
-    // Filling the indices object with an empty array for each index.
+    // Filling the indices object with an empty object for each index.
     for ( let indexKey of indexKeys ) {
       this.indices[ indexKey ] = {};
     }
@@ -49,7 +70,7 @@ export class Entity {
     }
   }
 
-  makeSorts( sortKeys: string[] ): void
+  private makeSorts( sortKeys: string[] ): void
   {
     if ( !sortKeys.length ) {
       return;
@@ -88,7 +109,7 @@ export class Entity {
     }
   }
 
-  get( sortKey: string = null, reverse = false ): Object[]
+  get( sortKey: string = null, reverse = false ): any[]
   {
     if ( !sortKey) {
       return this.data
@@ -110,6 +131,19 @@ export class Entity {
         data.push( this.data[key] );
       }
     }
+
+    return data;
+  }
+
+  getWhere( key: string, value: any ): any[]
+  {
+    if ( !this.data.length || !( key in Object.keys(this.data[0]) ) ) return [];
+
+    const data: any = [];
+    for  ( let datum of this.data ) {
+      if ( datum[key] == value ) data.push( datum );
+    }
+    
     return data;
   }
 
@@ -118,11 +152,41 @@ export class Entity {
     return this.data[ this.indices[ index as string ][ value ] ];
   }
 
-  newRelation( relatedEntityName: string, relatedEntityCollectionName: string )
+  newOwningRelation( relatedEntityName: string, relatedEntityCollectionName: string )
   {
+    this.owningRelations.push( relatedEntityName );
     for ( let item of this.data ) {
       item[relatedEntityCollectionName] = [];
     }
   }
 
+  newInverseRelation( relatedEntityName: string ): void
+  {
+    // remove any existing relation by this name
+    this.removeInverseRelation( relatedEntityName );
+    // all we actually do here is store the name of the relation. Filling the data will be done by the database service, so that only one loop through the related entity is needed.
+    this.inverseRelations.push( relatedEntityName );
+  }
+
+  removeOwningRelation( entityName: string ): void
+  {
+    const relationCollectionField = entityName[0].toLowerCase() + entityName.slice(1) + "s";
+    for ( let item of this.data ) {
+      item[relationCollectionField] = [];
+    }
+  }
+
+  removeInverseRelation( entityName: string ): void
+  {
+    // Remove the related entity name from the list of inverse relations
+    var index = this.inverseRelations.indexOf( entityName );
+    // Not doing anything if there is no known relation by this name
+    if (index === -1) return;
+    this.inverseRelations.splice(index, 1);
+
+    const relationField = entityName[0].toLowerCase() + entityName.slice(1);
+    for ( let item of this.data ) {
+      item[relationField] = null;
+    }
+  }
 }

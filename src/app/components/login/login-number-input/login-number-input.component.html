@@ -19,7 +19,7 @@
       <select 
         class="custom-select" 
         name="association"
-        [(ngModel)]="loginService.editingNumber.associationId"
+        [(ngModel)]="loginService.editingNumber.federation.id"
         (change)="onAssociationChange()"
         [attr.disabled]="loginService.person ? 'disabled' : null"
         #associationInput
@@ -42,6 +42,7 @@
       type="text" 
       class="form-control" 
       name="breederNumber"
+      appAutofocus
       #breederNumberInput
       [(ngModel)]="loginService.editingNumber.breederNumber"
       (keyup.enter)="submit()"

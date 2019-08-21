@@ -28,6 +28,9 @@ export class RoutingToolsService {
         if (event.url != this.currentUrl) {
           this.currentUrl = event.url;
           this.currentRouteName = this.getRouteName(this.currentUrl);
+          // if ( this.currentRouteName == "person" ) {
+          //   this.navigateToRoute( "login" );
+          // }
           const classList = document.querySelector('body').classList.contains('touch') ? 'touch ' : '';
           document.querySelector('body').className = classList + 'page-' + this.currentRouteName;
           // if (this.currentRouteName === 'login') {
@@ -48,6 +51,7 @@ export class RoutingToolsService {
             // this.navigateToRoute('home');
           }
           this.settingsService.burgerState = false;
+          this.settingsService.activeShow = null;
         }
       }
     });

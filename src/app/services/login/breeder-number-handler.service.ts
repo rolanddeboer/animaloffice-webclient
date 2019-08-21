@@ -3,32 +3,36 @@ import { SettingsService } from '../config/settings.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs'
 import { catchError, retry } from 'rxjs/operators';
+import { BreederFederation } from 'src/app/classes/initData';
+import { DatabaseService } from '../database/database.service';
 
-
-class BreederNumberType {
+interface BreederNumberType {
   breederNumber: string;
-  associationId: number;
-  associationName?: string;
+  federation: BreederFederation;
   editMode?: boolean;
 }
-class PersonType {
-  name: string;
-  username: string;
-  postcode: string;
-  password: string;
 
-  constructor(name = '', username = '') {
-    this.name = name;
-    this.username = username;
-    this.postcode = '';
-    this.password = '';
-  }
+class PersonType {
+  postcode = "";
+  password = "";
+
+  constructor( public name = "", public username = "") { }
 }
-class BnReturnType {
-  person: PersonType;
-  breederNumber: BreederNumberType;
-  addNumber = false;
-  loggedIn = false;
+
+// class BnReturnType {
+//   person: PersonType;
+//   breederNumber: BreederNumberType;
+//   addNumber = false;
+//   loggedIn = false;
+// }
+
+interface BnReturn {
+  federation_id: number;
+  breederNumber: string;
+  status: string;
+  name: string;
+  person?: Object;
+  countries?: Object[];
 }
 
 @Injectable({
@@ -42,99 +46,173 @@ export class BreederNumberHandlerService {
   private observer: any;
 
   constructor(
-    private settingsService: SettingsService,
+    private settings: SettingsService,
+    private db: DatabaseService,
     private http: HttpClient
   ) { }
 
-  submit( breederNumber: BreederNumberType ): Observable<any>
+  login( params: {password: string, breederNumber: string, federation_id: number} ): Promise<any>
   {
-    this.breederNumber = breederNumber;
+    let resolvePromise: Function;
+    let rejectPromise: Function;
 
-    const bnObservable = new Observable( observer => {  
-      this.observer = observer;
-    });
+    const url = this.settings.getServerUriFrom( "nl/login" );
 
-    const url = this.settingsService.getUriStartApiLocale() + "/login/submit/breeder-number";
-    const data = this.compileData( );
-    const options = this.settingsService.httpOptions;
+    const promise = new Promise( 
+      (resolve, reject) =>
+      {
+        resolvePromise = resolve;
+        rejectPromise = reject;
+      }
+    );
 
-    console.log( "posting to url", url );
-    console.log( "posting data", JSON.stringify(data) );
-
-    this.http.post<any>( url, data, options )
+    this.http.post<any>( url, params, this.settings.httpOptions )
     .pipe(
-      retry(3),
-      catchError(error => this.handleError(error))
+      catchError(error => {
+        console.log( error.status );
+        if ( error.status == 403) {
+          resolvePromise( null );
+        } else {
+          rejectPromise("Something went wrong. Try reloading the page.");
+        }
+        return throwError("");
+      })
     )
     .subscribe(
-      (data: any) => {
-        this.formSubmitted(data);
+      (data) => {
+        console.log( data );
+        resolvePromise( data );
       }
     )
 
-    return bnObservable;
+    return promise;
   }
 
-  compileData() {
-    return {
-      association_id: this.breederNumber.associationId,
-      number: this.breederNumber.breederNumber.trim(),
-      postcodes: this.postcodes,
-      password: this.password,
-      person_id: 0,
-      isAdmin: 0,
-      isOther: 0,
-      isAnonymous: 1,
-      force: 0,
-      sudo: 0,
-      show_slug: '',
-      forLogin: this.persist ? 0 : 1
+  checkPerson( breederNumber: BreederNumberType, postcodes: string[] )
+  {
+    let resolvePromise: Function;
+    let rejectPromise: Function;
+
+    const url = this.settings.getServerUriFrom( "nl/security/check-breeder-number/person" );
+    
+    const data = {
+      federation_id: breederNumber.federation.id,
+      breederNumber: breederNumber.breederNumber,
+      postcodes: postcodes,
+      withCountries: !this.db.has("Country")
     }
+
+    const promise = new Promise( 
+      (resolve, reject) =>
+      {
+        resolvePromise = resolve;
+        rejectPromise = reject;
+      }
+    );
+
+    this.http.post<any>( url, data, this.settings.httpOptions )
+    .pipe(
+      retry(3),
+      catchError(error => {
+        rejectPromise("Something went wrong. Try reloading the page.");
+        return throwError("");
+      })
+    )
+    .subscribe(
+      (data) => {
+        resolvePromise( data );
+      }
+    )
+
+    return promise;
+
   }
 
-  private handleError(error: HttpErrorResponse) {
-    const errorMessage = 'Something went wrong. Try reloading the page.';
-    console.error( "server error response", error );
-    // if (error.error instanceof ErrorEvent) {
-    //   // A client-side or network error occurred. Handle it accordingly.
-    //   console.error('An error occurred:', error.error.message);
-    // } else {
-    //   console.error(error.message);
-    //   if (typeof error.error === 'object' && 'message' in error.error) {
-    //     console.error('Server responded:', error.error['message']);
-    //   } else {
-    //     console.error('Server gave no extra details.');
-    //   }
-    // }
-    this.observer.error( errorMessage );
-    // return an observable with a user-facing error message
-    return throwError(
-      'Something went wrong.');
-  };
+  // check( breederNumber: BreederNumberType ): Observable<any>
+  // {
+  //   this.breederNumber = breederNumber;
+  //   const url = "nl/security/check-breeder-number/person";
 
-  formSubmitted(data: any): void {
-    console.log( "succesful server response:", data );
-    if (!('status' in data) || typeof data.status !== 'string') {
-      this.observer.error( "Something went wrong. Please try again in 5 minutes." );
-      return;
-    }
-    if (data.status === 'error') {
-      this.observer.error( data.message );
-      return;
-    }
-    const returnObject = new BnReturnType();
-    if ( data.name ) {
-      returnObject.person = new PersonType(data.name, data.username);
-    } else if (data.userLogin) {
-      this.settingsService.setUsername(data.userLogin);
-      returnObject.loggedIn = true;
-    } else {
-      this.breederNumber.associationId = data.association_id; 
-      this.breederNumber.breederNumber = data.breederNumber;
-      returnObject.addNumber = true;
-    }
-    returnObject.breederNumber = this.breederNumber;
+  //   return this.submit(
+  //     this.compileData( ),
+  //     this.settings.getServerUriFrom( url )
+  //   );
+  // }
 
-    this.observer.next( returnObject );
-  }
+  // submit( data: Object, url: string ): Observable<any>
+  // {
+  //   const options = this.settings.httpOptions;
+
+  //   const bnObservable = new Observable( observer => {  
+  //     this.observer = observer;
+  //   });
+
+  //   console.log( "posting to url", url );
+  //   console.log( "posting data", JSON.stringify(data) );
+
+  //   this.http.post<any>( url, data, options )
+  //   .pipe(
+  //     retry(3),
+  //     catchError(error => this.handleError(error))
+  //   )
+  //   .subscribe(
+  //     (data: any) => {
+  //       this.formSubmitted(data);
+  //     }
+  //   )
+
+  //   return bnObservable;
+  // }
+
+  // compileData() {
+  //   return {
+  //     federation_id: this.breederNumber.federation.id,
+  //     breederNumber: this.breederNumber.breederNumber.trim(),
+  //     postcodes: this.postcodes,
+  //     password: this.password
+  //   }
+  //   // return {
+  //   //   association_id: this.breederNumber.federation.id,
+  //   //   number: this.breederNumber.breederNumber.trim(),
+  //   //   postcodes: this.postcodes,
+  //   //   password: this.password,
+  //   //   person_id: 0,
+  //   //   isAdmin: 0,
+  //   //   isOther: 0,
+  //   //   isAnonymous: 1,
+  //   //   force: 0,
+  //   //   sudo: 0,
+  //   //   show_slug: '',
+  //   //   forLogin: this.persist ? 0 : 1
+  //   // }
+  // }
+
+  // private handleError(error: HttpErrorResponse) {
+  //   const errorMessage = 'Something went wrong. Try reloading the page.';
+  //   console.error( "server error response", error );
+  //   this.observer.error( errorMessage );
+  //   // return an observable with a user-facing error message
+  //   return throwError(
+  //     'Something went wrong.');
+  // };
+
+  // formSubmitted(data: BnReturn): void {
+  //   console.log( "succesful server response:", data );
+  //   this.observer.next( data );
+
+  //   // const returnObject = new BnReturnType();
+  //   // if ( data.name ) {
+  //   //   returnObject.person = new PersonType(data.name, data.username);
+  //   // } else if (data.userLogin) {
+  //   //   this.settings.setUsername(data.userLogin);
+  //   //   returnObject.loggedIn = true;
+  //   // } else {
+  //   //   this.breederNumber.federation = this.db.find( "BreederFederation", data.association_id ); 
+  //   //   this.breederNumber.breederNumber = data.breederNumber;
+  //   //   returnObject.addNumber = true;
+  //   // }
+  //   // returnObject.breederNumber = this.breederNumber;
+
+  //   // this.observer.next( returnObject );
+  // }
 }

@@ -22,7 +22,7 @@
             ngbTooltip="Edit"
             placement="top-left" ></i></a>
       </td>
-      <td>{{ breederNumber.associationName }}</td>
+      <td>{{ breederNumber.federation.name }}</td>
       <td>{{ breederNumber.breederNumber }}</td>
     </tr>
   </tbody>
@@ -48,7 +48,7 @@
     *ngIf="!loginService.loading"
   >
     <i class="icon-check"></i>
-    <span i18n>Proceed</span>
+    <span i18n>{{ loginService.inModal ? "Done" : "Proceed" }}</span>
   </button>
 </footer>
 

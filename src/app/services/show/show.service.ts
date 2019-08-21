@@ -22,48 +22,48 @@ export class ShowService {
     this.showObservable = new Observable( observer => this.showObserver = observer );
   }
 
-  private getStartUri(): string
-  {
-    return (
-      this.settingsService.getUriStartLocale() 
-      + "/" + this.showOverallSlug 
-      + "/" + this.showEditionSlug
-    );
-  }
+  // private getStartUri(): string
+  // {
+  //   return (
+  //     this.settingsService.getUriStartLocale() 
+  //     + "/" + this.showOverallSlug 
+  //     + "/" + this.showEditionSlug
+  //   );
+  // }
 
-  setShow( params: Object ): void
-  {
-    this.showOverallSlug = params["showOverallSlug"];
-    this.showEditionSlug = params["showEditionSlug"];
+  // setShow( params: Object ): void
+  // {
+  //   this.showOverallSlug = params["showOverallSlug"];
+  //   this.showEditionSlug = params["showEditionSlug"];
 
-    const url = this.getStartUri() + "/details.json";
-    const options = this.settingsService.httpOptions;
+  //   const url = this.getStartUri() + "/details.json";
+  //   const options = this.settingsService.httpOptions;
 
-    this.http.get<any>( url, options )
-    .pipe(
-      retry(3),
-      catchError(
-        error => {
-          console.error( error )
-          return throwError( "Something went wrong.");
-        }
-      )
-    )
-    .subscribe(
-      data => {
-        this.show = data["show"];
-        this.showObserver.next( this.show );
-      }
-    );
-  }
+  //   this.http.get<any>( url, options )
+  //   .pipe(
+  //     retry(3),
+  //     catchError(
+  //       error => {
+  //         console.error( error )
+  //         return throwError( "Something went wrong.");
+  //       }
+  //     )
+  //   )
+  //   .subscribe(
+  //     data => {
+  //       this.show = data["show"];
+  //       this.showObserver.next( this.show );
+  //     }
+  //   );
+  // }
 
-  getShow(): Observable<any>
-  {
-    if ( this.show ) {
-      return of( this.show );
-    } else {
-      return this.showObservable;
-    }
-  }
+  // getShow(): Observable<any>
+  // {
+  //   if ( this.show ) {
+  //     return of( this.show );
+  //   } else {
+  //     return this.showObservable;
+  //   }
+  // }
 
 }

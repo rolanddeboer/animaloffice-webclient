@@ -21,7 +21,7 @@ export class Person
   phone2: string;
   email: string;
   iban: string;
-  isYouth: boolean;
+  isYouth = false;
   birthday: Date;
   birthday_day: number;
   birthday_month: number;
@@ -29,14 +29,25 @@ export class Person
 
   breederNumbers: BreederNumber[] = [];
 
-  private _isCombination: boolean;
-  private _isPerson: boolean;
+  private _isCombination = false;
+  private _isPerson = true;
 
   constructor ( data = null )
   {
     if ( data ) {
       Object.assign( this, data );
+    } else {
+      this.setBirthday();
     } 
+  }
+
+  setBirthday( date: Date | string = null ): void
+  {
+    if ( !date ) date = "2000-01-01";
+    this.birthday = new Date( date );
+    this.birthday_day = this.birthday.getDate();
+    this.birthday_month = this.birthday.getMonth();
+    this.birthday_year = this.birthday.getFullYear();
   }
 
   set isPerson( isPerson: boolean )

@@ -2,13 +2,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+// Third party
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 // Services
 import { PersonService } from 'src/app/services/person/person.service';
 import { ShowService } from 'src/app/services/show/show.service';
+import { DatabaseService } from 'src/app/services/database/database.service';
+import { SettingsService } from 'src/app/services/config/settings.service';
+import { RoutingToolsService } from 'src/app/services/config/routing-tools.service';
+
+// Components
+import { LoginModalComponent } from 'src/app/components/login/login-modal/login-modal.component';
 
 // Entities
 import { Person } from 'src/app/classes/person';
-import { Show } from 'src/app/classes/showType'
+import { Show } from 'src/app/classes/showType';
 
 @Component({
   selector: 'app-personal-details',
@@ -31,32 +40,38 @@ export class PersonalDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private personService: PersonService,
-    private showService: ShowService
+    private showService: ShowService,
+    protected db: DatabaseService,
+    private settings: SettingsService,
+    private routingTools: RoutingToolsService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void
   {
-    this.route.params.subscribe( params => this.showService.setShow(params) );
+    if ( !this.settings.person ) {
+      this.routingTools.navigateToRoute( "login" );
+    } else {
+      this.person = this.settings.person;
+    }
+    //this.route.params.subscribe( params => this.showService.setShow(params) );
 
-    const that = this;
-    this.personService.getDetails().subscribe( {
-      next( data: Object ): void {
-        that.countries = data["countries"];
-        that.updatePerson( data["person"] );
-        console.log( data["person"], that.person );
-      },
-      error( error: string ): void {
-        console.error( error );
-      }
-    });
+    // const that = this;
+    // this.personService.getDetails().subscribe( {
+    //   next( data: Object ): void {
+    //     that.countries = data["countries"];
+    //     that.updatePerson( data["person"] );
+    //     console.log( data["person"], that.person );
+    //   },
+    //   error( error: string ): void {
+    //     console.error( error );
+    //   }
+    // });
   }
 
   updatePerson( person: Person ): void
   {
-    person.birthday = new Date( person.birthday );
-    person.birthday_day = person.birthday.getDate();
-    person.birthday_month = person.birthday.getMonth();
-    person.birthday_year = person.birthday.getFullYear();
+    person.setBirthday( person.birthday );
     this.person = new Person ( person );
   }
 
@@ -65,21 +80,22 @@ export class PersonalDetailsComponent implements OnInit {
     return Object.keys(this.validationErrors).length;
   }
 
-  resetDate()
+  resetDate(): void
   {
-    this.person.birthday.setDate( 1 );
-    this.person.birthday.setMonth( 0 );
-    this.person.birthday.setFullYear( 2000 );
+    this.person.setBirthday();
+    // this.person.birthday.setDate( 1 );
+    // this.person.birthday.setMonth( 0 );
+    // this.person.birthday.setFullYear( 2000 );
   }
 
-  updateDateFromForm()
+  updateDateFromForm(): void
   {
     this.person.birthday.setDate( this.person.birthday_day );
     this.person.birthday.setMonth( this.person.birthday_month );
     this.person.birthday.setFullYear( this.person.birthday_year );
   }
 
-  onSubmit()
+  onSubmit(): void
   {
     if ( this.person.isYouth ) {
       this.updateDateFromForm();
@@ -102,4 +118,9 @@ export class PersonalDetailsComponent implements OnInit {
     } );
   }
 
+  changeBreederNumbersClick()
+  {
+    const modalRef = this.modalService.open(LoginModalComponent);
+    modalRef.componentInstance.name = 'World';
+  }
 }

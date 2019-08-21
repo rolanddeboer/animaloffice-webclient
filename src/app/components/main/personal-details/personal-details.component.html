@@ -175,7 +175,7 @@
               name="country"
               [class.invalid]="validationErrors['country']"
             >
-              <option *ngFor = "let country of countries" [value]="country[0]">{{ country[1] }}</option>
+              <option *ngFor = "let country of db.get('Country')" [value]="country['id']" [disabled]="country['id']==0">{{ country['name'] }}</option>
             </select>
             <div 
               [hidden]="!validationErrors['country']"
@@ -297,7 +297,7 @@
 
         <div class="row" *ngFor="let breederNumber of person.breederNumbers">
           <label class="col-sm-5">
-            Breeder number {{ breederNumber.associationName }}
+            Breeder number {{ breederNumber.association_name }}
           </label>
           <div class="col-sm-7 breeder-number">
             {{ breederNumber.breederNumber }}
@@ -317,7 +317,7 @@
           <label class="col-sm-5 col-form-label">
           </label>
           <div class="col-sm-7">
-            <button type="button" class="btn btn-default">
+            <button type="button" class="btn btn-default" (click)="changeBreederNumbersClick()">
               Change breeder number(s)
             </button>
           </div>

@@ -14,8 +14,7 @@ export class ListAllShowsComponent implements OnInit {
     private db: DatabaseService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   displayShowOverall( showOverall: ShowOverall ): boolean
   {

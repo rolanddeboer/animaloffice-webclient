@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginService } from 'src/app/services/login/login.service';
 import { FormsModule } from '@angular/forms';
 
@@ -7,13 +7,15 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './login-name-checker.component.html',
   styleUrls: ['./login-name-checker.component.scss']
 })
-export class LoginNameCheckerComponent implements OnInit {
+export class LoginNameCheckerComponent implements AfterViewInit {
+  @ViewChild('passwordInput') passwordInput: ElementRef;
 
   constructor(
     public loginService: LoginService
   ) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.loginService.passwordInputRef = this.passwordInput;
   }
 
   confirm() {

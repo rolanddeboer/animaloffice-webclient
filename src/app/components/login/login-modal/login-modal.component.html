@@ -1,0 +1,41 @@
+<!-- 
+    <div class="modal-header">
+      <h3 class="modal-title" i18n>Breeder numbers</h3>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>
+      <app-login-number-input 
+        *ngIf="loginService.editingNumber && !loginService.persistingAll"
+        [ngClass]="loginService.doWeShowLoginList() ? 'has-list' : ''"
+      ></app-login-number-input>
+      <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
+      <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
+      <footer *ngIf="loginService.loading">
+        <app-spinner name="loginList" group="login" [show]="loginService.loading"></app-spinner>
+      </footer>
+    </div>
+
+ -->
+
+ <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <span aria-hidden="true">&times;</span>
+</button>
+    <section>
+      <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>
+      <app-login-number-input 
+        *ngIf="loginService.editingNumber && !loginService.persistingAll"
+        [ngClass]="loginService.doWeShowLoginList() ? 'has-list' : ''"
+      ></app-login-number-input>
+      <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
+      <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
+  
+      <footer *ngIf="loginService.loading">
+        <app-spinner name="loginList" group="login" [show]="loginService.loading"></app-spinner>
+      </footer>
+    </section>
+
+
+

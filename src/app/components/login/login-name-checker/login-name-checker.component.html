@@ -13,7 +13,7 @@
     >
   </div>
 </div>
-<div class="form-row" *ngIf="!loginService.person.username">
+<div class="form-row" *ngIf="!loginService.person.hasUser">
   <label for="postcode" i18n>Postcode</label>
   <div class="input-group">
     <div class="input-group-prepend">
@@ -29,7 +29,7 @@
     >
   </div>
 </div>
-<div class="form-row" *ngIf="loginService.person.username">
+<div class="form-row" *ngIf="loginService.person.hasUser">
   <label for="password" i18n>Password</label>
   <div class="input-group">
     <div class="input-group-prepend">
@@ -39,6 +39,7 @@
       type="password"
       class="form-control" 
       name="password" 
+      #passwordInput
       appAutofocus
       [(ngModel)]="loginService.person.password"
       (keyup.enter)="confirm()"
@@ -59,7 +60,7 @@
 <footer *ngIf="!loginService.notMe && !loginService.loading">
   <button 
     class = "btn-default" 
-    (click) = "loginService.notMe = true"
+    (click) = "loginService.notMeClicked()"
   >
     <i class="icon-block"></i>
     <span i18n>This is not me</span>

@@ -1,10 +1,13 @@
 <header>
-  <div class="backer"></div>
-  <div class="logo-wrapper-wrapper">
+  <div class = "backer"></div>
+  <div 
+    class = "logo-wrapper-wrapper"
+    [class.has-show] = "settings.activeShow"
+  >
       <app-link 
-        class="logo-wrapper"
-        route="home" 
-        placement="bottom" 
+        class = "logo-wrapper"
+        route = "home" 
+        placement = "bottom" 
       >
       <!--
         ngbTooltip="Clicking on the logo will always bring you back to the homepage."
@@ -36,13 +39,13 @@
         <span i18n>Demo</span>
       </app-link>
     </li>
-    <li *ngIf="!settingsService.username">
+    <li *ngIf="!settings.username">
       <app-link route="login" linkClass="text-darker">
         <i class="icon-login"></i> 
         <span i18n>Sign up / sign in</span>
       </app-link>
     </li>
-    <li *ngIf="settingsService.username">
+    <li *ngIf="settings.username">
       <div ngbDropdown placement="bottom-right" class="d-inline-block box-button">
         <button 
           class="btn-outline-copper" 
@@ -50,14 +53,14 @@
           ngbDropdownToggle
         >
           <i class="icon-user"></i>
-          <span i18n>Logged in as</span> {{ settingsService.username}}
+          <span i18n>Logged in as</span> {{ settings.username}}
         </button>
         <div ngbDropdownMenu aria-labelledby="user-menu">
           <button class="dropdown-item" (click)="routingTools.navigateToRoute('person')">
             <i class="icon-user-card"></i>
             <span i18n>Your personal details</span>
           </button>
-          <button class="dropdown-item" (click)="settingsService.logout()">
+          <button class="dropdown-item" (click)="settings.logout()">
             <i class="icon-logout"></i>
             <span i18n>Sign out</span>
           </button>
@@ -73,7 +76,7 @@
         </div>
       </div>
     </li>
-    <li *ngIf="!settingsService.username" class="flag-container">
+    <li *ngIf="!settings.username" class="flag-container">
       <app-language-chooser></app-language-chooser>
     </li>
 
@@ -91,22 +94,23 @@
     ></i>
   </div>
   <br>
-  <div class="show-name" *ngIf="show">
-    <h3>{{ show.name }} {{ show.edition }}</h3>
+  <div class="show-name" *ngIf="settings.activeShow">
+    <h3>
+      {{ settings.activeShow.name }}
+    </h3>
   </div>
     
-  <div 
+  <!-- [class.portrait]="settings.activeShow.showOverall.logo.orientation == 'portrait'" -->
+  <!-- <div 
     class="show-header" 
-    *ngIf="show"
-    [class.portrait]="show.isPortrait"
+    *ngIf="settings.activeShow"
   >
       <img 
-        class="show-logo" 
-        src="http://localhost:8000/images/shows/{{show.logoFile}}"
-        *ngIf="show.logoFile"
+        class = "show-logo" 
+        [src] = "settings.getUriStart ( settings.activeShow.showOverall.logo.fileLocation )"
       >
-      <!-- <h3>{{ show.name }} {{ show.edition }}</h3> -->
-  </div>
+      *!-- <h3>{{ show.name }} {{ show.edition }}</h3> --*
+  </div> -->
   <div class="extra-buttons">
       
     <!-- <button class="btn-default special special-secondary">Sign up for show</button>

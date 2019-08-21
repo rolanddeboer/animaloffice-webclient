@@ -24,6 +24,8 @@ const routes: Routes = [
   { path: 'nl/:region/hoofdpagina', component: HomepageComponent, data: {state: 'home'} },
   { path: 'en/:region/login', component: LoginPageComponent, data: {state: 'login'} },
   { path: 'nl/:region/inloggen', component: LoginPageComponent, data: {state: 'login'} },
+  { path: 'en/:showOverallSlug/:showEditionSlug/login', component: LoginPageComponent, data: {state: 'login'} },
+  { path: 'nl/:showOverallSlug/:showEditionSlug/inloggen', component: LoginPageComponent, data: {state: 'login'} },
   { path: 'en/:region/about-animal-office', component: AboutPageEnComponent, data: {state: 'about'} },
   { path: 'nl/:region/over-animal-office', component: AboutPageNlComponent, data: {state: 'about'} },
   { path: 'en/:region/demo', component: DemoPageEnComponent, data: {state: 'demo'} },

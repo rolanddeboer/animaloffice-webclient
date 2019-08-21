@@ -46,6 +46,7 @@ import { EntryFormComponent } from './components/show/entry-form/entry-form.comp
 import { StatisticsComponent } from './components/show/statistics/statistics.component';
 import { ListShowsComponent } from './components/show/list-shows/list-shows.component';
 import { ListAllShowsComponent } from './components/show/list-all-shows/list-all-shows.component';
+import { LoginModalComponent } from './components/login/login-modal/login-modal.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { ListAllShowsComponent } from './components/show/list-all-shows/list-all
     EntryFormComponent,
     StatisticsComponent,
     ListShowsComponent,
-    ListAllShowsComponent
+    ListAllShowsComponent,
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +99,7 @@ import { ListAllShowsComponent } from './components/show/list-all-shows/list-all
   ],
   providers: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LoginModalComponent]
 })
 export class AppModule { }

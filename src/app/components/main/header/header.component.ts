@@ -23,18 +23,18 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public routingTools: RoutingToolsService,
-    public settingsService: SettingsService,
-    public showService: ShowService
+    public settings: SettingsService,
+    // public showService: ShowService
   ) { }
 
   ngOnInit() 
   {
     const that = this;
-    this.showSubscription = this.showService.getShow().subscribe({
-      next (data: any): void {
-        that.show = data;
-      }
-    })
+    // this.showSubscription = this.showService.getShow().subscribe({
+    //   next (data: any): void {
+    //     that.show = data;
+    //   }
+    // })
   }
 
   getRoute(routeName: string) 
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
 
   burgerClicked() 
   {
-    this.settingsService.burgerState = !this.settingsService.burgerState;
+    this.settings.burgerState = !this.settings.burgerState;
   }
 
   ngOnDestroy()

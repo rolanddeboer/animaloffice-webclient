@@ -1,0 +1,22 @@
+// @import '../../../styles/variables';
+
+// .modal-body {
+//   padding:0;
+//   border-bottom: 1px solid lighten($copper, 20%);
+// }
+// :host ::ng-deep {
+//   footer {
+//     background-color: $gray-100;
+//     border-bottom: 1px solid $gray-300;
+//     border-top: 1px solid $gray-300;
+//   }
+// }
+
+section {
+  margin: 0;
+}
+
+.modal-content {
+  background: none;
+  border: none;
+}
