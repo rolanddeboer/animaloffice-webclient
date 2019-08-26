@@ -9,7 +9,7 @@ import { SettingsService } from 'src/app/services/config/settings.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  @ViewChild('sidebar') sidebar: ElementRef;
+  @ViewChild('sidebar', {static: false}) sidebar: ElementRef;
   public dropdownActive = false;
   private justSetDropdownActive = false;
   private swipeCoordX: number;

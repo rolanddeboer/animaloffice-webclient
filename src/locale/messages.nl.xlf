@@ -444,7 +444,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="a174f57be7077a4637be3ba2ebe5253cef24b29d" datatype="html" approved="no">
-        <source>Do you have a breeder number with several associations? Please fill in all of them.</source>
+        <source>Do you have a breeder number with several federations? Please fill in all of them.</source>
         <target state="needs-translation">Heb je een fokkersnummer bij beide bonden? Vul ze allebei even in.</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
           <context context-type="linenumber">1</context>
@@ -458,7 +458,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="669fe48aac27b8b7f14a76718395364aecc54596" datatype="html" approved="no">
-        <source>Association</source>
+        <source>Federation</source>
         <target state="needs-translation">Bond</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/login/login-list/login-list.component.html</context>
           <context context-type="linenumber">9</context>
@@ -568,7 +568,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="3f9d87434ebd7b14ff4c1aae58a3bddd82a84039" datatype="html" approved="no">
-        <source>Please check again if you have entered the number and association correctly above.</source>
+        <source>Please check again if you have entered the number and federation correctly above.</source>
         <target state="needs-translation">Controleer even opnieuw of je het fokkersnummer en de bond hierboven correct hebt ingevuld</target><context-group purpose="location">
           <context context-type="sourcefile">app/components/login/login-not-me/login-not-me.component.html</context>
           <context context-type="linenumber">4</context>

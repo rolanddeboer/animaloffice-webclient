@@ -60,7 +60,7 @@ export class LoginService {
   public loading = false;
   public notMe = false;
   public breederNumberInputRef: ElementRef;
-  public associationInputRef: ElementRef;
+  public federationInputRef: ElementRef;
   public passwordInputRef: ElementRef;
   public persistingAll = false;
   public postcodes: string[] = [];
@@ -92,7 +92,7 @@ export class LoginService {
     this.start();
   }
 
-  getFreeAssociations(): BreederFederation[]
+  getFreeFederations(): BreederFederation[]
   {
     const federations: BreederFederation[] = [];
     for ( let federation of this.db.get("BreederFederation") ) {
@@ -112,7 +112,7 @@ export class LoginService {
   addNumber(): void
   {
     const newBn = new BreederNumberType;
-    newBn.federation = this.getFreeAssociations()[0];
+    newBn.federation = this.getFreeFederations()[0];
     this.breederNumbers.push( newBn );
     // edit the last breeder number, which is the one we just added
     this.editNumber( this.breederNumbers.length - 1 );
@@ -172,6 +172,7 @@ export class LoginService {
 
   login(): void
   {
+    console.log("logging in");
     this.startSpinner();
     this.bnHandler.login( {
       password: this.person.password,
@@ -182,8 +183,9 @@ export class LoginService {
       (data: any) => {
         this.stopSpinner();
         if (data) {
-          // this.reset();
-          // this.routingTools.navigateToRoute('home');
+          this.settingsService.setLoginInitData( data );
+          this.reset();
+          this.routingTools.navigateToRoute('home');
         } else {
           this.passwordInputRef.nativeElement.focus();
           this.errorMessage = "Het wachtwoord klopt niet.";
@@ -206,13 +208,12 @@ export class LoginService {
     let person = new Person();
     for ( let breederNumber of this.breederNumbers ) {
       let newBn = new BreederNumber;
-      newBn.association_id = breederNumber.federation.id;
-      newBn.association_name = breederNumber.federation.name;
+      newBn.federation_id = breederNumber.federation.id;
+      newBn.federation_name = breederNumber.federation.name;
       newBn.breederNumber = breederNumber.breederNumber;
       person.breederNumbers.push( newBn );
     }
     this.settingsService.person = person;
-    console.log(person);
     this.routingTools.navigateToRoute( "person" );
     // this.persistingAll = true;
     // this.persistNext();
@@ -387,7 +388,7 @@ export class LoginService {
     }
     if (!this.editingNumber.federation) {
       this.errorMessage = "Please select a federation in the field above.";
-      this.associationInputRef.nativeElement.focus();
+      this.federationInputRef.nativeElement.focus();
       return false;
     }
     this.errorMessage = "";

@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "es5",
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -20,5 +20,8 @@
       "es2018",
       "dom"
     ]
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true
   }
 }

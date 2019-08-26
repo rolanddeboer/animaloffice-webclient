@@ -31,10 +31,11 @@
           <div class="col-sm-7">
             <input 
               type="text" 
-              class="form-control invalid" 
+              class="form-control" 
               [(ngModel)]="person.firstName"
               id="firstName"
               name="firstName"
+              #firstNameInput
               [class.invalid]="validationErrors['firstName']"
             >
             <div 
@@ -79,6 +80,7 @@
               [(ngModel)]="person.surname"  
               id="surname"
               name="surname"
+              #surnameInput
               [class.invalid]="validationErrors['surname']"
             >
             <div 
@@ -297,7 +299,7 @@
 
         <div class="row" *ngFor="let breederNumber of person.breederNumbers">
           <label class="col-sm-5">
-            Breeder number {{ breederNumber.association_name }}
+            Breeder number {{ breederNumber.federation_name }}
           </label>
           <div class="col-sm-7 breeder-number">
             {{ breederNumber.breederNumber }}

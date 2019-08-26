@@ -1,7 +1,14 @@
+export interface Field {
+  index?: boolean;
+  presort?: boolean;
+  sortFunction?: Function;
+}
+
 export interface EntityParams {
   indexKeys?: string[];
   sortKeys?: string[];
   relations?: RelationParams[];
+  filterFunctions?: { [key:string]: Function };
   autoRelate?: boolean;
 }
 
@@ -14,7 +21,8 @@ export interface RelationParams {
 export class Entity {
   private data: any[];
   private indices: Object;
-  private sorts: Object;
+  private sets: Object;
+  private sortFunctions: { [key:string]: Function };
   public owningRelations: string[];
   public inverseRelations: string[];
   private isInitializedResolve: Function;
@@ -23,32 +31,102 @@ export class Entity {
   constructor( public name: string ) 
   { 
     this.reset();
+    
   }
 
   public reset(): void
   {
     this.data = [];
-    this.indices = {};
-    this.sorts = {};
+    // Indices allow retrieving an object by the value of an indexed key, through the "find" method.
+    this.indices = {}; 
+    this.sets = { };
     this.owningRelations = [];
     this.inverseRelations = [];
+
+    // define the sort functions
+    this.sortFunctions = {
+      "_default": (a: any, b: any) => {
+        if (a[0] === b[0]) {
+          return 0;
+        }
+        return (a[0] < b[0]) ? -1 : 1;
+      },
+      "_string": (a: string, b: string) => {
+        return ('' + a[0]).localeCompare(b[0], "nl_NL");
+      }
+    };
+
     this.isInitialized = new Promise( resolve => {
       this.isInitializedResolve = resolve;
     })
   }
 
-  setData( data: any[], params: EntityParams ): void
+  setData( data: any[], fields: { [key:string]: Field }, params: EntityParams ): void
   {
     this.data = data;
+
     const indexKeys = ( "indexKeys" in params ) ? params.indexKeys : [];
     indexKeys.push( "id" );
-    this.makeIndices( indexKeys );
+    const sortKeys = ( "sortKeys" in params ) ? params.sortKeys : [];
+    const filterFunctions = ( "filterFunctions" in params ) ? params.filterFunctions : {};
 
-    if ( "sortKeys" in params ) {
-      this.makeSorts( params.sortKeys );
+    if ( fields ) {
+      for ( let fieldName of Object.keys(fields) ) {
+        if ( 
+          fieldName !== "id" && 
+          "index" in fields[fieldName] && 
+          fields[fieldName].index 
+        ) {
+          indexKeys.push( fieldName );
+        }
+        if ( "presort" in fields[fieldName] && fields[fieldName].presort ) {
+          sortKeys.push( fieldName );
+        }
+        if ( "sortFunction" in fields[fieldName] && fields[fieldName].sortFunction ) {
+          this.sortFunctions[ fieldName ] = fields[fieldName].sortFunction;
+        }
+      }
     }
 
+    this.makeIndices( indexKeys );
+    this.makeFilters( filterFunctions );
+    this.makeSorts( sortKeys );
     this.isInitializedResolve();
+  }
+
+  private makeFilters( filterFunctions: { [key:string]: Function } ): void
+  {
+    this.sets["all"] = {};
+    this.sets["all"]["_default"] = Object.keys( this.data );
+
+    // find out whether there is a field to mark deletion
+    let firstItem = this.data.find( x => x !== undefined );
+    const deletedWords = [ "isBackup", "deleted", "isDeleted", "removed", "isRemoved" ];
+    let deletedField: string;
+    for ( let deletedWord of deletedWords ) {
+      if ( firstItem && deletedWord in firstItem ) {
+        deletedField = deletedWord;
+      }
+    }
+    // prepare a filter function for deleted items
+    if ( deletedField ) {
+      this.sets["active"] = {};
+      filterFunctions["active"] = ( item: any ) => {
+        return item[ deletedField ] == false;
+      }
+    }
+
+    // prepare a list of keys for every filter
+    if ( filterFunctions !== {} ) {
+      for ( let filter of Object.keys( filterFunctions ) ) {
+        this.sets[ filter ] = { "_default": [] };
+        for ( let key of this.sets["all"]["_default"] ) {
+          if ( filterFunctions[ filter ]( this.data[key] ) ) {
+            this.sets[ filter ]["_default"].push( key );
+          }
+        }
+      }
+    }
   }
 
   private makeIndices( indexKeys: string[] ): void
@@ -72,62 +150,61 @@ export class Entity {
 
   private makeSorts( sortKeys: string[] ): void
   {
-    if ( !sortKeys.length ) {
-      return;
-    }
 
-    // prepare empty array for each sort key
-    for ( let sortKey of sortKeys ) {
-      this.sorts[ sortKey ] = [];
-    }
+    for ( let filter of Object.keys( this.sets ) ) {
 
-    // fill each sort key array with the corresponding data values
-    for ( let key of Object.keys( this.data ) ) {
+      // prepare empty array for each sort key
       for ( let sortKey of sortKeys ) {
-        this.sorts[ sortKey ].push( [
-          this.data[key][sortKey],
-          key
-        ]);
+        this.sets[ filter ][ sortKey ] = [];
       }
-    }
 
-    // sort it
-    for ( let sortKey of sortKeys ) {
-      this.sorts[ sortKey ].sort( 
-        (a: any, b: any) => {
-          if (a[0] === b[0]) {
-            return 0;
-          }
-          return (a[0] < b[0]) ? -1 : 1;
+      // fill each sort key array with the corresponding data values
+      for ( let key of this.sets[ filter ]["_default"] ) {
+        for ( let sortKey of sortKeys ) {
+          this.sets[ filter ][ sortKey ].push( [
+            this.data[key][sortKey],
+            key
+          ]);
         }
-      );
-      const sortedKeys = [];
-      for ( let item of this.sorts[ sortKey ] ) {
-        sortedKeys.push( item[1] );
       }
-      this.sorts[ sortKey ] = sortedKeys;
+
+      // sort it
+      for ( let sortKey of sortKeys ) {
+        let sortFunction = this.sortFunctions["_default"];
+        if ( sortKey in this.sortFunctions ) {
+          sortFunction = this.sortFunctions[sortKey];
+        } else if ( typeof this.sets[ filter ][ sortKey ][0] === "string" ) {
+          sortFunction = this.sortFunctions["_string"]
+        }
+        this.sets[ filter ][ sortKey ].sort( sortFunction );
+        const sortedKeys = [];
+        for ( let item of this.sets[ filter ][ sortKey ] ) {
+          sortedKeys.push( item[1] );
+        }
+        this.sets[ filter ][ sortKey ] = sortedKeys;
+      }
     }
   }
 
-  get( sortKey: string = null, reverse = false ): any[]
+  get( filter = "all", sortKey = "_default", reverse = false ): any[]
   {
-    if ( !sortKey) {
-      return this.data
+    if ( sortKey === "_default" && filter === "all" ) {
+      return this.data;
     }
 
     // make sure the sort has been prepared
-    if ( !( sortKey in this.sorts ) ) {
+    if ( sortKey !== "_default"  && !( sortKey in this.sets[ filter ] ) ) {
       this.makeSorts( [sortKey] );
     }
 
     // prepare an empty array and fill it with the sorted data
     const data = [];
     if ( reverse ) {
-      for ( let i = this.sorts[sortKey].length-1; i >= 0; i-- ) {
-        data.push( this.data[ this.sorts[sortKey][i] ] );
+      for ( let i = this.sets[ filter ][sortKey].length-1; i >= 0; i-- ) {
+        data.push( this.data[ this.sets[ filter ][sortKey][i] ] );
       }
     } else {
-      for ( let key of this.sorts[sortKey] ) {
+      for ( let key of this.sets[ filter ][sortKey] ) {
         data.push( this.data[key] );
       }
     }

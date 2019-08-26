@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Entity, EntityParams, RelationParams } from '../../classes/entity';
+import { Entity, Field, EntityParams, RelationParams } from '../../classes/entity';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +10,14 @@ export class DatabaseService {
   constructor() { }
 
   // Sets a new or existing entity to the values provided.
-  set( name: string, data: Object[], params: EntityParams = {} ): void
+  set( name: string, data: Object[], fields: { [key:string]: Field } = null, params: EntityParams = {} ): void
   {
     // Invalid names are not something we can accept and adapt to silently. This is serious.
     if ( !/^[-_a-zA-Z0-9]+$/.test( name ) ) {
       throw "name '" + name + "' not allowed as entity name.";
     }
     
-    this.getOrCreate( name ).setData( data, params );
+    this.getOrCreate( name ).setData( data, fields, params );
 
     const relations = ( "relations" in params ) ? params.relations : [];
     const autoRelate = ( "autoRelate" in params ) ? params.autoRelate : true; 
@@ -64,10 +64,10 @@ export class DatabaseService {
     return this.entities[ entityName ].find( value, key );
   }
 
-  get( entityName: string, sortKey: string = null, reverse = false ): any[]
+  get( entityName: string, filter = "all", sortKey = "_default", reverse = false ): any[]
   {
     if ( !( entityName in this.entities ) ) return [];
-    return this.entities[ entityName ].get( sortKey, reverse );
+    return this.entities[ entityName ].get( filter, sortKey, reverse );
   }
 
   getWhere ( entityName: string, key: string, value: any ): any[]
@@ -124,7 +124,7 @@ export class DatabaseService {
   {
     // loop through every relation
     for ( let relationParam of relationParamsArray ) {
-      // determine field names (show, show_id and show)
+      // determine field names (show, show_id and shows)
       const relationField = relationParam.entityName[0].toLowerCase() + relationParam.entityName.slice(1);
       const relationIdField = relationField + "_id";
       const relationCollectionField = entityName[0].toLowerCase() + entityName.slice(1) + "s";
@@ -146,12 +146,20 @@ export class DatabaseService {
 
       // loop through the data for the "one" part of the relation, the owning side, which is the entity that holds the relation key (show_id)
       for ( let item of data ) {
-        // get the related "one" element "show" that "show_id" refers to
-        const relatedItem = relatedEntity.find( item[relationIdField] );
-        // push the "many" element to the "shows" array of the found "one" element
-        relatedItem[relationCollectionField].push( item );
-        // assign the "one" element to the "show" property of the "many" element
-        item[relationField] = relatedItem;
+        // when the related entity is specifically set to null, don't try to find it
+        if (item[relationIdField] !== null) {
+          // get the related "one" element "show" that "show_id" refers to
+          const relatedItem = relatedEntity.find( item[relationIdField] );
+          if (!relatedItem) {
+            console.error("Related field " + relationIdField + " (entity " + relationParam.entityName + ") for the following instance of entity " + entityName + ":");
+            console.error(item);
+          }
+          // push the "many" element to the "shows" array of the found "one" element
+          relatedItem[relationCollectionField].push( item );
+          // assign the "one" element to the "show" property of the "many" element
+          item[relationField] = relatedItem;
+
+        }
       }
     }
   }
@@ -177,6 +185,34 @@ export class DatabaseService {
       this.makeRelations( entity.name, [{ entityName: entityName }] );
     }
 
+  }
+
+// setJunction creates a many-to-many relation by inserting the actual related objects as arrays on both sides. It assumes a junction table in the form of an object where every key is an id for entity1 and the value is an array of ids for entity2. Unrelated items are given empty arrays.
+  public setJunction( entity1: string, entity2: string, junctionSet: number[][]): void
+  {
+    let entity1Plural = entity1[0].toLowerCase() + entity1.slice(1) + "s";
+    let entity2Plural = entity2[0].toLowerCase() + entity2.slice(1) + "s";
+
+    // create empty arrays for both sides. The first side will anyways be given the arrays from the junction table later, but we also want non-related instances to have an empty array.
+    this.get(entity1).forEach( (entity1: any) => {
+      entity1[entity2Plural] = [];
+    });
+    this.get(entity2).forEach( (entity2: any) => {
+      entity2[entity1Plural] = [];
+    });
+
+    // loop through the top level of the junction table, where the keys are ids for instances of entity 1.
+    Object.keys(junctionSet).forEach( (id1: string) => {
+      let instance1 = this.find(entity1, id1);
+      // simply assign the whole junction array to the associated entity instance. The elements of the array will be transformed to the actual objects in the coming for loop.
+      instance1[entity2Plural] = junctionSet[id1];
+      for (let i = 0; i < junctionSet[id1].length; i++) {
+        // get the entity instance for every element of every array, overwrite the id in the array with it, and add the corresponding related entity to its own array of relations.
+        let instance2 = this.find(entity2, junctionSet[id1][i]);
+        junctionSet[id1][i] = instance2;
+        instance2[entity1Plural].push(instance1);
+      }
+    });
   }
 
 }

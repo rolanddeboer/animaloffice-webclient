@@ -23,7 +23,6 @@ export class LoginModalComponent implements OnInit {
 
   ngOnInit() {
     this.loginService.inModal = true;
-    console.log( "modal init" );
   }
 
 }

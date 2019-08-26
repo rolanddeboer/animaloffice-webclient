@@ -25,7 +25,6 @@ export class LoginPageComponent implements OnInit {
   {
     this.setShow();
     this.loginService.inModal = false;
-    console.log( "page init" );
   }
 
   setShow(): void

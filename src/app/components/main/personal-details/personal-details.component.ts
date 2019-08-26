@@ -1,5 +1,5 @@
 // Angular system
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // Third party
@@ -24,7 +24,7 @@ import { Show } from 'src/app/classes/showType';
   templateUrl: './personal-details.component.html',
   styleUrls: ['./personal-details.component.scss']
 })
-export class PersonalDetailsComponent implements OnInit {
+export class PersonalDetailsComponent implements OnInit, AfterViewInit {
   public show = new Show;
   public person = new Person;
   public validationErrors: Object = {};
@@ -36,6 +36,8 @@ export class PersonalDetailsComponent implements OnInit {
   ];
   public days = Array(31).fill(0, 0, 31).map( (x, i) => i+1 );
   public years = Array(100).fill(0, 0, 100).map( (x, i) => 0-i+(new Date).getFullYear() );
+  @ViewChild("firstNameInput", { "static": false }) firstNameInput: ElementRef;
+  @ViewChild("surnameInput", { "static": false }) surnameInput: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +55,7 @@ export class PersonalDetailsComponent implements OnInit {
       this.routingTools.navigateToRoute( "login" );
     } else {
       this.person = this.settings.person;
+      console.log(this.person);
     }
     //this.route.params.subscribe( params => this.showService.setShow(params) );
 
@@ -67,6 +70,17 @@ export class PersonalDetailsComponent implements OnInit {
     //     console.error( error );
     //   }
     // });
+  }
+
+  ngAfterViewInit(): void
+  {
+    if (this.person.isNew()) {
+      if (this.person.isCombination) {
+        this.surnameInput.nativeElement.focus();
+      } else {
+        this.firstNameInput.nativeElement.focus();
+      }
+    }
   }
 
   updatePerson( person: Person ): void

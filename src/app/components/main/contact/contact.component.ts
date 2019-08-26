@@ -23,8 +23,8 @@ export class ContactComponent implements OnInit {
   public errorMessage = '';
   public emailError: boolean;
   public submitting = false;
-  @ViewChild('contactModal') contactModal: ElementRef;
-  @ViewChild('contactForm') contactForm;
+  @ViewChild('contactModal', {static: false}) contactModal: ElementRef;
+  @ViewChild('contactForm', {static: false}) contactForm;
 
   constructor(
     private settingsService: SettingsService,

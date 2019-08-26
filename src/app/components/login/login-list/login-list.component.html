@@ -1,4 +1,4 @@
-<span *ngIf="!loginService.editingNumber || loginService.persistingAll" class="intro-message" i18n>Do you have a breeder number with several associations? Please fill in all of them.</span>
+<span *ngIf="!loginService.editingNumber || loginService.persistingAll" class="intro-message" i18n>Do you have a breeder number with several federations? Please fill in all of them.</span>
 
 <h4 *ngIf="!loginService.editingNumber || loginService.persistingAll" i18n>Your breeder number(s)</h4>
 
@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th></th>
-      <th i18n>Association</th>
+      <th i18n>Federation</th>
       <th i18n>Breeder number</th>
     </tr>
   </thead>
@@ -37,7 +37,7 @@
   <button 
     class="btn-primary" 
     (click)="loginService.addNumber()"
-    *ngIf="loginService.getFreeAssociations().length "
+    *ngIf="loginService.getFreeFederations().length "
   >
     <i class="icon-plus"></i>
     <span i18n>Add breeder number</span>

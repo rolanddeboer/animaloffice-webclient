@@ -1,13 +1,14 @@
 export class BreederNumber
 {
-  association_id: number;
-  association_name: string;
+  federation_id: number;
+  federation_name: string;
   breederNumber: string;
   breederNumber_id: number;
 }
 
 export class Person
 {
+  fullName?: string;
   person_id: number;
   country_id: number;
   firstName: string;
@@ -70,5 +71,9 @@ export class Person
   get isCombination()
   {
     return this._isCombination;
+  }
+
+  isNew() {
+    return this.person_id === undefined;
   }
 }

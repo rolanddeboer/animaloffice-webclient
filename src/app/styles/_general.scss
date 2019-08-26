@@ -217,6 +217,10 @@ section {
     position: relative;
   }
 
+  section {
+    background-color: white;
+  }
+
   button.close {
     position: absolute;
     margin: 0;
@@ -335,6 +339,10 @@ button.dropdown-item {
   font-size: 16px;
   padding: 5px 10px;
 }
+.form-control:focus {
+  border: 1px solid $primary;
+  box-shadow: 0 0 7px 0px rgba(35, 105, 190, 0.5);
+}
 .form-control.invalid {
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
@@ -344,10 +352,4 @@ button.dropdown-item {
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   border-left: 7px solid $brightgreen;
-}
-.form-control:focus {
-  border-top: 1px solid $primary;
-  border-bottom: 1px solid $primary;
-  border-right: 1px solid $primary;
-  box-shadow: 0 0 7px 0px rgba(35, 105, 190, 0.5);
 }

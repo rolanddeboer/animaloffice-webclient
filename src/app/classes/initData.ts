@@ -1,3 +1,5 @@
+import { Person } from 'src/app/classes/person';
+
 export class InitData
 {
   regions: Region[];
@@ -5,6 +7,7 @@ export class InitData
   showOveralls: ShowOverall[] = [];
   showStatuses: ShowStatus[];
   shows: Show[] = [];
+  person: Person;
 }
 
 export class Region
@@ -131,5 +134,59 @@ export class Show
     this.startsAt = new Date( raw.startsAt );
     this.endsAt = new Date( raw.endsAt );
   }
+}
 
+export class Animal
+{
+  id: number;
+  name: string;
+  allowCouples: boolean;
+  hasColoursPerBreedGroup: boolean;
+  isBackup: boolean;
+  position: number;
+}
+
+export class BreedColour
+{
+  id: number;
+  animal_id: number;
+  name: string;
+  isBackup: boolean;
+  position: number;
+}
+
+export class Breed
+{
+  id: number;
+  animal_id: number;
+  breedGroup_id: number;
+  name: string;
+  isBackup: boolean;
+  position: number;
+}
+
+export class BreedGroup
+{
+  id: number;
+  animal_id: number;
+  name: string;
+  isBackup: number;
+  position: number;
+}
+
+export class Country
+{
+  id: number;
+  name: string;
+}
+
+export class LoginInitData
+{
+  animals: Animal[];
+  breeds: Breed[];
+  breedColours: BreedColour[];
+  breedGroups: BreedGroup[];
+  countries?: Country[];
+  breedToBreedColours: number[][];
+  person: Person;
 }

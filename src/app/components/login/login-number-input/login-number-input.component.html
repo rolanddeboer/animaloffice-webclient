@@ -13,19 +13,19 @@
 </div>
 -->
 <div class="form-row">
-  <label for="association" i18n>Association</label>
+  <label for="federation" i18n>Federation</label>
     <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
       <i class="input-group-text icon-umbrella"></i>
       <select 
         class="custom-select" 
-        name="association"
+        name="federation"
         [(ngModel)]="loginService.editingNumber.federation.id"
-        (change)="onAssociationChange()"
+        (change)="onFederationChange()"
         [attr.disabled]="loginService.person ? 'disabled' : null"
-        #associationInput
+        #federationInput
       >
         <option 
-          *ngFor="let ass of loginService.getFreeAssociations(); let index = index" 
+          *ngFor="let ass of loginService.getFreeFederations(); let index = index" 
           value="{{ ass.id }}"
         >
           {{ ass.name ? ass.name : '' }}

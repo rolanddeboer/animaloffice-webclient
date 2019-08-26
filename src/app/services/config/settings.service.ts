@@ -1,5 +1,5 @@
 import { Injectable, LOCALE_ID, Inject, EventEmitter } from '@angular/core';
-import { InitData, Show, ShowOverall } from '../../classes/initData';
+import { InitData, LoginInitData, Show, ShowOverall } from '../../classes/initData';
 import { environment } from '../../../environments/environment';
 import { Observable, throwError } from 'rxjs'
 import { catchError, retry } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class SettingsService {
   public person: Person;
   // public initData: InitData;
   public username;
-  public associations;
+  public federations;
   public servername;
   public locale;
 
@@ -75,17 +75,18 @@ export class SettingsService {
     for ( let showOverall of initData.showOveralls) {
       showOveralls.push( new ShowOverall( showOverall ) );
     }
-    this.db.set( "ShowOverall", showOveralls, { indexKeys: [ "slug"] } );
+    // this.db.set( "ShowOverall", showOveralls, { indexKeys: ["slug"] } );
+    this.db.set( "ShowOverall", showOveralls, { "slug": { "index": true } } );
 
     const shows = [];
     for ( let show of initData.shows) {
       shows.push( new Show( show ) );
     }
 
-    this.db.set( "ShowStatus", initData.showStatuses, { sortKeys: ["position"] } );
+    this.db.set( "ShowStatus", initData.showStatuses, { "position": { "presort": true } } );
     this.db.set( "Show", shows ); 
     this.db.set( "BreederFederation", initData.breederFederations );
-    this.db.set( "Region", initData.regions, { autoRelate: false } );
+    this.db.set( "Region", initData.regions, null, { autoRelate: false } );
 
     // this.db.add( "Show", shows, { 
     //   // relations: [
@@ -102,15 +103,32 @@ export class SettingsService {
     // this.db.select("ShowOverall", "noordshow", "slug").getRelated("Show");
     // this.db.select("ShowOverall").selectBy("slug").select("noordshow").getRelated("Show");
 
-    // if ('person' in this.initData) {
-    //   this.username = this.initData.person.fullName;
+    if ('person' in initData) {
+      this.username = initData.person.fullName;
+    }
+
+    // if ('breederFederations' in this.initData && this.initData.breederFederations) {
+    //   this.federations = this.initData.breederFederations;
     // }
 
-    // if ('breederAssociations' in this.initData && this.initData.breederAssociations) {
-    //   this.associations = this.initData.breederAssociations;
-    // }
+  }
 
-  } 
+  setLoginInitData( data: LoginInitData ): void
+  {
+    this.db.set( "Animal", data.animals, { "position": { "presort": true } }  ); 
+    if ("countries" in data) this.db.set( "Country", data.countries ); 
+    this.db.set( "BreedGroup", data.breedGroups, { "position": { "presort": true } }  ); 
+    this.db.set( "Breed", data.breeds, { "position": { "presort": true } } , { "filterFunctions": { "test": (item: any)  => { return item["name"]==="Muskuseend" } } } ); 
+    this.db.set( "BreedColour", data.breedColours, { "position": { "presort": true } }  ); 
+    this.db.setJunction( "Breed", "BreedColour", data.breedToBreedColours );
+    this.username = data.person.fullName;
+
+    // console.log(this.db.get( "Breed" , "active"));
+    // console.log(this.db.get( "Breed" , "test"));
+  }
+
+  relateManyToMany(): void {
+  }
 
   getServerUriFrom( path: string ): string
   {
@@ -188,7 +206,7 @@ export class SettingsService {
 
   submitLogout(): Observable<any> 
   {
-    const url = this.servername + '/logout';
+    const url = this.getServerUriFrom( "nl/logout" );
     return this.http.post<any>(url, null, this.httpOptions)
     .pipe(
       retry(3),

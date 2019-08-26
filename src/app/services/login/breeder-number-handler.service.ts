@@ -80,7 +80,6 @@ export class BreederNumberHandlerService {
     )
     .subscribe(
       (data) => {
-        console.log( data );
         resolvePromise( data );
       }
     )
@@ -172,7 +171,7 @@ export class BreederNumberHandlerService {
   //     password: this.password
   //   }
   //   // return {
-  //   //   association_id: this.breederNumber.federation.id,
+  //   //   federation_id: this.breederNumber.federation.id,
   //   //   number: this.breederNumber.breederNumber.trim(),
   //   //   postcodes: this.postcodes,
   //   //   password: this.password,
@@ -207,7 +206,7 @@ export class BreederNumberHandlerService {
   //   //   this.settings.setUsername(data.userLogin);
   //   //   returnObject.loggedIn = true;
   //   // } else {
-  //   //   this.breederNumber.federation = this.db.find( "BreederFederation", data.association_id ); 
+  //   //   this.breederNumber.federation = this.db.find( "BreederFederation", data.federation_id ); 
   //   //   this.breederNumber.breederNumber = data.breederNumber;
   //   //   returnObject.addNumber = true;
   //   // }
