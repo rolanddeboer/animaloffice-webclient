@@ -17,7 +17,7 @@ export class LoginPageComponent implements OnInit {
     public loginService: LoginService,
     private route: ActivatedRoute,
     // private showService: ShowService,
-    private settings: SettingsService,
+    public settings: SettingsService,
     public db: DatabaseService
   ) { }
 

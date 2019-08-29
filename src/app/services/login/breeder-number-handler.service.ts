@@ -42,8 +42,6 @@ export class BreederNumberHandlerService {
   public postcodes: string[] = [];
   public password = "";
   public persist = false;
-  private breederNumber: BreederNumberType;
-  private observer: any;
 
   constructor(
     private settings: SettingsService,

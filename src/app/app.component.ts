@@ -19,7 +19,13 @@ export class AppComponent {
     public settingsService: SettingsService
   ) {
     this.settingsService.logoutOccured.subscribe(() => {
-      this.modalService.open(this.logoutModal, {centered: true});
+      this.modalService.open(this.logoutModal, {centered: true}).result.then((result) => {
+        this.settingsService.completeLogout();
+      }, (reason) => {
+        this.settingsService.completeLogout();
+      });
+
+
     });
   }
 

@@ -11,7 +11,7 @@
     <!-- <h3>{{ show.name }} {{ show.edition }}</h3> -->
   </div>
   
-  <article *ngIf = "loginService.db.has('BreederFederation')">
+  <article *ngIf = "db.has('BreederFederation')">
     <h2>Sign up / sign in</h2>
     <section>
       <app-login-list *ngIf="loginService.doWeShowLoginList()"></app-login-list>

@@ -15,6 +15,7 @@ import { Person, BreederNumber } from 'src/app/classes/person';
 export class SettingsService {
   public themeUpdated = new EventEmitter<string>();
   public logoutOccured = new EventEmitter<void>();
+  public logoutCompleted = new EventEmitter<void>();
   public burgerState = false;
   public smallScreen: boolean;
   public activeShow: Show;
@@ -104,7 +105,7 @@ export class SettingsService {
     // this.db.select("ShowOverall").selectBy("slug").select("noordshow").getRelated("Show");
 
     if ('person' in initData) {
-      this.username = initData.person.fullName;
+      this.setPerson( initData.person );
     }
 
     // if ('breederFederations' in this.initData && this.initData.breederFederations) {
@@ -121,7 +122,7 @@ export class SettingsService {
     this.db.set( "Breed", data.breeds, { "position": { "presort": true } } , { "filterFunctions": { "test": (item: any)  => { return item["name"]==="Muskuseend" } } } ); 
     this.db.set( "BreedColour", data.breedColours, { "position": { "presort": true } }  ); 
     this.db.setJunction( "Breed", "BreedColour", data.breedToBreedColours );
-    this.username = data.person.fullName;
+    this.setPerson( data.person );
 
     // console.log(this.db.get( "Breed" , "active"));
     // console.log(this.db.get( "Breed" , "test"));
@@ -156,9 +157,10 @@ export class SettingsService {
     // var isOperaMini = Object.prototype.toString.call(window.operamini) === "[object OperaMini]"
   }
 
-  setUsername(name: string) 
+  setPerson(person: Person)
   {
-    this.username = name;
+    this.person = new Person( person );
+    this.username = this.person.fullName;
   }
 
   getBackgroundNumberWide(): string 
@@ -194,7 +196,7 @@ export class SettingsService {
     }
   }
 
-  logout() 
+  logout(): void
   {
     this.submitLogout().subscribe(
       () => {
@@ -202,6 +204,11 @@ export class SettingsService {
         this.logoutOccured.emit();
       })
     ;
+  }
+
+  completeLogout(): void
+  {
+    this.logoutCompleted.emit();
   }
 
   submitLogout(): Observable<any> 

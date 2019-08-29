@@ -247,6 +247,22 @@ section {
       display: block;
     }
   }
+  .modal-header {
+    border: 1px solid lighten($copper, 20%);
+    border-bottom: 1px solid lighten($copper, 45%);
+    background-color: white;
+  }
+  .modal-body {
+    border-left: 1px solid lighten($copper, 20%);
+    border-right: 1px solid lighten($copper, 20%);
+    padding: 20px;
+    background-color: white;
+  }
+  .modal-footer {
+    border: 1px solid lighten($copper, 20%);
+    border-top: 1px solid lighten($copper, 45%);
+    background-color: white;
+  }
 
 }
 
@@ -289,15 +305,18 @@ section {
   .modal-header {
     border: 1px solid lighten($copper, 20%);
     border-bottom: 1px solid lighten($copper, 45%);
+    background-color: white;
   }
   .modal-body {
     border-left: 1px solid lighten($copper, 20%);
     border-right: 1px solid lighten($copper, 20%);
     padding: 20px;
+    background-color: white;
   }
   .modal-footer {
     border: 1px solid lighten($copper, 20%);
     border-top: 1px solid lighten($copper, 45%);
+    background-color: white;
   }
 }
 

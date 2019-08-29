@@ -11,7 +11,7 @@ export class ListAllShowsComponent implements OnInit {
   public displayInactiveShows = false;
 
   constructor(
-    private db: DatabaseService
+    public db: DatabaseService
   ) { }
 
   ngOnInit() {  }

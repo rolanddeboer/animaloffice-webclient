@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomepagetBoxComponent } from './homepage-box.component';
+import { HomepageBoxComponent } from './homepage-box.component';
 
 describe('HomepageBoxComponent', () => {
-  let component: HomepagetBoxComponent;
-  let fixture: ComponentFixture<HomepagetBoxComponent>;
+  let component: HomepageBoxComponent;
+  let fixture: ComponentFixture<HomepageBoxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomepagetBoxComponent ]
+      declarations: [ HomepageBoxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomepagetBoxComponent);
+    fixture = TestBed.createComponent(HomepageBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

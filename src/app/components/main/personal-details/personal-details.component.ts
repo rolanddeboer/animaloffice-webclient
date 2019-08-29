@@ -11,6 +11,7 @@ import { ShowService } from 'src/app/services/show/show.service';
 import { DatabaseService } from 'src/app/services/database/database.service';
 import { SettingsService } from 'src/app/services/config/settings.service';
 import { RoutingToolsService } from 'src/app/services/config/routing-tools.service';
+import { LoginService } from 'src/app/services/login/login.service';
 
 // Components
 import { LoginModalComponent } from 'src/app/components/login/login-modal/login-modal.component';
@@ -18,6 +19,7 @@ import { LoginModalComponent } from 'src/app/components/login/login-modal/login-
 // Entities
 import { Person } from 'src/app/classes/person';
 import { Show } from 'src/app/classes/showType';
+import { BreederNumberType } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -43,11 +45,16 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private personService: PersonService,
     private showService: ShowService,
-    protected db: DatabaseService,
+    public db: DatabaseService,
     private settings: SettingsService,
     private routingTools: RoutingToolsService,
-    private modalService: NgbModal
-  ) { }
+    private modalService: NgbModal,
+    private loginService: LoginService
+  ) { 
+    this.settings.logoutCompleted.subscribe(() => {
+      this.routingTools.navigateToRoute( "home" );
+    });
+  }
 
   ngOnInit(): void
   {
@@ -55,8 +62,14 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
       this.routingTools.navigateToRoute( "login" );
     } else {
       this.person = this.settings.person;
-      console.log(this.person);
     }
+    for ( let breederNumber of this.person.breederNumbers ) {
+      const newBn = new BreederNumberType();
+      newBn.breederNumber = breederNumber.breederNumber;
+      newBn.federation = this.db.find("BreederFederation", breederNumber.federation_id);
+      this.loginService.breederNumbers.push( newBn );
+    }
+    this.loginService.editingNumber = null;
     //this.route.params.subscribe( params => this.showService.setShow(params) );
 
     // const that = this;
@@ -74,12 +87,10 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void
   {
-    if (this.person.isNew()) {
-      if (this.person.isCombination) {
-        this.surnameInput.nativeElement.focus();
-      } else {
-        this.firstNameInput.nativeElement.focus();
-      }
+    if (this.person.isCombination) {
+      this.surnameInput.nativeElement.focus();
+    } else {
+      this.firstNameInput.nativeElement.focus();
     }
   }
 
@@ -134,7 +145,16 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   changeBreederNumbersClick()
   {
-    const modalRef = this.modalService.open(LoginModalComponent);
-    modalRef.componentInstance.name = 'World';
+    this.modalService
+      .open(LoginModalComponent, {
+        "backdrop": "static"
+      })
+      .result
+      .then((result) => {
+        console.log(result);
+      }, (reason) => {
+        console.log(reason);
+      });
+    ;
   }
 }

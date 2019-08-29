@@ -17,7 +17,7 @@ export class ShowListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public settings: SettingsService,
-    private db: DatabaseService
+    public db: DatabaseService
   ) { }
 
   ngOnInit() {

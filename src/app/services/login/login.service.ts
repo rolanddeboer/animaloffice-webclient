@@ -7,7 +7,7 @@ import { BreederFederation } from 'src/app/classes/initData';
 import { DatabaseService } from '../database/database.service';
 import { Person, BreederNumber } from 'src/app/classes/person';
 
-class BreederNumberType {
+export class BreederNumberType {
   breederNumber = "";
   federation: BreederFederation;
   editMode?: boolean;
@@ -301,16 +301,16 @@ export class LoginService {
       return;
     }
 
-    if ( data.status == BnStatus.HAS_PERSON || data.status == BnStatus.HAS_USER ) {
+    if ( data.status == BnStatus.IS_FREE || this.person && (BnStatus.HAS_PERSON || data.status == BnStatus.HAS_USER)) {
+      this.editingNumber.breederNumber = data.breederNumber;
+      this.updateActiveBreederNumber();
+      if ( data.countries ) this.db.set( "Country", data.countries );
+    } 
+    if ( !this.person && (data.status == BnStatus.HAS_PERSON || data.status == BnStatus.HAS_USER) ) {
       this.person = new PersonEntryData( data.name );
     }
     if ( data.status == BnStatus.HAS_USER ) {
       this.person.hasUser = true;
-    }
-    if ( data.status == BnStatus.IS_FREE ) {
-      this.editingNumber.breederNumber = data.breederNumber;
-      this.updateActiveBreederNumber();
-      if ( data.countries ) this.db.set( "Country", data.countries );
     }
     if ( data.status == BnStatus.INVALID ) {
       this.errorMessage = "Dit is niet een geldig fokkersnummer. Graag aanpassen.";
@@ -341,7 +341,7 @@ export class LoginService {
 
   revertEditingBreederNumber(): void
   {
-    this.updateActiveBreederNumber(true);
+    if (this.editingNumber) this.updateActiveBreederNumber(true);
   }
 
   updateActiveBreederNumber(revert = false): void
