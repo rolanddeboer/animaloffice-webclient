@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 // import { ShowService } from 'src/app/services/show/show.service';
 import { SettingsService } from 'src/app/services/config/settings.service';
 import { DatabaseService } from 'src/app/services/database/database.service';
+import { RoutingToolsService } from 'src/app/services/config/routing-tools.service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,37 +19,40 @@ export class LoginPageComponent implements OnInit {
     private route: ActivatedRoute,
     // private showService: ShowService,
     public settings: SettingsService,
-    public db: DatabaseService
+    public db: DatabaseService,
+    private routingTools: RoutingToolsService,
   ) { }
 
   ngOnInit()
   {
+    if ( !this.settings.person ) {
+      this.routingTools.navigateToRoute( "home" );
+    }
     this.setShow();
     this.loginService.inModal = false;
   }
 
   setShow(): void
   {
-    if ( !this.db.has("ShowOverall") ) {
-      setTimeout( () => this.setShow(), 50);
-      return;
-    }
+    // if ( !this.db.has("ShowOverall") ) {
+    //   setTimeout( () => this.setShow(), 50);
+    //   return;
+    // }
 
     this.route.params.subscribe( params => {
-      const showOverall: ShowOverall = this.db.find( 
+      this.db.findWhen(
         "ShowOverall", 
         params["showOverallSlug"], 
         "slug"
-      );
-
-      if (! showOverall ) return;
-
-      for ( let showItem of showOverall.shows ) {
-        if ( showItem.editionSlug == params["showEditionSlug"] ) {
-          this.settings.activeShow = showItem;
-          break;
+      ).then( (showOverall: any) => {
+        if (! showOverall ) return;
+        for ( let showItem of showOverall.shows ) {
+          if ( showItem.editionSlug == params["showEditionSlug"] ) {
+            this.settings.activeShow = showItem;
+            break;
+          }
         }
-      }
+      });
     });
   }
 

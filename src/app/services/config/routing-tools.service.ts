@@ -107,7 +107,7 @@ export class RoutingToolsService {
 
   getRouterLink(name: string): string
   {
-    return this.languagePrefix + '/' + this.region + '/' + routes[name][this.languagePrefix];
+    return '/' + this.languagePrefix + '/' + this.region + '/' + routes[name][this.languagePrefix];
   }
 
   getCurrentRoute(): string

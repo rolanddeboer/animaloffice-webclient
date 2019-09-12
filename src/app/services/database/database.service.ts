@@ -52,9 +52,17 @@ export class DatabaseService {
 
   getWhen( entityName: string ): Promise<any[]>
   {
-    return this.getOrCreate( entityName ).isInitialized
+    return this.when( entityName )
     .then(
       () => Promise.resolve( this.get( entityName ))
+    );
+  }
+
+  findWhen( entityName: string, value: any, key: string = "id" ): Promise<any[]>
+  {
+    return this.when( entityName )
+    .then(
+      () => Promise.resolve( this.find( entityName, value, key ))
     );
   }
 
