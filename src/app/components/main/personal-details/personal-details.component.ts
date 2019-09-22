@@ -58,18 +58,24 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void
   {
-    if ( !this.settings.person ) {
-      this.routingTools.navigateToRoute( "login" );
-    } else {
-      this.person = this.settings.person;
-    }
-    for ( let breederNumber of this.person.breederNumbers ) {
-      const newBn = new BreederNumberType();
-      newBn.breederNumber = breederNumber.breederNumber;
-      newBn.federation = this.db.find("BreederFederation", breederNumber.federation_id);
-      this.loginService.breederNumbers.push( newBn );
-    }
-    this.loginService.editingNumber = null;
+    this.settings.whenInitialized.then(
+      () => {
+        if (!this.settings.person) {
+          this.routingTools.navigateToRoute( "login" );
+        }
+        this.person = this.settings.person;
+        console.log(this.person.breederNumbers);
+        console.log(this.loginService.breederNumbers);
+        this.loginService.breederNumbers = [];
+        for ( let breederNumber of this.person.breederNumbers ) {
+          const newBn = new BreederNumberType();
+          newBn.breederNumber = breederNumber.breederNumber;
+          newBn.federation = this.db.find("BreederFederation", breederNumber.federation_id);
+          this.loginService.breederNumbers.push( newBn );
+        }
+        this.loginService.editingNumber = null;
+      }
+    );
     //this.route.params.subscribe( params => this.showService.setShow(params) );
 
     // const that = this;
@@ -87,11 +93,15 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void
   {
-    if (this.person.isCombination) {
-      this.surnameInput.nativeElement.focus();
-    } else {
-      this.firstNameInput.nativeElement.focus();
-    }
+    this.settings.whenInitialized.then(
+      () => {
+        if (this.person.isCombination) {
+          this.surnameInput.nativeElement.focus();
+        } else {
+          this.firstNameInput.nativeElement.focus();
+        }
+      }
+    );
   }
 
   updatePerson( person: Person ): void

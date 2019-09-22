@@ -25,11 +25,15 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit()
   {
-    if ( !this.settings.person ) {
-      this.routingTools.navigateToRoute( "home" );
-    }
-    this.setShow();
-    this.loginService.inModal = false;
+    this.settings.whenInitialized.then(
+      () => {
+        if (this.settings.person) {
+          this.routingTools.navigateToRoute( "home" );
+        }
+        this.loginService.inModal = false;
+        this.setShow();
+      }
+    );
   }
 
   setShow(): void

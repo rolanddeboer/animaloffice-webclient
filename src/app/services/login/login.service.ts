@@ -161,11 +161,7 @@ export class LoginService {
       return;
     }
     if ( this.person.postcode ) {
-      this.bnHandler.postcodes.push(this.person.postcode);
       this.postcodes.push(this.person.postcode);
-    }
-    if ( this.person.password ) {
-      this.bnHandler.password = this.person.password;
     }
     this.submit();
   }
@@ -252,7 +248,7 @@ export class LoginService {
   {
     if ( !this.validateForm ) return;
     this.startSpinner();
-    this.bnHandler.checkPerson( this.editingNumber, this.postcodes )
+    this.bnHandler.checkPerson( this.editingNumber, this.postcodes, !this.inModal )
       .then((data: any) => {
         this.stopSpinner();
         this.submitHasJustComeBackAndGuessWhat( data );
@@ -264,6 +260,7 @@ export class LoginService {
       })
     ;
   }
+
   // submit1(): void
   // {
   //   if ( !this.validateForm ) return;
@@ -399,6 +396,7 @@ export class LoginService {
   {
     if (!this.breederNumbers) return false;
     if (this.person) return false;
+    console.log(this.breederNumbers);
     if (this.breederNumbers.length > 1) return true;
     return !(this.editingNumber);
   }

@@ -1,5 +1,5 @@
 import { Injectable, LOCALE_ID, Inject, EventEmitter } from '@angular/core';
-import { InitData, LoginInitData, Show, ShowOverall } from '../../classes/initData';
+import { InitData, Show, ShowOverall } from '../../classes/initData';
 import { environment } from '../../../environments/environment';
 import { Observable, throwError } from 'rxjs'
 import { catchError, retry } from 'rxjs/operators';
@@ -16,7 +16,10 @@ export class SettingsService {
   public themeUpdated = new EventEmitter<string>();
   public logoutOccured = new EventEmitter<void>();
   public logoutCompleted = new EventEmitter<void>();
+  public loginStatusChanged = new EventEmitter<void>();
   public burgerState = false;
+  private whenInitializedResolve: Function;
+  public whenInitialized: Promise<void>;
   public smallScreen: boolean;
   public activeShow: Show;
   public person: Person;
@@ -52,7 +55,10 @@ export class SettingsService {
     private db: DatabaseService
   ) { 
     this.servername = environment.production ? 'https://v2.animaloffice.net' : '/server';
-    this.initDataService.getInitData()
+    this.whenInitialized = new Promise( resolve => {
+      this.whenInitializedResolve = resolve;
+    })
+    this.initDataService.getInitData( this.getServerUriFrom() )
       .subscribe((data: InitData) => this.setInitData( data ))
     ;
     // touchscreen detection cause we don't want no tooltips on those
@@ -105,19 +111,17 @@ export class SettingsService {
     // this.db.select("ShowOverall").selectBy("slug").select("noordshow").getRelated("Show");
 
     if ('person' in initData) {
-      this.setPerson( initData.person );
+      this.setLoginInitData( initData );
+    } else {
+      this.loginStatusChanged.emit();
     }
-
-    // if ('breederFederations' in this.initData && this.initData.breederFederations) {
-    //   this.federations = this.initData.breederFederations;
-    // }
-
+    this.whenInitializedResolve();
   }
 
-  setLoginInitData( data: LoginInitData ): void
+  setLoginInitData( data: InitData ): void
   {
-    this.db.set( "Animal", data.animals, { "position": { "presort": true } }  ); 
     if ("countries" in data) this.db.set( "Country", data.countries ); 
+    this.db.set( "Animal", data.animals, { "position": { "presort": true } }  ); 
     this.db.set( "BreedGroup", data.breedGroups, { "position": { "presort": true } }  ); 
     this.db.set( "Breed", data.breeds, { "position": { "presort": true } } , { "filterFunctions": { "test": (item: any)  => { return item["name"]==="Muskuseend" } } } ); 
     this.db.set( "BreedColour", data.breedColours, { "position": { "presort": true } }  ); 
@@ -128,10 +132,24 @@ export class SettingsService {
     // console.log(this.db.get( "Breed" , "test"));
   }
 
+  letMeKnowOfLogin(): void
+  {
+    if (this.person) {
+      this.loginStatusChanged.emit();
+    }
+  }
+
+  setPerson(person: Person)
+  {
+    this.person = new Person( person );
+    this.username = this.person.fullName;
+    this.loginStatusChanged.emit();
+  }
+
   relateManyToMany(): void {
   }
 
-  getServerUriFrom( path: string ): string
+  getServerUriFrom( path: string = "" ): string
   {
     return this.servername + "/" + this.getLanguagePrefix() + "/" + path; 
   }
@@ -155,12 +173,6 @@ export class SettingsService {
   {
     return (navigator.userAgent.indexOf('Opera Mini') > -1);
     // var isOperaMini = Object.prototype.toString.call(window.operamini) === "[object OperaMini]"
-  }
-
-  setPerson(person: Person)
-  {
-    this.person = new Person( person );
-    this.username = this.person.fullName;
   }
 
   getBackgroundNumberWide(): string 
@@ -202,6 +214,7 @@ export class SettingsService {
       () => {
         this.username = null;
         this.logoutOccured.emit();
+        this.loginStatusChanged.emit();
       })
     ;
   }

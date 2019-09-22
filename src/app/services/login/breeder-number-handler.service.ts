@@ -39,8 +39,6 @@ interface BnReturn {
   providedIn: 'root'
 })
 export class BreederNumberHandlerService {
-  public postcodes: string[] = [];
-  public password = "";
   public persist = false;
 
   constructor(
@@ -85,7 +83,7 @@ export class BreederNumberHandlerService {
     return promise;
   }
 
-  checkPerson( breederNumber: BreederNumberType, postcodes: string[] )
+  checkPerson( breederNumber: BreederNumberType, postcodes: string[], loggingIn: boolean )
   {
     let resolvePromise: Function;
     let rejectPromise: Function;
@@ -96,6 +94,7 @@ export class BreederNumberHandlerService {
       federation_id: breederNumber.federation.id,
       breederNumber: breederNumber.breederNumber,
       postcodes: postcodes,
+      loggingIn: loggingIn,
       withCountries: !this.db.has("Country")
     }
 

@@ -8,7 +8,24 @@ export class InitData
   showStatuses: ShowStatus[];
   shows: Show[] = [];
   person: Person;
+  animals: Animal[];
+  breeds: Breed[];
+  breedColours: BreedColour[];
+  breedGroups: BreedGroup[];
+  countries?: Country[];
+  breedToBreedColours: number[][];
 }
+
+// export class LoginInitData
+// {
+//   animals: Animal[];
+//   breeds: Breed[];
+//   breedColours: BreedColour[];
+//   breedGroups: BreedGroup[];
+//   countries?: Country[];
+//   breedToBreedColours: number[][];
+//   person: Person;
+// }
 
 export class Region
 {
@@ -178,15 +195,4 @@ export class Country
 {
   id: number;
   name: string;
-}
-
-export class LoginInitData
-{
-  animals: Animal[];
-  breeds: Breed[];
-  breedColours: BreedColour[];
-  breedGroups: BreedGroup[];
-  countries?: Country[];
-  breedToBreedColours: number[][];
-  person: Person;
 }
