@@ -20,6 +20,8 @@ import { LoginModalComponent } from 'src/app/components/login/login-modal/login-
 import { Person } from 'src/app/classes/person';
 import { Show } from 'src/app/classes/showType';
 import { BreederNumberType } from 'src/app/services/login/login.service';
+import { BreederNumberHandlerService } from 'src/app/services/login/breeder-number-handler.service';
+import { ModalComponent } from '../../pages/modal/modal.component';
 
 @Component({
   selector: 'app-personal-details',
@@ -38,12 +40,16 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
   ];
   public days = Array(31).fill(0, 0, 31).map( (x, i) => i+1 );
   public years = Array(100).fill(0, 0, 100).map( (x, i) => 0-i+(new Date).getFullYear() );
+  public newUser = true;
+  public acceptTerms = false;
+  public acceptTermsError = false;
   @ViewChild("firstNameInput", { "static": false }) firstNameInput: ElementRef;
   @ViewChild("surnameInput", { "static": false }) surnameInput: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     private personService: PersonService,
+    private bnHandler: BreederNumberHandlerService,
     private showService: ShowService,
     public db: DatabaseService,
     private settings: SettingsService,
@@ -64,16 +70,9 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
           this.routingTools.navigateToRoute( "login" );
         }
         this.person = this.settings.person;
-        console.log(this.person.breederNumbers);
-        console.log(this.loginService.breederNumbers);
-        this.loginService.breederNumbers = [];
-        for ( let breederNumber of this.person.breederNumbers ) {
-          const newBn = new BreederNumberType();
-          newBn.breederNumber = breederNumber.breederNumber;
-          newBn.federation = this.db.find("BreederFederation", breederNumber.federation_id);
-          this.loginService.breederNumbers.push( newBn );
+        if ( this.loginService.modalOpen ) {
+          this.openBnModal();
         }
-        this.loginService.editingNumber = null;
       }
     );
     //this.route.params.subscribe( params => this.showService.setShow(params) );
@@ -91,11 +90,24 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
     // });
   }
 
+  setBreederNumbers(): void
+  {
+    this.loginService.setBreederNumbers( this.person.breederNumbers );
+    // let breederNumbers: BreederNumberType[] = [];
+    // for ( let breederNumber of this.person.breederNumbers ) {
+    //   breederNumbers.push( {
+    //     breederNumber: breederNumber.breederNumber,
+    //     federation_id: breederNumber.federation_id
+    //   } );
+    // }
+    // this.loginService.breederNumbers = breederNumbers;
+  }
+
   ngAfterViewInit(): void
   {
     this.settings.whenInitialized.then(
       () => {
-        if (this.person.isCombination) {
+        if (this.person && this.person.isCombination) {
           this.surnameInput.nativeElement.focus();
         } else {
           this.firstNameInput.nativeElement.focus();
@@ -106,7 +118,6 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   updatePerson( person: Person ): void
   {
-    person.setBirthday( person.birthday );
     this.person = new Person ( person );
   }
 
@@ -115,15 +126,7 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
     return Object.keys(this.validationErrors).length;
   }
 
-  resetDate(): void
-  {
-    this.person.setBirthday();
-    // this.person.birthday.setDate( 1 );
-    // this.person.birthday.setMonth( 0 );
-    // this.person.birthday.setFullYear( 2000 );
-  }
-
-  updateDateFromForm(): void
+  updateBirthDateFromForm(): void
   {
     this.person.birthday.setDate( this.person.birthday_day );
     this.person.birthday.setMonth( this.person.birthday_month );
@@ -132,39 +135,109 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void
   {
-    if ( this.person.isYouth ) {
-      this.updateDateFromForm();
-    } else {
-      this.resetDate();
-    }
-
+    console.log( this.person );
+    if ( !this.validatePersonBeforeSaving() ) return;
     this.loading = true;
-    const that = this;
 
-    this.personService.savePerson( this.person ).subscribe( {
-      next( validationErrors: Object ): void {
-        that.validationErrors = validationErrors
-        that.loading = false;
-      },
-      error( error: string ): void {
+    this.saveBreederNumbers()
+      .then( this.savePerson )
+      .then( () => {
+        this.loading = false;
+      })
+      .catch((error: string) => {
         console.error( error );
-        that.loading = false;
-      }
-    } );
+        this.loading = false;
+      })
+    ;
+
+    return;
+
+    // this.personService.savePerson( this.person ).subscribe( {
+    //   next( validationErrors: Object ): void {
+    //     that.validationErrors = validationErrors
+    //     that.loading = false;
+    //   },
+    //   error( error: string ): void {
+    //     console.error( error );
+    //     that.loading = false;
+    //   }
+    // } );
   }
 
-  changeBreederNumbersClick()
+  private saveBreederNumbers(): Promise<any>
   {
+    return this.bnHandler.saveAll( this.person.breederNumbers )
+    .then((data: any) => {
+      console.log( data );
+      if (data.issues.length) {
+        this.openBnModal();
+        this.loginService.editNumberByFederationId( data.issues[0]["federation_id"] );
+        this.loginService.submitHasJustComeBackAndGuessWhat( data.issues[0] );
+      }
+    })
+  }
+  
+  private savePerson(): Promise<any>
+  {
+    this.validationErrors = null;
+    return this.personService.createProfile( this.person, this.loginService.postcodes )
+    .then( ( data: Object ) => {
+      console.log( data );
+      if ( data["personErrors"] ) {
+        this.validationErrors = data["personErrors"];
+      }
+    });
+  }
+
+  private validatePersonBeforeSaving(): boolean
+  {
+    if ( this.person.isYouth ) {
+      // set string date based on display date
+      this.updateBirthDateFromForm();
+    } else {
+      // make sure that if isYouth was deselected, any existing birth date is replaced by 2000-01-01
+      this.person.setBirthday();
+    }
+
+    if ( this.newUser ) {
+      if ( !this.acceptTerms ) {
+        this.acceptTermsError = true;
+        return false;
+      } else {
+        this.acceptTermsError = false;
+      }
+      // make sure that the password property exists so that the server will validate it.
+      if ( !this.person.password ) this.person.password = "";
+    }
+
+    return true;
+  }
+
+  openBnModal()
+  {
+    this.setBreederNumbers();
     this.modalService
       .open(LoginModalComponent, {
         "backdrop": "static"
       })
       .result
-      .then((result) => {
-        console.log(result);
+      .then((breederNumbers) => {
+        this.person.breederNumbers = breederNumbers;
       }, (reason) => {
         console.log(reason);
       });
     ;
+  }
+
+  openPageModal( page: string ): void
+  {
+    this.setBreederNumbers();
+    const modal = this.modalService
+      .open(ModalComponent, {
+        size: "lg",
+        scrollable: true
+      })
+    ;
+    modal.componentInstance.page = page;
   }
 }

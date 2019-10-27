@@ -24,9 +24,21 @@ h3 {
 }
 h4 {
   margin: 5px 0 20px 0;
+  margin: -5px -10px 20px -10px;
+  // background-color: $gray-100;
+  // border-bottom: 1px solid $gray-300;
 }
 footer {
   margin: 20px -10px -5px -10px;
+  padding: 15px;
+
+  button {
+    margin: 5px;
+  }
+  app-spinner {
+    height: 26px;
+    margin: 12px 10px;
+  }
 }
 // hack to remove dotted outline from focused select dropdowns
 // https://stackoverflow.com/questions/9119629/remove-dotted-border-outline-of-focused-dropdown-menu

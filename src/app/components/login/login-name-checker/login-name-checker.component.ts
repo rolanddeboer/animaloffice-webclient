@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginNameCheckerComponent implements AfterViewInit {
   @ViewChild('passwordInput', {static: false}) passwordInput: ElementRef;
+  @ViewChild('postcodeInput', {static: false}) postcodeInput: ElementRef;
+  notMe = false;
 
   constructor(
     public loginService: LoginService
@@ -16,10 +18,17 @@ export class LoginNameCheckerComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loginService.passwordInputRef = this.passwordInput;
+    this.loginService.postcodeInputRef = this.postcodeInput;
   }
 
-  confirm() {
+  confirm(): void
+  {
     this.loginService.confirmName();
+  }
+
+  cancel(): void
+  {
+    this.loginService.cancelEditing();
   }
 
 }

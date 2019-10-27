@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-privacy-page-en',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./privacy-page.component.scss']
 })
 export class PrivacyPageEnComponent implements OnInit {
+  @Input() inModal = true;
 
   constructor() { }
 

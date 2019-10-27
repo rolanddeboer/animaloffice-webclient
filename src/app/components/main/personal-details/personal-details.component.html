@@ -1,4 +1,4 @@
-<article>
+<article *ngIf="person">
   <h1>Personal details</h1>
   <form #personForm="ngForm" (ngSubmit)="onSubmit()">
     <section>
@@ -284,6 +284,7 @@
             </div>
           </div>
         </div>
+        <p>Why IBAN? Your IBAN number is needed for the payout of earned prize money. Your account will not be debited unless you give permission on the show entry form.</p>
 
       </main>
     </section>
@@ -299,19 +300,10 @@
 
         <div class="row" *ngFor="let breederNumber of person.breederNumbers">
           <label class="col-sm-5">
-            Breeder number {{ breederNumber.federation_name }}
+            Breeder number {{ loginService.getFederationById(breederNumber.federation_id).name }}
           </label>
           <div class="col-sm-7 breeder-number">
             {{ breederNumber.breederNumber }}
-          </div>
-        </div>
-
-        <div class="row">
-          <label class="col-sm-5">
-            Breeder number NBS
-          </label>
-          <div class="col-sm-7 breeder-number">
-            1258
           </div>
         </div>
 
@@ -319,13 +311,13 @@
           <label class="col-sm-5 col-form-label">
           </label>
           <div class="col-sm-7">
-            <button type="button" class="btn btn-default" (click)="changeBreederNumbersClick()">
+            <button type="button" class="btn btn-default" (click)="openBnModal()">
               Change breeder number(s)
             </button>
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="!newUser">
           <label class="col-sm-5 col-form-label" for="password">
             Password
           </label>
@@ -374,9 +366,74 @@
           </div>
         </div>
 
+        <ng-container *ngIf="newUser">
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label" for="password1">
+              Choose a password
+            </label>
+            <div class="col-sm-7">
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password1"
+                name="password1"
+                [(ngModel)]="person.password"
+                [class.invalid]="validationErrors['password']"
+              >
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label" for="password2">
+              Repeat the password
+            </label>
+            <div class="col-sm-7">
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password2"
+                name="password2"
+                [(ngModel)]="person.passwordAgain"
+                [class.invalid]="validationErrors['password']"
+              >
+              <div 
+                [hidden]="!validationErrors['password']"
+                class="alert alert-danger"
+              >
+                {{ validationErrors['password'] }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="form-group row" *ngIf="newUser">
+          <label class="col-sm-9 col-form-label" for="acceptTerms">
+            I accept the <a href="javascript:void(null)" (click)="openPageModal('privacy')">privacy policy</a> and the <a href="javascript:void(null)" (click)="openPageModal('terms')">terms and conditions</a>
+          </label>
+          <div class="col-sm-3">
+            <bSwitch 
+              switch-off-text="No"
+              switch-on-text="Yes"
+              switch-label-width="30"
+              [(ngModel)]="acceptTerms"
+              [class.invalid]="acceptTermsError && !acceptTerms"
+              id="acceptTerms"
+              name="acceptTerms"
+            >
+            </bSwitch>
+          </div>
+        </div>
+
       </main>
     </section>
     
+    <section class="no-hover special-section special-section-error" *ngIf="acceptTermsError && !acceptTerms">
+        <main>
+          <p>
+            Animal Office can only accept your data if you agree to the conditions.
+          </p>
+        </main>
+      </section>
     <section class="no-hover special-section special-section-error" *ngIf="hasErrors()">
       <main>
         <p>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from 'src/app/services/login/login.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login-list',
@@ -7,6 +8,7 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login-list.component.scss']
 })
 export class LoginListComponent implements OnInit {
+  @Input("modal") modal: NgbActiveModal;
 
   constructor(
     public loginService: LoginService
@@ -18,8 +20,18 @@ export class LoginListComponent implements OnInit {
   proceedClick() {
   }
 
+  closeModal() {
+    this.modal.dismiss( null );
+    this.loginService.reset();
+  }
+
   submit() {
-    this.loginService.saveAll()
+    if ( this.loginService.inModal ) {
+      this.modal.close( this.loginService.getBreederNumbersFormattedForPersonClass() );
+    } else {
+      this.loginService.goToPersonPage();
+    }
+    //this.loginService.saveAll()
   }
 
 }

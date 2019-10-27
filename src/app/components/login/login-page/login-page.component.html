@@ -19,12 +19,7 @@
         *ngIf="loginService.editingNumber && !loginService.persistingAll"
         [ngClass]="loginService.doWeShowLoginList() ? 'has-list' : ''"
       ></app-login-number-input>
-      <app-login-name-checker *ngIf="loginService.person"></app-login-name-checker>
-      <app-login-not-me *ngIf="loginService.notMe"></app-login-not-me>
-  
-      <footer *ngIf="loginService.loading">
-        <app-spinner name="loginList" group="login" [show]="loginService.loading"></app-spinner>
-      </footer>
+      <app-login-name-checker *ngIf="loginService.potentialPerson"></app-login-name-checker>
     </section>
   </article>
 

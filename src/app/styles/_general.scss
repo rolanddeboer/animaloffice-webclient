@@ -215,6 +215,7 @@ section {
     background: none;
     border: none;
     position: relative;
+    border-radius: 5px;
   }
 
   section {
@@ -371,4 +372,15 @@ button.dropdown-item {
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   border-left: 7px solid $brightgreen;
+}
+
+.invalid {
+
+  .bootstrap-switch {
+    border: 2px solid $red;
+    border-radius: 3px;
+    .bootstrap-switch-handle-off, .bootstrap-switch-handle-off.bootstrap-switch-default {
+      background-color: lighten( $brightred, 40% );
+    }
+  }
 }

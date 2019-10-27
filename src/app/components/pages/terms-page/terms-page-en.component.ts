@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-terms-page-en',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms-page.component.scss']
 })
 export class TermsPageEnComponent implements OnInit {
+  @Input() inModal = true;
 
   constructor() { }
 
   ngOnInit() {
+    // document.querySelector('.top').scrollIntoView(true);
   }
 
 }

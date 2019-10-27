@@ -25,12 +25,14 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit()
   {
+    //this.loginService.inModal = true;
     this.settings.whenInitialized.then(
       () => {
         if (this.settings.person) {
           this.routingTools.navigateToRoute( "home" );
         }
         this.loginService.inModal = false;
+        this.loginService.reset();
         this.setShow();
       }
     );

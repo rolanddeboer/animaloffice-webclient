@@ -29,9 +29,13 @@ export class LoginNumberInputComponent implements OnInit, AfterContentInit {
   }
   onFederationChange() {
     this.breederNumberInput.nativeElement.focus();
+    this.loginService.dismissNameChecker();
   }
   submit() {
-    this.loginService.submit();
+    this.loginService.checkNumber();
+  }
+  cancel() {
+    this.loginService.cancelEditing();
   }
 
 }

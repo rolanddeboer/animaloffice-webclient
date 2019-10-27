@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h2>{{ page == "privacy" ? "Privacy policy" : "Terms and conditions" }}</h2>
+    <img class="logo" src="/assets/images/layout/logo/logo-small.png" srcset="/assets/images/layout/logo/logo-small-2x.png 2x" alt="Animal Office" height="52px" width="62px">
+</div>
+<div class="modal-body">
+  <app-privacy-page-en *ngIf="page == 'privacy' && routingTools.getLocale() == 'en'" [inModal]="true"></app-privacy-page-en>
+  <app-privacy-page-nl *ngIf="page == 'privacy' && routingTools.getLocale() == 'nl'" [inModal]="true"></app-privacy-page-nl>
+  <app-terms-page-en *ngIf="page == 'terms' && routingTools.getLocale() == 'en'" [inModal]="true"></app-terms-page-en>
+  <app-terms-page-nl *ngIf="page == 'terms' && routingTools.getLocale() == 'nl'" [inModal]="true"></app-terms-page-nl>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary btn-lg" (click)="activeModal.dismiss('Close click')">Close</button>
+</div>

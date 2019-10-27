@@ -14,7 +14,7 @@ export class RoutingToolsService {
   // private renderer: Renderer2;
 
   constructor(
-    @Inject(LOCALE_ID) protected localeId: string,
+    @Inject(LOCALE_ID) public localeId: string,
     private router: Router,
     private settingsService: SettingsService,
     rendererFactory: RendererFactory2,
@@ -55,6 +55,10 @@ export class RoutingToolsService {
         }
       }
     });
+  }
+
+  getLocale() {
+    return this.localeId.substr(0, 2);
   }
 
   changeLanguage(locale: string) {

@@ -9,9 +9,8 @@ import { Person, BreederNumber } from 'src/app/classes/person';
 
 export class BreederNumberType {
   breederNumber = "";
-  federation: BreederFederation;
+  federation_id: number;
   editMode?: boolean;
-  persisted = false;
 }
 
 class PersonEntryData {
@@ -33,7 +32,7 @@ interface BnReturn {
   breederNumber: string;
   status: string;
   name: string;
-  person?: Object;
+  person?: Person;
   countries?: Object[];
 }
 
@@ -41,6 +40,7 @@ enum BnStatus {
   INVALID = "invalid",
   IS_FREE = "isFree",
   HAS_PERSON = "hasPerson",
+  NEW_PERSON = "newPerson",
   HAS_USER = "hasUser",
   PERSON_AUTHORIZED = "personAuthorized",
   NOT_AUTHORIZED = "notAuthorized"
@@ -52,20 +52,24 @@ enum BnStatus {
 export class LoginService {
   public breederNumbers: BreederNumberType[] = [];
   public persistingBreederNumbers: BreederNumberType[] = [];
+  public freeFederations: BreederFederation[] = [];
   public currentlyPersistingId: number;
   public editingNumber: BreederNumberType;
-  public person: PersonEntryData;
+  // if this.potentialPerson is set this means that a person or user was found and we are waiting for a password or postcode from the user. Whenever this.potentialPerson is set, the postcode/password input is shown.
+  public potentialPerson: PersonEntryData;
   public forLogin = true;
   public errorMessage: string;
   public loading = false;
-  public notMe = false;
   public breederNumberInputRef: ElementRef;
   public federationInputRef: ElementRef;
   public passwordInputRef: ElementRef;
+  public postcodeInputRef: ElementRef;
   public persistingAll = false;
   public postcodes: string[] = [];
   private spinnerCounter = 0;
   public inModal = false;
+  // signals whether the modal should be opened when on the personal details page
+  public modalOpen = false;
 
 
   constructor(
@@ -80,6 +84,7 @@ export class LoginService {
 
   start(): void 
   {
+    this.setFreeFederations();
     if (!this.breederNumbers.length) {
       this.addNumber();
     }
@@ -87,18 +92,20 @@ export class LoginService {
 
   reset(): void 
   {
+    this.modalOpen = false;
     this.updateActiveBreederNumber(true);
-    this.person = null;
+    this.breederNumbers = [];
+    this.potentialPerson = null;
     this.start();
   }
 
-  getFreeFederations(): BreederFederation[]
+  setFreeFederations(): void
   {
     const federations: BreederFederation[] = [];
     for ( let federation of this.db.get("BreederFederation") ) {
       let free = true;
       for (let bn of this.breederNumbers) {
-        if (bn.federation.id === federation.id && !bn.editMode) {
+        if (bn.federation_id == federation.id && !bn.editMode) {
           free = false;
         }
       }
@@ -106,16 +113,41 @@ export class LoginService {
         federations.push(federation);
       }
     }
-    return federations;
+    this.freeFederations = federations;
+  }
+
+  getFederationById( id: number ): BreederFederation
+  {
+    return this.db.find("BreederFederation", id);
+  }
+
+  setBreederNumbers( breederNumbers: BreederNumberType[] ): void
+  {
+    this.breederNumbers = breederNumbers;
+    this.editingNumber = null;
+    this.setFreeFederations();
   }
 
   addNumber(): void
   {
+    this.setFreeFederations();
     const newBn = new BreederNumberType;
-    newBn.federation = this.getFreeFederations()[0];
+    newBn.federation_id = this.freeFederations[0].id;
     this.breederNumbers.push( newBn );
     // edit the last breeder number, which is the one we just added
     this.editNumber( this.breederNumbers.length - 1 );
+  }
+
+  editNumberByFederationId( federation_id: number ): void
+  {
+    this.breederNumbers.some(
+      (bn: BreederNumberType, index: number) => {
+        if ( bn.federation_id == federation_id ) {
+          this.editNumber( index );
+          return true;
+        }
+      }
+    );
   }
 
   editNumber( id: number ): void 
@@ -124,60 +156,84 @@ export class LoginService {
     this.revertEditingBreederNumber();
     // shallow clone the object so that changes to the form will not have immediate effect on the breeder number that is still in the list. We only want the changes to go into effect when the server has confirmed the breeder number.
     this.editingNumber = { ...this.breederNumbers[id] };
-    this.breederNumbers[id].editMode = true;
+    this.setEditMode( this.breederNumbers[id], true );
     // focus bn input. It might not be there yet if the input component was not opened before. In that case the input component will focus its bn input itself, so not to worry.
     if (this.breederNumberInputRef) {
       this.breederNumberInputRef.nativeElement.focus();
+    }
+  }
+
+  setEditMode( breederNumber: BreederNumberType, value: boolean ): void
+  {
+    breederNumber.editMode = value;
+    this.setFreeFederations();
+  }
+
+  cancelEditing(): void
+  {
+    // for ( let breederNumber of this.breederNumbers ) {
+    //   breederNumber.editMode = false;
+    // }
+    // this.setFreeFederations();
+    // this.editingNumber = null;
+    this.potentialPerson = null;
+    this.revertEditingBreederNumber();
+    if (!this.breederNumbers.length) {
+      this.addNumber();
     }
   }
   
   deleteNumber(id: number): void 
   {
     // roll back any current changes
-    this.revertEditingBreederNumber();
+    // this.breederNumbers.some(
+    //   (bn: BreederNumberType, index:number) => {
+    //     if (bn.editMode) {
+    //       if (index == id) {
+    //         this.revertEditingBreederNumber();
+    //       }
+    //       return true;
+    //     }
+    //   }
+    // );
+    // this.revertEditingBreederNumber();
+    // this.updateActiveBreederNumber();
     this.breederNumbers.splice(id, 1);
     if (!this.breederNumbers.length) {
       this.addNumber();
     }
+    this.setFreeFederations();
   }
 
-  notMeClicked(): void
+  dismissNameChecker(): void
   {
-    this.errorMessage = "";
-    this.notMe = true;
-  }
-
-  notMeEditAgain(): void
-  {
-    this.person = null;
-    this.notMe = false;
-    setTimeout(() => this.breederNumberInputRef.nativeElement.focus(), 100);
+    this.potentialPerson = null;
   }
 
   confirmName(): void 
   {
-    if ( this.person.hasUser ) {
+    if ( this.potentialPerson.hasUser ) {
       this.login();
       return;
     }
-    if ( this.person.postcode ) {
-      this.postcodes.push(this.person.postcode);
+    if ( this.potentialPerson.postcode ) {
+      this.postcodes.push(this.potentialPerson.postcode);
     }
-    this.submit();
+    this.checkNumber();
   }
 
   login(): void
   {
-    console.log("logging in");
     this.startSpinner();
     this.bnHandler.login( {
-      password: this.person.password,
+      password: this.potentialPerson.password,
       breederNumber: this.editingNumber.breederNumber,
-      federation_id: this.editingNumber.federation.id
+      federation_id: this.editingNumber.federation_id
     } )
     .then(
       (data: any) => {
         this.stopSpinner();
+        this.potentialPerson.password = null;
         if (data) {
           this.settingsService.setLoginInitData( data );
           this.reset();
@@ -198,22 +254,35 @@ export class LoginService {
 
   }
 
-  saveAll(): void
-  {
-    this.db.set( "BreederNumbers", this.breederNumbers );
-    let person = new Person();
-    for ( let breederNumber of this.breederNumbers ) {
-      let newBn = new BreederNumber;
-      newBn.federation_id = breederNumber.federation.id;
-      newBn.federation_name = breederNumber.federation.name;
-      newBn.breederNumber = breederNumber.breederNumber;
-      person.breederNumbers.push( newBn );
-    }
-    this.settingsService.person = person;
-    this.routingTools.navigateToRoute( "person" );
+  // saveAll(): void
+  // {
+    // if ( !this.validateForm ) return;
+    // this.startSpinner();
+    // this.bnHandler.saveAll( this.breederNumbers )
+    //   .then((data: any) => {
+    //     this.stopSpinner();
+    //     console.log( data );
+    //   })
+    //   .catch((error: string) => {
+    //     this.errorMessage = error;
+    //     console.log( error );
+    //     this.stopSpinner();
+    //   })
+    // ;
+
+    // this.db.set( "BreederNumbers", this.breederNumbers );
+    // let person = new Person();
+    // for ( let breederNumber of this.breederNumbers ) {
+    //   let newBn = new BreederNumber;
+    //   newBn.federation_id = breederNumber.federation.id;
+    //   newBn.breederNumber = breederNumber.breederNumber;
+    //   person.breederNumbers.push( newBn );
+    // }
+    // this.settingsService.person = person;
+    // this.routingTools.navigateToRoute( "person" );
     // this.persistingAll = true;
     // this.persistNext();
-  }
+  // }
 
   // persistNext(): void
   // {
@@ -244,11 +313,12 @@ export class LoginService {
   //   )
   // }
 
-  submit(): void
+  checkNumber(): void
   {
     if ( !this.validateForm ) return;
     this.startSpinner();
-    this.bnHandler.checkPerson( this.editingNumber, this.postcodes, !this.inModal )
+    this.bnHandler.postcodes = this.postcodes;
+    this.bnHandler.checkPerson( this.editingNumber, !this.inModal )
       .then((data: any) => {
         this.stopSpinner();
         this.submitHasJustComeBackAndGuessWhat( data );
@@ -290,50 +360,73 @@ export class LoginService {
   //   ;
   // }
 
+  goToPersonPage( modalOpen = false ): void
+  {
+    if ( !this.settingsService.person ) {
+      this.settingsService.setPerson();
+    }
+    this.settingsService.person.breederNumbers = this.breederNumbers;
+    this.reset();
+    this.modalOpen = modalOpen;
+    this.routingTools.navigateToRoute('person');
+  }
+
+  // set the person except if the current person is already pretty much defined
+  replacePersonIfNeeded( personData: any ): void
+  {
+    const person = this.settingsService.person;
+    if ( !person || !person.surname && !person.address1 && !person.postcode && !person.city ) {
+      this.settingsService.setPerson( personData );
+    }
+    // fill in any missing breeder numbers with the new person except when logging in. The reason for this exception is that every once in a while someone might enter a wrong breeder number when logging in, before entering the right number. Because of this, we only allow a user to change their breeder numbers on the personal details page. If a person does not have an account yet, we do accept all breeder numbers entered on the login page.
+    // we fill in any missing breeder numbers in the current person with the corresponding breeder number of the new person
+    for ( let newBn of personData.breederNumbers ) {
+      let found = false;
+      for ( let existingBn of this.breederNumbers ) {
+        if ( existingBn.federation_id == newBn.federation_id ) {
+          found = true;
+        }
+      }
+      if ( !found ) this.breederNumbers.push( newBn );
+    }
+  }
+
   submitHasJustComeBackAndGuessWhat( data: BnReturn ): void
   {
-    if ( data.status == BnStatus.PERSON_AUTHORIZED ) {
-      this.reset();
-      this.routingTools.navigateToRoute('home');
-      return;
-    }
-
-    if ( data.status == BnStatus.IS_FREE || this.person && (BnStatus.HAS_PERSON || data.status == BnStatus.HAS_USER)) {
+    console.log(data);
+    if ( data.status == BnStatus.IS_FREE || data.status == BnStatus.NEW_PERSON ) {
       this.editingNumber.breederNumber = data.breederNumber;
       this.updateActiveBreederNumber();
-      if ( data.countries ) this.db.set( "Country", data.countries );
     } 
-    if ( !this.person && (data.status == BnStatus.HAS_PERSON || data.status == BnStatus.HAS_USER) ) {
-      this.person = new PersonEntryData( data.name );
+    if ( data.status == BnStatus.NEW_PERSON ) {
+      this.replacePersonIfNeeded( data.person );
+      if ( !this.inModal ) {
+        this.goToPersonPage( true );
+      }
+      return;
     }
-    if ( data.status == BnStatus.HAS_USER ) {
-      this.person.hasUser = true;
-    }
+    // merging persons: how to merge breeder numbers: when the existing person misses a federation that the new one has, only then fill it in, but never replace. Same on server when merging persons.
+    // EXTRA NOTE. When a password is entered on the login page, disregard all other breeder numbers. When password is entered on the person page, merge in the same way as when a postcode was entered.
     if ( data.status == BnStatus.INVALID ) {
       this.errorMessage = "Dit is niet een geldig fokkersnummer. Graag aanpassen.";
     }
-    if ( data.status == BnStatus.NOT_AUTHORIZED ) {
-      this.passwordInputRef.nativeElement.focus();
-      this.errorMessage = "Het wachtwoord klopt niet.";
+    if ( data.status == BnStatus.HAS_PERSON ) {
+      if ( !this.potentialPerson ) {
+        this.potentialPerson = new PersonEntryData( data.name );
+      } else {
+        this.postcodeInputRef.nativeElement.focus();
+        this.errorMessage = "De postcode is onjuist. Let op: hoofdletters en spaties maken geen verschil!";
+      }
     }
-
-    // if ( data.person ) {
-    //   that.person = data.person;
-    // }
-    // if ( data.loggedIn ) {
-    //   that.reset();
-    //   that.routingTools.navigateToRoute('home');
-    // }
-    // if ( data.addNumber ) {
-    //   if ( that.persistingAll ) {
-    //     that.editingNumber.persisted = true;
-    //   }
-    //   that.editingNumber = data.breederNumber;
-    //   that.updateActiveBreederNumber();
-    // }
-    // if ( that.persistingAll ) {
-    //   that.persistNext();
-    // }
+    if ( data.status == BnStatus.HAS_USER ) {
+      if ( this.potentialPerson && this.potentialPerson.hasUser ) {
+        this.passwordInputRef.nativeElement.focus();
+        this.errorMessage = "Het wachtwoord klopt niet.";
+      } else {
+        this.potentialPerson = new PersonEntryData( data.name );
+        this.potentialPerson.hasUser = true;
+      }
+    }
   }
 
   revertEditingBreederNumber(): void
@@ -341,6 +434,7 @@ export class LoginService {
     if (this.editingNumber) this.updateActiveBreederNumber(true);
   }
 
+  // persist the changes to the active breeder number in the input field or by the server.
   updateActiveBreederNumber(revert = false): void
   {
     // set revert to true if the purpose is to ignore the current changes
@@ -348,7 +442,7 @@ export class LoginService {
     this.breederNumbers.some(
       (bn: BreederNumberType, index:number) => {
         if (bn.editMode) {
-          this.editingNumber.editMode = false;
+          this.setEditMode( bn, false );
           if (!revert) {
             this.breederNumbers[index] = { ...this.editingNumber };
           } else if (!bn.breederNumber) {
@@ -359,6 +453,17 @@ export class LoginService {
         }
       }
     );
+  }
+
+  getBreederNumbersFormattedForPersonClass() {
+    const breederNumbers: BreederNumber[] = [];
+    for (let bn of this.breederNumbers) {
+      breederNumbers.push({
+        federation_id: bn.federation_id,
+        breederNumber: bn.breederNumber
+      });
+    }
+    return breederNumbers;
   }
 
   startSpinner(): void 
@@ -383,7 +488,7 @@ export class LoginService {
       this.breederNumberInputRef.nativeElement.focus();
       return false;
     }
-    if (!this.editingNumber.federation) {
+    if (!this.editingNumber.federation_id) {
       this.errorMessage = "Please select a federation in the field above.";
       this.federationInputRef.nativeElement.focus();
       return false;
@@ -395,8 +500,7 @@ export class LoginService {
   doWeShowLoginList(): boolean
   {
     if (!this.breederNumbers) return false;
-    if (this.person) return false;
-    console.log(this.breederNumbers);
+    if (this.potentialPerson) return false;
     if (this.breederNumbers.length > 1) return true;
     return !(this.editingNumber);
   }

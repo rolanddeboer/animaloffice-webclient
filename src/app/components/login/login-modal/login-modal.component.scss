@@ -21,3 +21,13 @@ section {
   background-color:white;
   border: none;
 }
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  padding: 17px 30px 13px 0;
+  app-spinner {
+    height: 30px;
+  }
+}

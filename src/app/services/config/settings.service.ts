@@ -24,10 +24,12 @@ export class SettingsService {
   public activeShow: Show;
   public person: Person;
   // public initData: InitData;
-  public username;
+  public username: string;
   public federations;
   public servername;
   public locale;
+  public delicateErrorMessage = "Something went wrong. Please try again in 5 minutes.";
+  public defaultErrorMessage = "Something went wrong. Try reloading the page.";
 
   private languages = {
     'en-US': {
@@ -126,10 +128,21 @@ export class SettingsService {
     this.db.set( "Breed", data.breeds, { "position": { "presort": true } } , { "filterFunctions": { "test": (item: any)  => { return item["name"]==="Muskuseend" } } } ); 
     this.db.set( "BreedColour", data.breedColours, { "position": { "presort": true } }  ); 
     this.db.setJunction( "Breed", "BreedColour", data.breedToBreedColours );
-    this.setPerson( data.person );
+    this.setUser( data.person );
 
     // console.log(this.db.get( "Breed" , "active"));
     // console.log(this.db.get( "Breed" , "test"));
+  }
+
+  createEmptyPromise( functions: { resolvePromise: Function, rejectPromise: Function } ): Promise<any>
+  {
+    return new Promise( 
+      (resolve, reject) =>
+      {
+        functions.resolvePromise = resolve;
+        functions.rejectPromise = reject;
+      }
+    );
   }
 
   letMeKnowOfLogin(): void
@@ -139,11 +152,16 @@ export class SettingsService {
     }
   }
 
-  setPerson(person: Person)
+  setUser(person: Person): void
   {
-    this.person = new Person( person );
+    this.setPerson( person );
     this.username = this.person.fullName;
     this.loginStatusChanged.emit();
+  }
+
+  setPerson(person: Person = null)
+  {
+    this.person = new Person( person );
   }
 
   relateManyToMany(): void {
@@ -213,6 +231,7 @@ export class SettingsService {
     this.submitLogout().subscribe(
       () => {
         this.username = null;
+        this.person = null;
         this.logoutOccured.emit();
         this.loginStatusChanged.emit();
       })

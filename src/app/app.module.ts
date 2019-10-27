@@ -28,7 +28,6 @@ import { LoginNumberInputComponent } from './components/login/login-number-input
 import { LoginHeaderComponent } from './components/login/login-header/login-header.component';
 import { LoginNameCheckerComponent } from './components/login/login-name-checker/login-name-checker.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
-import { LoginNotMeComponent } from './components/login/login-not-me/login-not-me.component';
 import { PageNotFoundComponent } from './components/main/page-not-found/page-not-found.component';
 import { ContactComponent } from './components/main/contact/contact.component';
 import { LanguageChooserComponent } from './components/main/language-chooser/language-chooser.component';
@@ -47,6 +46,7 @@ import { StatisticsComponent } from './components/show/statistics/statistics.com
 import { ListShowsComponent } from './components/show/list-shows/list-shows.component';
 import { ListAllShowsComponent } from './components/show/list-all-shows/list-all-shows.component';
 import { LoginModalComponent } from './components/login/login-modal/login-modal.component';
+import { ModalComponent } from './components/pages/modal/modal.component';
 
 
 @NgModule({
@@ -67,7 +67,6 @@ import { LoginModalComponent } from './components/login/login-modal/login-modal.
     LoginHeaderComponent,
     LoginNameCheckerComponent,
     AutofocusDirective,
-    LoginNotMeComponent,
     PageNotFoundComponent,
     ContactComponent,
     LanguageChooserComponent,
@@ -86,7 +85,8 @@ import { LoginModalComponent } from './components/login/login-modal/login-modal.
     StatisticsComponent,
     ListShowsComponent,
     ListAllShowsComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

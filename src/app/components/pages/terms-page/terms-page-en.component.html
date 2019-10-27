@@ -1,6 +1,6 @@
-<article>
-
-    <h1>Terms and conditions</h1>
+<article [class.inModal]="inModal">
+    <h1 *ngIf="!inModal">Terms and conditions</h1>
+    <div class="top"></div>
 
     <h3>About the English translation</h3>
     <p>
@@ -14,7 +14,7 @@
   
     <h3>2. Terminology</h3>
       <p>
-        When in these Terms and Condition we write 'registrant', what is meant is: a person or legal entity who has entered their personal details on the Animal Office website.
+        When in these Terms and Conditions we write 'registrant', what is meant is: a person or legal entity who has entered their personal details on the Animal Office website.
       </p>
   
     <h3>3. Applicability of conditions is ruled out</h3>
@@ -39,7 +39,7 @@
         <strong>5b.</strong> The registrant is required to provide a valid email address to Animal Office on which he or she can receive email. Animal Office has to be notified of any changes of email address in the matter prescribed by Animal Office.
       </p>
       <p>
-        <strong>5c.</strong>  Email which has been sent is regarded as being received by the registrant.
+        <strong>5c.</strong> Email which has been sent is regarded as being received by the registrant.
       </p>
   
     <h3>6. Suspension/cancellation of service</h3>
@@ -47,8 +47,7 @@
         <strong>6a.</strong> Animal Office reserves the right to suspend or cancel its service with respect to the registrant as a response to any violation of the Terms and Conditions.
       </p>
       <p>
-        <strong>6b.</strong> Voor opschorting en/of stopzetting van enige dienstverlening vanwege overtreding van één of meer regels in deze Algemene Voorwaarden, vindt nooit enige vergoeding of restitutie plaats.
-        No reimbursement or restitution does ever take place for the suspension and/or cancellation of any services as a response to the violation of one or more rules in these Terms and Conditions.
+        <strong>6b.</strong> No reimbursement or restitution does ever take place for the suspension and/or cancellation of any services due to the violation of one or more rules in these Terms and Conditions.
       </p>
   
     <h3>7. Right to decline services</h3>

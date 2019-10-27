@@ -1,6 +1,5 @@
-<article>
-
-    <h1>Algemene voorwaarden</h1>
+<article [class.inModal]="inModal">
+    <h1 *ngIf="!inModal">Algemene voorwaarden</h1>
         
     <h3>1. Doel en rechtsgeldigheid van de Algemene Voorwaarden</h3>
       <p>

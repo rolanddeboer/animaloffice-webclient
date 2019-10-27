@@ -14,13 +14,13 @@ export class DatabaseService {
   {
     // Invalid names are not something we can accept and adapt to silently. This is serious.
     if ( !/^[-_a-zA-Z0-9]+$/.test( name ) ) {
-      throw "name '" + name + "' not allowed as entity name.";
+      throw new Error ("name '" + name + "' not allowed as entity name.");
     }
-    
+
     this.getOrCreate( name ).setData( data, fields, params );
 
     const relations = ( "relations" in params ) ? params.relations : [];
-    const autoRelate = ( "autoRelate" in params ) ? params.autoRelate : true; 
+    const autoRelate = ( "autoRelate" in params ) ? params.autoRelate : true;
     if ( autoRelate ) {
       this.autoRelate( name, relations );
     } else {
@@ -125,7 +125,7 @@ export class DatabaseService {
       this.entities[ relatedEntityName ].removeOwningRelation( entityName );
     }
   }
-  
+
 
 // make a one-to-many relation so that every element holds a javascript object reference to the related elements, on both the "one" and the "many" sides (creating an infinite recursion tree).
   private makeRelations( entityName: string, relationParamsArray: RelationParams[] ): void
@@ -139,7 +139,7 @@ export class DatabaseService {
 
       // get all data for the owning side
       const data = this.entities[ entityName ].get(
-        relationParam.sortKey, relationParam.sortReverse 
+        relationParam.sortKey, relationParam.sortReverse
       );
 
       // check whether a relation actually exists. If there is a relation, we assume that every item has a related item.

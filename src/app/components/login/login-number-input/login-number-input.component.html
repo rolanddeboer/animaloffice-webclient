@@ -2,7 +2,8 @@
   <h3 *ngIf="!loginService.doWeShowLoginList()" i18n>Log in</h3>
 -->
 
-  <h4 *ngIf="loginService.doWeShowLoginList()" i18n>Enter breeder number</h4>
+  <h4 *ngIf="loginService.doWeShowLoginList() && !loginService.inModal" i18n>Enter breeder number</h4>
+  <h4 *ngIf="loginService.inModal" i18n>Edit breeder number</h4>
   
 <!--
 <div class="sub-dialog-header">
@@ -12,31 +13,31 @@
   </h4>
 </div>
 -->
-<div class="form-row">
+<div *ngIf="loginService.editingNumber" class="form-row">
   <label for="federation" i18n>Federation</label>
-    <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
-      <i class="input-group-text icon-umbrella"></i>
-      <select 
-        class="custom-select" 
-        name="federation"
-        [(ngModel)]="loginService.editingNumber.federation.id"
-        (change)="onFederationChange()"
-        [attr.disabled]="loginService.person ? 'disabled' : null"
-        #federationInput
+  <div class="input-group" [attr.dizabled]="loginService.potentialPerson ? 'disabled' : null">
+    <i class="input-group-text icon-umbrella"></i>
+    <select 
+      class="custom-select" 
+      name="federation"
+      [(ngModel)]="loginService.editingNumber.federation_id"
+      (change)="onFederationChange()"
+      [attr.dizabled]="loginService.potentialPerson ? 'disabled' : null"
+      #federationInput
+    >
+      <option 
+        *ngFor="let ass of loginService.freeFederations; let index = index" 
+        [value]="ass.id"
       >
-        <option 
-          *ngFor="let ass of loginService.getFreeFederations(); let index = index" 
-          value="{{ ass.id }}"
-        >
-          {{ ass.name ? ass.name : '' }}
-        </option>
-      </select>
-    </div>
+        {{ ass.name ? ass.name : '' }}
+      </option>
+    </select>
+  </div>
 </div>
 
 <div class="form-row">
   <label for="breederNumber" i18n>Breeder number</label>
-  <div class="input-group" [attr.disabled]="loginService.person ? 'disabled' : null">
+  <div class="input-group" [attr.dizabled]="loginService.potentialPerson ? 'disabled' : null">
     <i class="input-group-text icon-user-card"></i>
     <input 
       type="text" 
@@ -45,27 +46,44 @@
       appAutofocus
       #breederNumberInput
       [(ngModel)]="loginService.editingNumber.breederNumber"
+      (keyup)="loginService.dismissNameChecker()"
       (keyup.enter)="submit()"
-      [attr.disabled]="loginService.person ? 'disabled' : null"
+      [attr.dizabled]="loginService.potentialPerson ? 'disabled' : null"
     >
   </div>
 </div>
 
-<div *ngIf="loginService.errorMessage && !loginService.person" class="error-message">
+<div *ngIf="loginService.errorMessage && !loginService.potentialPerson" class="error-message">
   <i class="icon-warning"></i>{{ loginService.errorMessage }}
 </div>
 
 <footer 
-  *ngIf="!loginService.person && !loginService.loading"
+  *ngIf="!loginService.potentialPerson"
 >
 
   <button
+    class="btn-default"
+    (click)="cancel()"
+    *ngIf="!loginService.loading"
+  >
+    <i class="icon-cross"></i>
+    <span i18n>Cancel</span>
+  </button>
+  <button
     class="btn-primary"
     (click)="submit()"
+    *ngIf="!loginService.loading"
   >
     <i class="icon-check"></i>
-    <span i18n>Next</span>
+    <span i18n *ngIf="!loginService.inModal">Next</span>
+    <span i18n *ngIf="loginService.inModal">OK</span>
   </button>
+  <app-spinner 
+    *ngIf="loginService.loading" 
+    name="loginList" 
+    group="login" 
+    [show]="loginService.loading">
+  </app-spinner>
 
 </footer>
 

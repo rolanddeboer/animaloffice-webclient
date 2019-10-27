@@ -76,6 +76,34 @@ export class PersonService
     }
   }
 
+  createProfile( person: Person, postcodes: Array<string> ): Promise<any>
+  {
+    const promiseFunctions = {
+      resolvePromise: Function,
+      rejectPromise: Function
+    }
+    const promise = this.settingsService.createEmptyPromise( promiseFunctions );
+
+    const url = this.settingsService.getServerUriFrom( "nl/security/create-profile" );
+    const params = { person: person, postcodes: postcodes };
+
+    this.http.post<any>( url, params, this.settingsService.httpOptions )
+    .pipe(
+      retry(3),
+      catchError(error => {
+        promiseFunctions.rejectPromise( this.settingsService.delicateErrorMessage );
+        return throwError("");
+      })
+    )
+    .subscribe(
+      (data) => {
+        promiseFunctions.resolvePromise( data );
+      }
+    )
+
+    return promise;
+  }
+
   private handleError(error: HttpErrorResponse, observer: any): Observable<string> 
   {
     const errorMessage = "Something went wrong. Try reloading the page.";

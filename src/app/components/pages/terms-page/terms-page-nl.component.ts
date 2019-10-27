@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-terms-page-nl',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms-page.component.scss']
 })
 export class TermsPageNlComponent implements OnInit {
+  @Input() inModal = true;
 
   constructor() { }
 

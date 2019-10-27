@@ -1,6 +1,6 @@
-<span *ngIf="!loginService.editingNumber || loginService.persistingAll" class="intro-message" i18n>Do you have a breeder number with several federations? Please fill in all of them.</span>
-
 <h4 *ngIf="!loginService.editingNumber || loginService.persistingAll" i18n>Your breeder number(s)</h4>
+
+<div *ngIf="!loginService.editingNumber || loginService.persistingAll" class="intro-message" i18n>Do you have a breeder number with several federations? Please fill in all of them.</div>
 
 <table class="table">
   <thead>
@@ -22,7 +22,7 @@
             ngbTooltip="Edit"
             placement="top-left" ></i></a>
       </td>
-      <td>{{ breederNumber.federation.name }}</td>
+      <td>{{ loginService.getFederationById( breederNumber.federation_id ).name }}</td>
       <td>{{ breederNumber.breederNumber }}</td>
     </tr>
   </tbody>
@@ -33,14 +33,22 @@
     </div>
   -->
 
-<footer *ngIf="!loginService.editingNumber && !loginService.loading && !loginService.persistingAll">
+<footer *ngIf="!loginService.editingNumber && !loginService.persistingAll">
   <button 
     class="btn-primary" 
     (click)="loginService.addNumber()"
-    *ngIf="loginService.getFreeFederations().length "
+    *ngIf="loginService.freeFederations.length && !loginService.loading"
   >
     <i class="icon-plus"></i>
-    <span i18n>Add breeder number</span>
+    <span i18n>Add number</span>
+  </button>
+  <button 
+    class="btn-default" 
+    (click)="closeModal()"
+    *ngIf="!loginService.loading && loginService.inModal"
+  >
+    <i class="icon-cross"></i>
+    <span i18n>Cancel</span>
   </button>
   <button 
     class="btn-success-bright"
@@ -50,5 +58,11 @@
     <i class="icon-check"></i>
     <span i18n>{{ loginService.inModal ? "Done" : "Proceed" }}</span>
   </button>
+  <app-spinner 
+    *ngIf="loginService.loading && !loginService.editingNumber" 
+    name="loginList" 
+    group="login" 
+    [show]="loginService.loading">
+  </app-spinner>
 </footer>
 

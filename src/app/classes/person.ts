@@ -1,15 +1,14 @@
 export class BreederNumber
 {
   federation_id: number;
-  federation_name: string;
   breederNumber: string;
-  breederNumber_id: number;
 }
 
 export class Person
 {
   fullName?: string;
   person_id: number;
+  uuid: string;
   country_id: number;
   firstName: string;
   surname: string;
@@ -27,25 +26,28 @@ export class Person
   birthday_day: number;
   birthday_month: number;
   birthday_year: number;
+  password?: string;
+  passwordAgain?: string;
 
   breederNumbers: BreederNumber[] = [];
 
   private _isCombination = false;
   private _isPerson = true;
 
-  constructor ( data = null )
+  constructor ( data: any = null )
   {
     if ( data ) {
       Object.assign( this, data );
-    } else {
-      this.setBirthday();
-    } 
+    }
+    this.setBirthday(); 
   }
 
   setBirthday( date: Date | string = null ): void
   {
     if ( !date ) date = "2000-01-01";
-    this.birthday = new Date( date );
+    if ( !(this.birthday instanceof Date) ) {
+      this.birthday = new Date( date );
+    }
     this.birthday_day = this.birthday.getDate();
     this.birthday_month = this.birthday.getMonth();
     this.birthday_year = this.birthday.getFullYear();

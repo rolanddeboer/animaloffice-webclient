@@ -8,7 +8,7 @@ import { DatabaseService } from '../database/database.service';
 
 interface BreederNumberType {
   breederNumber: string;
-  federation: BreederFederation;
+  federation_id: number;
   editMode?: boolean;
 }
 
@@ -40,6 +40,7 @@ interface BnReturn {
 })
 export class BreederNumberHandlerService {
   public persist = false;
+  public postcodes: string[];
 
   constructor(
     private settings: SettingsService,
@@ -83,7 +84,47 @@ export class BreederNumberHandlerService {
     return promise;
   }
 
-  checkPerson( breederNumber: BreederNumberType, postcodes: string[], loggingIn: boolean )
+  saveAll( breederNumbers: BreederNumberType[] ): Promise<any>
+  {
+    let resolvePromise: Function;
+    let rejectPromise: Function;
+    const url = this.settings.getServerUriFrom( "nl/security/check-breeder-number/numbers" );
+    const data = {
+      breederNumbers: breederNumbers,
+      postcodes: this.postcodes
+    }
+
+    console.log(data);
+
+    const promise = new Promise( 
+      (resolve, reject) =>
+      {
+        resolvePromise = resolve;
+        rejectPromise = reject;
+      }
+    );
+
+    this.http.post<any>( url, data, this.settings.httpOptions )
+    .pipe(
+      retry(3),
+      catchError(error => {
+        rejectPromise("Something went wrong. Try reloading the page.");
+        return throwError("");
+      })
+    )
+    .subscribe(
+      (data) => {
+        resolvePromise( data );
+      }
+    )
+
+    return promise;
+  }
+
+  checkPerson( 
+    breederNumber: BreederNumberType,  
+    loggingIn: boolean 
+  ): Promise<any>
   {
     let resolvePromise: Function;
     let rejectPromise: Function;
@@ -91,9 +132,9 @@ export class BreederNumberHandlerService {
     const url = this.settings.getServerUriFrom( "nl/security/check-breeder-number/person" );
     
     const data = {
-      federation_id: breederNumber.federation.id,
+      federation_id: breederNumber.federation_id,
       breederNumber: breederNumber.breederNumber,
-      postcodes: postcodes,
+      postcodes: this.postcodes,
       loggingIn: loggingIn,
       withCountries: !this.db.has("Country")
     }
@@ -116,6 +157,7 @@ export class BreederNumberHandlerService {
     )
     .subscribe(
       (data) => {
+        if ( data.countries ) this.db.set( "Country", data.countries );
         resolvePromise( data );
       }
     )

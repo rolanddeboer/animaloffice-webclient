@@ -9,11 +9,11 @@
       class="form-control" 
       name="numberHolderName" 
       disabled="disabled" 
-      [(ngModel)]="loginService.person.name"
+      [(ngModel)]="loginService.potentialPerson.name"
     >
   </div>
 </div>
-<div class="form-row" *ngIf="!loginService.person.hasUser">
+<div class="form-row" *ngIf="!loginService.potentialPerson.hasUser">
   <label for="postcode" i18n>Postcode</label>
   <div class="input-group">
     <div class="input-group-prepend">
@@ -23,13 +23,14 @@
       type="text"
       class="form-control" 
       name="postcode" 
+      #postcodeInput
       appAutofocus
-      [(ngModel)]="loginService.person.postcode"
+      [(ngModel)]="loginService.potentialPerson.postcode"
       (keyup.enter)="confirm()"
     >
   </div>
 </div>
-<div class="form-row" *ngIf="loginService.person.hasUser">
+<div class="form-row" *ngIf="loginService.potentialPerson.hasUser">
   <label for="password" i18n>Password</label>
   <div class="input-group">
     <div class="input-group-prepend">
@@ -41,13 +42,13 @@
       name="password" 
       #passwordInput
       appAutofocus
-      [(ngModel)]="loginService.person.password"
+      [(ngModel)]="loginService.potentialPerson.password"
       (keyup.enter)="confirm()"
     >
   </div>
 </div>
 
-<div class="form-row" *ngIf="!loginService.notMe">
+<div class="form-row" *ngIf="!notMe && loginService.potentialPerson.hasUser">
   <b i18n>Forgot password?</b>
 </div>
 <div 
@@ -57,27 +58,45 @@
   <i class="icon-warning"></i>{{ loginService.errorMessage }}
 </div>
 
-<footer *ngIf="!loginService.notMe && !loginService.loading">
+<div class="error-message" *ngIf="notMe">
+  <i class="icon-warning"></i>
+  <span i18n>If someone else is using your breeder number, better contact Animal Office.</span>&nbsp;<app-link 
+    route="home" 
+    linkClass="text-primary"
+    i18n
+  >Click here to do so.</app-link>
+</div>
+
+<footer>
   <button 
     class = "btn-default" 
-    (click) = "loginService.notMeClicked()"
+    (click) = "notMe = true"
+    *ngIf="!loginService.loading && !notMe"
   >
     <i class="icon-block"></i>
     <span i18n>This is not me</span>
   </button>
   <button 
     class="btn-default" 
-    *ngIf="pigsCanFly" 
+    (click)="cancel()"
+    *ngIf="notMe"
   >
-    <i class="icon-edit"></i>
-    <span i18n>Edit breeder number</span>
+    <i class="icon-cross"></i>
+    <span i18n>Cancel</span>
   </button>
   <button 
     class="btn-primary" 
     (click)="confirm()"
+    *ngIf="!loginService.loading && !notMe"
   >
     <i class="icon-check"></i>
     <span i18n>Next</span>
   </button>
+  <app-spinner 
+    *ngIf="loginService.loading" 
+    name="loginList" 
+    group="login" 
+    [show]="loginService.loading">
+  </app-spinner>
 
 </footer>
