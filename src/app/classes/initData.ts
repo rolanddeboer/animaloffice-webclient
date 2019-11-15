@@ -41,16 +41,16 @@ export class BreederFederation
   name: string;
 }
 
-export class ShowLogo 
+export class ShowLogo
 {
   static readonly LANDSCAPE = "landscape";
   static readonly SQUARE = "square";
   static readonly PORTRAIT = "portrait";
 
-  constructor( 
-    public filename: string, 
-    public width: number, 
-    public height: number 
+  constructor(
+    public filename: string,
+    public width: number,
+    public height: number
   ) { }
 
   // get areaSize(): number
@@ -111,8 +111,8 @@ export class ShowOverall
   {
     Object.assign( this, raw );
     this.logo = new ShowLogo( raw.logoFile, raw.logoWidth, raw.logoHeight );
-    delete this.logoFile
-    delete this.logoWidth
+    delete this.logoFile;
+    delete this.logoWidth;
     delete this.logoHeight;
   }
 }

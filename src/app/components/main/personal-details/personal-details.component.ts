@@ -34,8 +34,8 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
   public validationErrors: Object = {};
   public loading = false;
   public countries: Object;
-  public months = [ 
-    "January", "February", "March", "April", "May", "June", "July", 
+  public months = [
+    "January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"
   ];
   public days = Array(31).fill(0, 0, 31).map( (x, i) => i+1 );
@@ -56,7 +56,7 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
     private routingTools: RoutingToolsService,
     private modalService: NgbModal,
     private loginService: LoginService
-  ) { 
+  ) {
     this.settings.logoutCompleted.subscribe(() => {
       this.routingTools.navigateToRoute( "home" );
     });
@@ -140,7 +140,7 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     this.saveBreederNumbers()
-      .then( this.savePerson )
+      .then( () => this.savePerson() )
       .then( () => {
         this.loading = false;
       })
@@ -166,7 +166,7 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
 
   private saveBreederNumbers(): Promise<any>
   {
-    return this.bnHandler.saveAll( this.person.breederNumbers )
+    return this.bnHandler.saveAll( this.person.breederNumbers, this.person.uuid )
     .then((data: any) => {
       console.log( data );
       if (data.issues.length) {
@@ -176,8 +176,8 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
       }
     })
   }
-  
-  private savePerson(): Promise<any>
+
+  private savePerson(): Promise<void>
   {
     this.validationErrors = null;
     return this.personService.createProfile( this.person, this.loginService.postcodes )

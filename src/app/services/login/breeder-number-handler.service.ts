@@ -55,7 +55,7 @@ export class BreederNumberHandlerService {
 
     const url = this.settings.getServerUriFrom( "nl/login" );
 
-    const promise = new Promise( 
+    const promise = new Promise(
       (resolve, reject) =>
       {
         resolvePromise = resolve;
@@ -84,19 +84,20 @@ export class BreederNumberHandlerService {
     return promise;
   }
 
-  saveAll( breederNumbers: BreederNumberType[] ): Promise<any>
+  saveAll( breederNumbers: BreederNumberType[], person_uuid = null ): Promise<any>
   {
     let resolvePromise: Function;
     let rejectPromise: Function;
     const url = this.settings.getServerUriFrom( "nl/security/check-breeder-number/numbers" );
     const data = {
       breederNumbers: breederNumbers,
-      postcodes: this.postcodes
+      postcodes: this.postcodes,
+      person_uuid: person_uuid
     }
 
     console.log(data);
 
-    const promise = new Promise( 
+    const promise = new Promise(
       (resolve, reject) =>
       {
         resolvePromise = resolve;
@@ -121,16 +122,16 @@ export class BreederNumberHandlerService {
     return promise;
   }
 
-  checkPerson( 
-    breederNumber: BreederNumberType,  
-    loggingIn: boolean 
+  checkPerson(
+    breederNumber: BreederNumberType,
+    loggingIn: boolean
   ): Promise<any>
   {
     let resolvePromise: Function;
     let rejectPromise: Function;
 
     const url = this.settings.getServerUriFrom( "nl/security/check-breeder-number/person" );
-    
+
     const data = {
       federation_id: breederNumber.federation_id,
       breederNumber: breederNumber.breederNumber,
@@ -139,7 +140,7 @@ export class BreederNumberHandlerService {
       withCountries: !this.db.has("Country")
     }
 
-    const promise = new Promise( 
+    const promise = new Promise(
       (resolve, reject) =>
       {
         resolvePromise = resolve;
@@ -181,7 +182,7 @@ export class BreederNumberHandlerService {
   // {
   //   const options = this.settings.httpOptions;
 
-  //   const bnObservable = new Observable( observer => {  
+  //   const bnObservable = new Observable( observer => {
   //     this.observer = observer;
   //   });
 
@@ -245,7 +246,7 @@ export class BreederNumberHandlerService {
   //   //   this.settings.setUsername(data.userLogin);
   //   //   returnObject.loggedIn = true;
   //   // } else {
-  //   //   this.breederNumber.federation = this.db.find( "BreederFederation", data.federation_id ); 
+  //   //   this.breederNumber.federation = this.db.find( "BreederFederation", data.federation_id );
   //   //   this.breederNumber.breederNumber = data.breederNumber;
   //   //   returnObject.addNumber = true;
   //   // }
