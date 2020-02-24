@@ -1,0 +1,20 @@
+
+    "@swimlane/ngx-datatable": "^16.0.3",
+    {
+  "name": "ao-client",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@swimlane/ngx-datatable": "^16.0.3",
+  },
+  "devDependencies": {
+  }
+}
