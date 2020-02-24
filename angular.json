@@ -4,19 +4,28 @@
   "newProjectRoot": "projects",
   "projects": {
     "ao-client": {
+      "i18n": {
+        "locales": {
+          "nl-NL": {
+            "translation": "src/locale/messages.nl.xlf",
+            "baseHref": "/"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "../dist-webclient/general/",
             "baseHref": "/",
             "deployUrl": "/",
@@ -36,9 +45,7 @@
             "nl": {     
               "outputPath": "dist/nl/",
               "i18nFile": "src/locale/messages.nl.xlf",
-              "i18nFormat": "xlf",
               "i18nLocale": "nl-NL",
-              "baseHref": "/",
               "deployUrl": "/nl/",
               "fileReplacements": [
                 {
@@ -60,12 +67,18 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             },
             "en": {
+            "localize": [
+              "en"
+            ],
               "outputPath": "dist/en/",
-              "i18nLocale": "en",
               "baseHref": "/",
               "deployUrl": "/en/",
               "fileReplacements": [
@@ -88,6 +101,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }

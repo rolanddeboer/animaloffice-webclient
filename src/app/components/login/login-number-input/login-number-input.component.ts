@@ -9,7 +9,7 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class LoginNumberInputComponent implements OnInit, AfterContentInit {
   @ViewChild('breederNumberInput', {static: true}) breederNumberInput: ElementRef;
-  @ViewChild('federationInput', {static: false}) federationInput: ElementRef;
+  @ViewChild('federationInput') federationInput: ElementRef;
 
   constructor(
     public loginService: LoginService

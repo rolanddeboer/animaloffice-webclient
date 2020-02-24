@@ -11,7 +11,7 @@ import { SettingsService } from './services/config/settings.service';
   animations: [ routerTransition ]
 })
 export class AppComponent {  
-  @ViewChild('logoutModal', {static: false}) logoutModal: ElementRef;
+  @ViewChild('logoutModal') logoutModal: ElementRef;
 
   constructor(
     private routingTools: RoutingToolsService,

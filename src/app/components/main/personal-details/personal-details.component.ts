@@ -43,8 +43,8 @@ export class PersonalDetailsComponent implements OnInit, AfterViewInit {
   public newUser = true;
   public acceptTerms = false;
   public acceptTermsError = false;
-  @ViewChild("firstNameInput", { "static": false }) firstNameInput: ElementRef;
-  @ViewChild("surnameInput", { "static": false }) surnameInput: ElementRef;
+  @ViewChild("firstNameInput") firstNameInput: ElementRef;
+  @ViewChild("surnameInput") surnameInput: ElementRef;
 
   constructor(
     private route: ActivatedRoute,

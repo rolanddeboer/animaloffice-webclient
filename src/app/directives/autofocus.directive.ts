@@ -1,4 +1,4 @@
-import { Directive,Input, ElementRef, Renderer } from '@angular/core';
+import { Directive, Input, ElementRef, Renderer2 } from '@angular/core';
  
 @Directive({
   selector: '[appAutofocus]'

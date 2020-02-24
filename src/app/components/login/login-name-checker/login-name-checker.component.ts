@@ -8,8 +8,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login-name-checker.component.scss']
 })
 export class LoginNameCheckerComponent implements AfterViewInit {
-  @ViewChild('passwordInput', {static: false}) passwordInput: ElementRef;
-  @ViewChild('postcodeInput', {static: false}) postcodeInput: ElementRef;
+  @ViewChild('passwordInput') passwordInput: ElementRef;
+  @ViewChild('postcodeInput') postcodeInput: ElementRef;
   notMe = false;
 
   constructor(
